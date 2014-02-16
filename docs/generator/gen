@@ -10,5 +10,9 @@
 # - Android ------------
 #java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-android/cbl-android-1.0b2 -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-android/cbl-android-1.0b2/
 
+# - Concepts -----------
+java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-concepts -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-concepts/
+
 # = Sync Gateway =======
-java  -jar saxon9he.jar -xi -s:guides/sync-gateway -xsl:guide.xslt -o:.. output-directory=gen/guides/sync-gateway/
+
+#java  -jar saxon9he.jar -xi -s:guides/sync-gateway -xsl:guide.xslt -o:.. output-directory=gen/guides/sync-gateway/
