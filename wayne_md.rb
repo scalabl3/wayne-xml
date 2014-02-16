@@ -5,14 +5,13 @@ require 'yaml'
 require 'chronic'
 require 'nokogiri'
 require 'redcarpet'
-require './classes/redcarpet_rouge_patches.rb'
 require './classes/markdown_render.rb'
 
 
 Dir.chdir(".")
 GROOT = Dir.pwd
 
-content_root = "./docs"
+content_root = "./docs/src"
 
 Dir.chdir(content_root)
 CROOT = Dir.pwd
@@ -120,6 +119,21 @@ def traverse_nav_tree_and_convert_to_xml(node)
 		doc = Nokogiri::HTML(html)
 		xml = doc.css('body')[0].serialize #(save_with: 0)
 		xml = Nokogiri::XML(xml)
+
+    img_sizes = {
+      "40%" => "min",
+      "50%" => "small",
+      "65%" => "medium",
+      "100%" => "full",
+      "600px" => "large"
+    }
+    
+    img_sizes.each do |size,name|
+      img = xml.at_css "img[width=\"#{size}\"]"
+      img['size'] = name if img
+      puts img.inspect if img
+    end
+
 		b = xml.at_css "body"
 		b.name = "doc"
 		

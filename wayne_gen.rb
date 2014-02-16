@@ -29,7 +29,7 @@ ROOT = Dir.pwd
 
 SUBS = Map.new(YAML.load_file("#{ROOT}/settings/cbu_substitutions.yml"))
 
-content_root = "./docs"
+content_root = "./docs/src"
 Dir.chdir(content_root)
 CONTENT_ROOT = Dir.pwd
 
