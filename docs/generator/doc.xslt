@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:fn="http://www.couchbase.com/xsl/extension-functions"
     xmlns:xi="http://www.w3.org/2001/XInclude"
-    exclude-result-prefixes="fn">
+    exclude-result-prefixes="fn xi">
 
 	<xsl:output method="xml" indent="yes"/>
 	

@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:fn="http://www.couchbase.com/xsl/extension-functions"
-                exclude-result-prefixes="fn">
+                xmlns:fn="http://www.couchbase.com/xsl/extension-functions">
 
 <xsl:param name="output-directory">gen/</xsl:param>
 

@@ -84,10 +84,6 @@
 		</image>
 	</xsl:template>
 	
-	<xsl:template match="br">
-		<!-- Do nothing.  We don't support br. -->
-	</xsl:template>
-	
 	<xsl:template match="a">
 		<xsl:choose>
 			<xsl:when test="starts-with(@href, 'http://')">
@@ -151,6 +147,10 @@
 				</rows>
 			</xsl:for-each>
 		</table>
+	</xsl:template>
+	
+	<xsl:template match="br">
+		<!-- Do nothing.  We don't support br. -->
 	</xsl:template>
 	
 	<xsl:template match="*">

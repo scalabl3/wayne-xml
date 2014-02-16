@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<guide xmlns:xi="http://www.w3.org/2001/XInclude">
+    <xi:include href="../../../src/sync-gateway/sg-5000-api.xml" />
+    <xi:include href="../../../src/sync-gateway/sg-5100-sync-function.xml" />
+    <xi:include href="../../../src/sync-gateway/sg-5200-sync-rest.xml" />
+    <xi:include href="../../../src/sync-gateway/sg-5300-admin-rest.xml" />
+</guide>
