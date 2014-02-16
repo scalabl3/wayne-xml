@@ -6,12 +6,12 @@ The following table lists the server resources:.
 
 |HTTP Method | URI pattern | Description  |
 | ------	| ------	| ------	|  
-| `GET` | `/`|Retrieves meta-information about the server  
-| `GET` | `/_active_tasks`|Retrieves a list of tasks running on the server  
-| `GET` | `/_all_dbs`|Retrieves a list of all databases on the server  
-| `POST` | `_replicate` | Starts or cancels a replication operation  
-|`GET` | `_session` | Returns a generic response for compatibility purposes
-| `GET` | `/_uuids`|Retrieves a list of identifiers of the databases on the server  
+| `GET` | `/`|Retrieves meta-information about the server |  
+| `GET` | `/_active_tasks`|Retrieves a list of tasks running on the server |
+| `GET` | `/_all_dbs`|Retrieves a list of all databases on the server |
+| `POST` | `_replicate` | Starts or cancels a replication operation |
+|`GET` | `_session` | Returns a generic response for compatibility purposes |
+| `GET` | `/_uuids`|Retrieves a list of identifiers of the databases on the server |
 
 
 ## GET /
@@ -43,11 +43,11 @@ This response uses only standard HTTP headers.
 
 The response message body contains a JSON document with the following objects:
 
-|Name | Type | Description|  
-| ------	| ------	|  
-| `CouchbaseLite` | String | Contains the string "Welcome"  
-| `couchdb` | String | Contains the string "Welcome"  
-| `version` | String | Couchbase Lite version number  
+|Name | Type | Description |  
+|  ------	| ------	| ------ | 
+| `CouchbaseLite` | String | Contains the string "Welcome" |
+| `couchdb` | String | Contains the string "Welcome" |
+| `version` | String | Couchbase Lite version number |
 
 ### Example
 
@@ -145,7 +145,7 @@ This response uses only standard HTTP headers.
 
 The response message contains the following object:
 
-| Name | Type | Description  
+| Name | Type | Description |
 |  ------	| ------	| ------	|  
 | not applicable | array | List of the names of the databases on the server |
 
@@ -218,7 +218,7 @@ The response message body is a JSON document that contains the following objects
 
 | Name | Type | Description |  
 |  ------	| ------	| ------	|  
-| `ok` | Boolean | Indicates whether the replication operation was successful|  
+| `ok` | Boolean | Indicates whether the replication operation was successful |  
 | `session_id` | string | Session identifier |  
 
 
@@ -347,7 +347,7 @@ The response message body is a JSON document that contains the following objects
 
 | Name | Type | Description  
 |  ------	| ------	| ------	|  
-| `uuids` | array | List of database identifiers  
+| `uuids` | array | List of database identifiers |
 
 ### Example
 
