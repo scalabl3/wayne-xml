@@ -12,7 +12,7 @@ require './classes/markdown_render.rb'
 Dir.chdir(".")
 GROOT = Dir.pwd
 
-content_root = "./docs"
+content_root = "./docs/src"
 
 Dir.chdir(content_root)
 CROOT = Dir.pwd
