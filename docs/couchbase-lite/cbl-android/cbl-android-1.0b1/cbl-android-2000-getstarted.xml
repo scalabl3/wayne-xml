@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Getting Started</h1>
+
+<p>This section contains the information you need to start developing Android apps with Couchbase Lite. </p>
+
+<p>If you want to play with a demonstration app, you can download and run <a href="https://github.com/couchbaselabs/GrocerySync-Android">GrocerySync</a>.  </p>
+
+<h2>Prerequisites</h2>
+
+<p>Before you can build an app, you need to set up your development environment:</p>
+
+<ol>
+<li><p>Download and install <a href="http://developer.android.com/sdk/installing/studio.html">Android Studio</a>. </p></li>
+<li><p>Launch Android Studio.</p></li>
+<li>
+<p>Open any project or create an empty project.</p>
+
+<p>This step might be necessary so you can access the Tools menu (the menus are not visible when the Welcome to Android Studio screen is open).</p>
+</li>
+<li><p>Select <strong>Tools &gt; Android &gt; SDK Manager</strong>.</p></li>
+<li><p>In Android SDK Manager, select the following items and then click <strong>Install packages</strong>:</p></li>
+</ol>
+<pre><code>* Tools/Android SDK Tools
+* Tools/Android SDK Platform-tools
+* Tools/Android SDK Build-tools
+* Android 4.2.2 (API 17)
+* Extras/Google Repository
+* Extras/Android Support Repository
+</code></pre>
+
+<h2>Building Your First App</h2>
+
+<p>This section shows how to create a simple Hello World app with Couchbase Lite. It uses Maven to add the Couchbase Lite dependencies.</p>
+
+<h4>Create a new project</h4>
+
+<ol>
+<li><p>Launch Android Studio.</p></li>
+<li><p>In the Welcome to Android Studio screen, choose <strong>New Project</strong>.</p></li>
+<li>
+<p>In the New Project window, enter the application name, module name, package name, and project location. </p>
+
+<p>This example uses the name MyProject for the new project. </p>
+</li>
+<li><p>Set the minimum required SDK to <strong>API 9: Android 2.3 (Gingerbread)</strong> or later.</p></li>
+<li><p>Click <strong>Next</strong>, and move through the remaining setup screens and enter settings as necessary.</p></li>
+<li><p>Click <strong>Finish</strong>.</p></li>
+</ol>
+<h4>Add Couchbase Lite Dependencies via Maven</h4>
+
+<ol>
+<li>
+<p>Expand the <strong>MyProject</strong> folder, and then open the <strong>build.gradle</strong> file. </p>
+
+<p>If the <strong>build.gradle</strong> file is empty, then you are looking at the wrong one. Make sure you open the one in the <strong>MyProject</strong> folder.</p>
+</li>
+<li>
+<p>Add the following repositories section to the <strong>build.gradle</strong> file so it can resolve dependencies through Maven Central and the Couchbase Maven repository:</p>
+
+<pre><code>repositories {
+    mavenCentral()
+    maven {
+        url "http://files.couchbase.com/maven2/"
+    }
+    mavenLocal()
+}
+</code></pre>
+</li>
+<li>
+<p>If there is no <strong>libs</strong> directory in the <strong>MyProject</strong> directory, open a Terminal window, create a <strong>libs</strong> directory, and then change to the new directory. For example:</p>
+
+<pre><code>$ cd ~/AndroidStudioProjects/MyProjectProject/MyProject
+$ mkdir libs
+$ cd libs
+</code></pre>
+</li>
+<li>
+<p>Download <a href="http://cl.ly/Pr1r/td_collator_so.jar">td<em>collator</em>so.jar</a> into the <strong>libs</strong> directory.  </p>
+
+<p>You can use wget or curl to download the file:</p>
+
+<pre><code>$ wget http://cl.ly/Pr1r/td_collator_so.jar
+or
+$ curl -OL http://cl.ly/Pr1r/td_collator_so.jar
+</code></pre>
+</li>
+<li>
+<p>In the <strong>build.gradle</strong> file, add the following lines to the top-level dependencies section (not the one under the <code>buildscript</code> section).</p>
+
+<pre><code>dependencies {
+...
+    // hack to add .so objects (bit.ly/17pUlJ1)
+    compile fileTree(dir: 'libs', include: 'td_collator_so.jar')  
+    compile 'com.couchbase.cblite:CBLite:1.0.0-beta'
+}
+</code></pre>
+</li>
+<li>
+<p>Make sure that your dependency on the Android Support library looks like this:</p>
+
+<pre><code>compile 'com.android.support:support-v4:13.0.+'
+</code></pre>
+
+<p>You can also use com.android.support:support-v4:18.0.0.</p>
+</li>
+</ol>
+<h4>Build the empty project</h4>
+
+<p>In a Terminal window, run the following command to make sure the code builds:</p>
+
+<pre><code>$ ./gradlew clean &amp;&amp; ./gradlew build
+</code></pre>
+
+<h4>Add code and run the app</h4>
+
+<ol>
+<li>
+<p>Add the following code to your <code>onCreate</code> method in the <strong>MainActivity.java</strong> file.</p>
+
+<p>You can find the file in a package under the <strong>/MyProject/src/main/java/</strong> directory.</p>
+
+<pre><code class="java">String filesDir = getFilesDir().getAbsolutePath();
+try {
+CBLServer server = new CBLServer (filesDir);
+server.getDatabaseNamed ("hello-cblite");
+} catch (IOException e) {
+Log.e ("MainActivity", "Error starting TDServer", e);
+}
+Log.d ("MainActivity", "Got this far, woohoo!");
+</code></pre>
+</li>
+<li>
+<p>Select <strong>Run &gt; MyProject</strong> to run the app.</p>
+
+<p>You should see a "Got this far, woohoo!" entry somewhere in the <a href="http://developer.android.com/tools/help/logcat.html">logcat</a>, and the app should not crash.</p>
+</li>
+</ol>
+</doc>

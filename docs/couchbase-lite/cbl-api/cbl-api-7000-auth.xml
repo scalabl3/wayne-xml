@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Authentication Resources</h1>
+
+<p>Authentication resources enable you authenticate users via <a href="https://developers.facebook.com/docs/facebook-login/">Facebook</a> or <a href="http://www.mozilla.org/en-US/persona/">Mozilla Persona</a>.</p>
+
+<p>The following table lists the authentication resources.</p>
+
+<table>
+<thead><tr>
+<th>HTTP Method</th>
+<th>URI pattern</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/_facebook_token</code></td>
+<td>Facebook</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/_persona_assertion</code></td>
+<td>Persona</td>
+</tr>
+</tbody>
+</table>
+</doc>

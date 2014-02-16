@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<doc>
+<h2>Working with documents</h2>
+
+<p>Documents are represented by the <code>Document</code> class. You create and retrieve documents by using methods in the <code>Database</code> class, and you work with the document content by using methods in the <code>Document</code> class.</p>
+
+<h3>Creating documents</h3>
+
+<p>You create a new document when the user creates a persistent data item in your app, such as a reminder, a photograph or a high score. To create a new document, construct a JSON-compatible representation of the data, instantiate a new document and save the data to the new document.</p>
+
+<p>In the following example,  <code>properties</code> is a <code>HashMap</code> object that provides a JSON-compatible representation of the document data.</p>
+
+<pre><code class="java">// set up a time stamp to use later
+SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+Calendar calendar = GregorianCalendar.getInstance();
+String currentTimeString = dateFormatter.format(calendar.getTime());
+
+// create an object to hold document data
+Map&lt;String, Object&gt; properties = new HashMap&lt;String, Object&gt;();
+
+// store document data 
+properties.put("text", text);
+properties.put("check", Boolean.FALSE);
+properties.put("created_at", currentTimeString);
+
+// create a new document
+Document document = database.createDocument();
+
+// store the data in the document
+document.putProperties(properties);
+</code></pre>
+
+<p>When you create a document by calling the <code>createDocument:</code> method, Couchbase Lite generates a random unique identifier (a long string of hex digits) for it. You can choose your own identifier by calling <code>getDocument()</code> instead. When creating your own identifiers, remember that each identifier must be unique so you don't get conflict errors when you save documents.</p>
+
+<h3>Reading documents</h3>
+
+<p>To retrieve the contents of a document, you need to obtain the <code>Document</code> object representing it by requesting the document from the <code>Database</code> object. After you obtain the document, you can get the contents from that object.</p>
+
+<p>You can retrieve a <code>Document</code> object in the following ways:</p>
+
+<ul>
+<li><p>If you know the document's ID, you can call  <code>getDocument()</code> or <code>getExistingDocument()</code> on the <code>Database</code> object. These methods are similar but operate differently depending on whether the document exists. If the document exists, each method loads the document from the database. If the document does not exist, <code>getDocument()</code> creates a new document with the given ID and <code>getExistingDocument()</code> returns null.</p></li>
+<li><p>If you are iterating the results of a <a href="working-with-views-and-queries">view query</a> or <code>createAllDocumentsQuery()</code> call, you can call <code>getDocument()</code> on the  <code>QueryRow</code> object.</p></li>
+</ul>
+<p>Here's an example that shows how to retrieve a document by requesting it from a <code>QueryRow</code> object:</p>
+
+<pre><code class="java">QueryRow row = (QueryRow) adapterView.getItemAtPosition(position);
+Document document = row.getDocument();
+</code></pre>
+
+<p>After you retrieve the document, you can get its content by calling <code>getProperties()</code> on it:</p>
+
+<pre><code class="java">Map&lt;String, Object&gt; curProperties = document.getProperties();
+</code></pre>
+
+<p>You can also retrieve individual properties from the document by calling <code>getProperty()</code> on it:</p>
+
+<pre><code class="java">boolean checked = ((Boolean)document.getProperty("check")).booleanValue();
+</code></pre>
+
+<h3>Updating documents</h3>
+
+<p>To update a document after you modify its attributes, call <code>putProperties:</code> again. Couchbase Lite uses Multiversion Concurrency Control (MVCC) to manage changes to documents. When you update a document, you must tell Couchbase Lite which revision you updated so it can stop you if there were any updates to the document in the meantime. If it didn't, you would wipe out those updates by overwriting them. </p>
+
+<p>Documents contain a special property named <code>_rev</code> whose value is the current revision ID. The revision ID is a long, hex string. When you update a document, the new properties dictionary must contain a <code>_rev</code> key whose value is the ID of the revision that you're updating.</p>
+
+<p>The <code>_rev</code> property is already in the dictionary you got from the <code>Document</code>, so all you need to do is modify the properties dictionary and hand back the modified dictionary that still contains the <code>_rev</code> property to <code>putProperties:</code>.</p>
+
+<p>The following example retrieves a document, gets a property named <code>check</code> from the document, toggles the value of <code>check</code>, and then writes an updated revision of the document to the database.</p>
+
+<pre><code class="java">// get a document from a QueryRow object
+Document document = row.getDocument();
+
+// get the current document properties
+Map&lt;String, Object&gt; curProperties = document.getProperties();
+
+// make a copy of the document properties
+Map&lt;String, Object&gt; newProperties = new HashMap&lt;String, Object&gt;();
+newProperties.putAll(curProperties);
+
+// get the current value of the check property
+boolean checked = ((Boolean) newProperties.get("check")).booleanValue();
+
+// toggle check value and store in copy of properties
+newProperties.put("check", !checked);
+
+// update the document with the new property values
+try {
+    document.putProperties(newProperties);
+    itemListViewAdapter.notifyDataSetChanged();
+} catch (Exception e) {
+    Toast.makeText(getApplicationContext(), "Error updating database, see logs for details", Toast.LENGTH_LONG).show();
+    Log.e(TAG, "Error updating database", e);
+}
+</code></pre>
+
+<h4>Handling update conflicts</h4>
+
+<p>Due to the realities of concurrent programming, the previous example code is vulnerable to a race condition. If something else updates the document in between the calls to the <code>getProperties()</code> and <code>putProperties()</code> methods, the operation fails. </p>
+
+<p>Even if your app is single-threaded, most Couchbase Lite apps use replication, which runs in the background. So it's possible that one of your users might get unlucky and find that Couchbase Lite received a remote update to that very document, and inserted it a moment before he tried to save his own update. He'll get an error about a conflict. Then he'll try the operation again, and this time it'll work because by now your <code>Document</code> has updated itself to the latest revision.</p>
+
+<p>This is, admittedly, unlikely to happen in the above example because the elapsed time between getting and putting the properties is so short (microseconds, probably). It's more likely in a situation where it takes the user a while to make a change. For example, in a fancier to-do list app the user might open an inspector view, make multiple changes, then commit them. The app would probably fetch the document properties when the user presses the edit button, let the user take as long as she wants to modify the UI controls, and then save when she returns to the main UI. In this situation, minutes might have gone by, and it's much more likely that in the meantime the replicator pulled down someone else's update to that same document.</p>
+
+<p>The easiest way to deal with a conflict is by starting over and trying again. By now the <code>Document</code> will have updated itself to the latest revision, so you'll be making your changes to current content and won't get a conflict.</p>
+
+<p>Here's an example that shows how to handle conflicts. The example makes a copy of the document properties, and then tries to update the document. If the update is successful, the update operation ends. Otherwise, the catch block looks at the returned error code to decide the next action. If the error is a 409 Conflict HTTP status code, it tries to update the document again. If the error contains any other status code, it logs the error and ends the update operation.</p>
+
+<pre><code class="java">boolean done = false;
+do {
+    Map&lt;String, Object&gt; properties = new HashMap&lt;String, Object&gt;(doc.getProperties());
+    try {
+        doc.putProperties(properties);
+        done = true;
+    } catch (CouchbaseLiteException e) {
+        if (e.getCBLStatus().getCode() == Status.CONFLICT) {
+            // keep trying
+        } else {
+            e.printStackTrace();
+            done = true;
+        }
+    }
+} while (!done);
+</code></pre>
+
+<h3>Deleting documents</h3>
+
+<p>Deleting a document is similar to updating a document. Instead of calling <code>putProperties()</code> you call <code>delete()</code> on the document. Here's an example:</p>
+
+<pre><code class="java">try {
+    document.delete();
+} catch (Exception e) {
+    Log.e ("Main Activity:", "Error deleting document", e);
+}
+</code></pre>
+
+<p>The same complications about conflicts apply to deleting documents. You won't get a conflict if someone else deleted the document first, but you will if someone modified it. If that happens, you need to decide which takes precedence, and either retry the delete or give up.</p>
+</doc>

@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<doc>
+<h2>Adding Couchbase Lite to Your Project</h2>
+
+<p>You can add Couchbase Lite to your Android project by using any of the following methods:</p>
+
+<ul>
+<li><p><a href="#adding-a-maven-dependency">Add a Maven dependency</a></p></li>
+<li><p><a href="#adding-a-jar-file-dependency">Add a JAR file dependency</a></p></li>
+<li><p><a href="#adding-source-files-to-your-project">Add the source files directly</a></p></li>
+</ul>
+<h3>Adding a Maven Dependency</h3>
+
+<p>Follow these steps to add the Maven dependency to your project:</p>
+
+<ol>
+<li>
+<p>Add the following repositories section to the <strong>build.gradle</strong> file so it can resolve dependencies through Maven Central and the Couchbase Maven repository:</p>
+
+<pre><code>repositories {
+    mavenCentral()
+    maven {
+        url "http://files.couchbase.com/maven2/"
+    }
+    mavenLocal()
+}
+</code></pre>
+</li>
+<li>
+<p>If there is no <strong>libs</strong> directory in the <strong>MyProject</strong> directory, open a Terminal window, create a <strong>libs</strong> directory, and then change to the new directory. For example:</p>
+
+<pre><code>$ cd ~/AndroidStudioProjects/MyProjectProject/MyProject
+$ mkdir libs
+$ cd libs
+</code></pre>
+</li>
+<li>
+<p>Download <a href="http://cl.ly/Pr1r/td_collator_so.jar">td<em>collator</em>so.jar</a> into the <strong>libs</strong> directory.  </p>
+
+<p>You can use wget or curl to download the file:</p>
+
+<pre><code>$ wget http://cl.ly/Pr1r/td_collator_so.jar
+or
+$ curl -OL http://cl.ly/Pr1r/td_collator_so.jar
+</code></pre>
+</li>
+<li>
+<p>In the <strong>build.gradle</strong> file, add the following lines to the top-level dependencies section (not the one under the buildscript section).</p>
+
+<pre><code>dependencies {
+ ...
+    // hack to add .so objects (bit.ly/17pUlJ1)
+    compile fileTree(dir: 'libs', include: 'td_collator_so.jar')  
+    compile 'com.couchbase.cblite:CBLite:1.0.0-beta'
+}
+</code></pre>
+</li>
+<li>
+<p>Make sure that your dependency on the Android Support library looks like this:</p>
+
+<pre><code>compile 'com.android.support:support-v4:13.0.+'
+</code></pre>
+
+<p>You can also use <code>com.android.support:support-v4:18.0.0</code>.</p>
+</li>
+</ol>
+<h3>Adding a JAR File Dependency</h3>
+
+<p>Follow these steps to add the JAR file to your project:</p>
+
+<ol>
+<li><p>Download the <a href="http://www.couchbase.com/communities/couchbase-lite">latest release of Couchbase Lite for Android</a>.</p></li>
+<li>
+<p>Extract the .zip file to the <strong>libs</strong> directory.</p>
+
+<p>You should have a <strong>MyProject/MyProject/libs/CBLite-1.0.0-beta.jar</strong> file.</p>
+</li>
+<li>
+<p>Modify your <strong>build.gradle</strong> file to include all jars in the libs directory.</p>
+
+<pre><code>dependencies {
+...
+compile fileTree(dir: 'libs', include: '*.jar')
+</code></pre>
+
+<p>}</p>
+</li>
+</ol>
+<h3>Adding Source Files to Your Project</h3>
+
+<p>If you need to debug Couchbase Lite, you can include the Couchbase Lite code in your project rather than using a JAR file or the Maven artifact dependencies . If you choose to  add the source files, make sure you remove any maven or JAR file dependencies that you used previously.</p>
+
+<p>Follow these steps to add Couchbase Lite source files directly to your project:</p>
+
+<h4>Add submodules</h4>
+
+<ol>
+<li>
+<p>Change to the parent <strong>MyProject</strong> directory, which contains the <strong>settings.gradle</strong> file.</p>
+
+<pre><code>$ cd MyProject 
+</code></pre>
+</li>
+<li>
+<p>Add the required submodule:</p>
+
+<pre><code>$ git submodule add https://github.com/couchbase/couchbase-lite-android-core.git CBLite
+</code></pre>
+</li>
+<li>
+<p>Add any optional submodules that you need:</p>
+
+<pre><code>$ git submodule add https://github.com/couchbase/couchbase-lite-android-listener.git CBLiteListener
+$ git submodule add https://github.com/couchbase/couchbase-lite-android-javascript.git CBLiteJavascript
+</code></pre>
+</li>
+</ol>
+<h4>Update Gradle files</h4>
+
+<ol>
+<li>
+<p>Add the following line to the <strong>settings.gradle</strong> file:</p>
+
+<pre><code>include ':MyProject', ':CBLite'
+</code></pre>
+</li>
+<li><p>If you included any optional submodules, add include statements for them to the <strong>settings.gradle</strong> file.</p></li>
+<li>
+<p>Add the following dependency to the <strong>MyProject/MyProject/build.gradle</strong> file:</p>
+
+<pre><code>dependencies {
+    ... existing dependencies ...
+    compile project(':CBLite')
+</code></pre>
+
+<p>}</p>
+</li>
+<li><p>If you included any optional submodules, add compile statements for them to the <strong>MyProject/MyProject/build.gradle</strong> file.</p></li>
+</ol>
+</doc>

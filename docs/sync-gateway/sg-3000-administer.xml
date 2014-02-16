@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Administering Sync Gateway</h1>
+
+<p>This section describes how to administer Sync Gateway.</p>
+
+<h2>Command Line Tool</h2>
+
+<p>You can launch the <code>sync_gateway</code> with command-line options. However, in the long run, it's better to use JSON configuration files, which are the only way to serve multiple databases. You can also combine command-line options with configuration files. </p>
+
+<p>The format of the <code>sync_gateway</code> command is:</p>
+
+<pre><code>sync_gateway [Options] [ConfigurationFile...] 
+</code></pre>
+
+<p><strong>Options</strong></p>
+
+<table>
+<thead><tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>-adminInterface</code></td>
+<td>127.0.0.1:4985</td>
+<td>Port the Admin REST API  listens on</td>
+</tr>
+<tr>
+<td><code>-bucket</code></td>
+<td>sync_gateway</td>
+<td>Name of the Couchbase bucket to use</td>
+</tr>
+<tr>
+<td><code>-dbname</code></td>
+<td>bucket name</td>
+<td>Name of the database to serve via the Sync REST API</td>
+</tr>
+<tr>
+<td><code>-help</code></td>
+<td>None</td>
+<td>Lists the available options and exits.</td>
+</tr>
+<tr>
+<td><code>-interface</code></td>
+<td>4984</td>
+<td>Port the Sync REST API listens on</td>
+</tr>
+<tr>
+<td><code>-log</code></td>
+<td>None</td>
+<td>Comma-separated list of logging keywords to enable. The <code>HTTP</code> keyword is always enabled, which means HTTP requests and error responses are always logged.</td>
+</tr>
+<tr>
+<td><code>-personaOrigin</code></td>
+<td>None</td>
+<td>Base URL for Persona authentication. It should be the same URL that the client uses to reach the server.</td>
+</tr>
+<tr>
+<td><code>-pool</code></td>
+<td>default</td>
+<td>Couchbase Server pool name in which to find buckets</td>
+</tr>
+<tr>
+<td><code>-pretty</code></td>
+<td>false</td>
+<td>Pretty-print JSON responses. This is useful for debugging, but reduces performance.</td>
+</tr>
+<tr>
+<td><code>-url</code></td>
+<td>walrus:</td>
+<td>URL of the database server. An HTTP URL implies Couchbase Server, a <code>walrus:</code> URL implies the built-in Walrus database.</td>
+</tr>
+<tr>
+<td><code>-verbose</code></td>
+<td>false</td>
+<td>Logs more information about requests.</td>
+</tr>
+</tbody>
+</table>
+<p>The command-line tool uses the regular Go flag parser, so you can prefix options with one or two hyphen (-) characters and give option values either as a following argument or in the same argument after an equal sign (=). </p>
+
+<p>The following command  does not include any parameters and just uses the default values. It connects to the bucket named <code>sync_gateway</code> in the pool named <code>default</code> of the built-in Walrus database. It is served from port 4984, with the admin interface on port 4985.</p>
+
+<pre><code class="sh">$ sync_gateway
+</code></pre>
+
+<p>The following command creates an ephemeral, in-memory Walrus database, served as <code>db</code> and specifies pretty-printed JSON responses.</p>
+
+<pre><code class="sh">$ sync_gateway -url=walrus: -bucket=db -pretty
+</code></pre>
+
+<p>The following command uses a Walrus database that is persisted to a file named /tmp/walrus/db.walrus.</p>
+
+<pre><code class="sh">$ sync_gateway -url=walrus:///tmp/walrus -bucket=db -pretty
+</code></pre>
+
+<h3>Configuration Files</h3>
+
+<p>Instead of entering the settings on the command-line, you can store them in a JSON file and then just provide the path to that file as a command-line argument. As a bonus, the file lets you run multiple databases.</p>
+
+<p>If you want to run multiple databases you can either add more entries to the <code>databases</code> property in the configuration file, or you can define each database in its own configuration file and list each of the configuration files on the command line.</p>
+
+<p>Configuration files have one syntactic feature that's not standard JSON: any text between backticks (`) is treated as a string, even if it spans multiple lines or contains double-quotes. This makes it easy to embed JavaScript code , such as the sync function.</p>
+
+<p>The following sample configuration file starts a server with the default settings:</p>
+
+<pre><code class="json">{
+   "interface":":4984",
+   "adminInterface":":4985",
+   "log":["REST"],
+   "databases":{
+      "sync_gateway":{
+         "server":"http://localhost:8091",
+         "bucket":"sync_gateway",
+         "sync":`function(doc) {channel(doc.channels);}`
+      }
+   }
+}
+</code></pre>
+
+<p>You can see an example of a more complex configuration file in the <a href="https://github.com/couchbaselabs/CouchChat-iOS/blob/master/sync-gateway-config.json">CouchChat-iOS sample app</a>.</p>
+
+<p>The following command starts Sync Gateway with the parameters specified in a configuration file named config.json:</p>
+
+<pre><code class="sh">$ sync_gateway config.json
+</code></pre>
+
+<p>The following command starts Sync Gateway with the parameters specified in a configuration file named config.json and adds additional logging by including the -log option on the command line:</p>
+
+<pre><code class="sh">$ sync_gateway -log=HTTP+,CRUD config.json
+</code></pre>
+
+<h2>Administering the REST APIs</h2>
+
+<p>Sync Gateway provides the following REST APIs:</p>
+
+<ul>
+<li><p>The <a href="#sync-rest-api">Sync REST API</a> is used for client replication. The default port for the Sync REST API is 4984.</p></li>
+<li><p>The <a href="#admin-rest-api">Admin REST API</a> is used to administer user accounts and roles. It can also be used to look at the contents of databases in superuser mode. The default port for the Admin REST API is 4985. By default, the Admin REST API is reachable only from localhost for safety reasons.</p></li>
+</ul>
+<h3>Managing API Access</h3>
+
+<p>The APIs are accessed on different TCP ports, which makes it easy to expose the Sync REST API on port 4984 to clients while keeping the Admin REST API on port 4985 secure behind your firewall. </p>
+
+<p>If you want to change the ports, you can do that in the configuration file. </p>
+
+<ul>
+<li><p>To change the Sync REST API port, set the <code>interface</code> property in the configuration file. </p></li>
+<li><p>To change the Admin REST API port, set the <code>adminInterface</code>  property in the configuration file. </p></li>
+</ul>
+<p>The value of the property is a string consisting of a colon followed by a port number (for example, <code>:4985</code>). You can also prepend a host name or numeric IP address before the colon to bind only to the network interface with that address. </p>
+
+<p>As a useful special case, the IP address 127.0.0.1 binds to the loopback interface, making the port unreachable from any other host. This is the default setting for the admin interface.</p>
+
+<h3>Managing Guest Access</h3>
+
+<p>Sync Gateway does not allow anonymous or guest access by default. A new server is accessible through the Sync REST API only after you enable guest access or create some user accounts. You can do this either by editing the configuration file before starting the server or by using the Admin REST API. For more information, see <a href="#anonymous-access">Anonymous Access</a>.</p>
+</doc>

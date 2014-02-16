@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Local Document Resources</h1>
+
+<p>Local document resources enable you to create documents that are not replicated to other databases. You can use local documents to store configuration or other information that pertains only to the local database. The following table lists the local document resources:</p>
+
+<table>
+<thead><tr>
+<th>HTTP method</th>
+<th>URI pattern</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/{db}/_local/{local-doc}</code></td>
+<td>Creates a local document</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{db}/_local/{localdoc}</code></td>
+<td>Retrieves a local document</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/{db}/local/{local-doc}</code></td>
+<td>Deletes a local document</td>
+</tr>
+</tbody>
+</table>
+<h2>PUT /{db}/local/{local-doc}</h2>
+
+<p>This request creates a local document.</p>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+
+<h2>GET /{db}/local/{local-doc}</h2>
+
+<p>This request retrieves a local document.</p>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+
+<h2>DELETE /{db}/local/{local-doc}</h2>
+
+<p>This request deletes a local document.</p>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+</doc>

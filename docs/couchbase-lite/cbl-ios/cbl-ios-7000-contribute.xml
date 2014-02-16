@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Contributing</h1>
+
+<p>If you want to contribute to Couchbase Lite for iOS, please follow the guidelines for coding and testing described in this section. You can find the <a href="https://github.com/couchbase/couchbase-lite-ios">latest source code for Couchbase Lite iOS</a> on GitHub.</p>
+
+<h2>Coding Style</h2>
+
+<p>Please use the coding style guidelines and naming conventions described in this section.</p>
+
+<h3>Source Files</h3>
+
+<ul>
+<li><p>Put an Apache license at the top of all .m files and other files containing actual code. Update the year if necessary.  </p></li>
+<li><p>For indents, use 4 spaces (do not use tabs).</p></li>
+<li><p>Use the following pattern for naming category files: <code>CBLClassName+CategoryName.m</code>.</p></li>
+<li><p>In headers, use <code>@class</code> or <code>@protocol</code> forward declarations, when possible, instead of importing the class headers.</p></li>
+<li><p>Try to limit lines to 100 characters wide.</p></li>
+<li><p>Try to keep source files short. Under 500 lines is best and don't go over 1000 if you can help it. If a class gets bigger, consider breaking it up into topical categories, as was done with <code>CBLDatabase</code>.</p></li>
+</ul>
+<h3>General Style</h3>
+
+<p>In general, go with Apple's style. However, we have idiosyncrasies and would prefer that you:</p>
+
+<ul>
+<li>
+<p>Put spaces after the colons in messages. For example:  </p>
+
+<pre><code>[foo bar: 1 baz: 0]
+</code></pre>
+</li>
+<li>
+<p>Put spaces after the colons in the method declarations also. For example:</p>
+
+<pre><code>- (void) bar: (int)bar baz: (BOOL)baz;
+</code></pre>
+</li>
+<li><p>Put the opening curly-brace of a method or function at the end of the declaration line (not on a separate line). <em>unless</em> the declaration is multi-line.</p></li>
+<li><p>Don't put braces around single-line <code>if</code> blocks. You can use braces if you want, but please don't go on a clean-up mission and "fix" all the existing ones.</p></li>
+<li><p>Use modern Objective-C syntax, including the new shorthand for object literals and collection indexing.</p></li>
+</ul>
+<p>The following guidelines are mandatory:</p>
+
+<ul>
+<li><p>Declare instance variables in the <code>@interface</code>. If you don't, the Mac build will fail because it still supports the old 32-bit Mac Obj-C runtime.</p></li>
+<li><p>Do <em>not</em> declare private methods in the <code>@interface</code>.</p></li>
+<li><p>Declare internal methods (those not part of a class's API but needed by another source file, such as a category) in a category in <code>CBLInternal.h</code>, <em>not</em> in the public <code>@interface</code>.</p></li>
+</ul>
+<h3>Name Prefixes</h3>
+
+<p>Use the following object naming conventions:</p>
+
+<ul>
+<li><p>Classes: <code>CBL</code> (<code>CBL_</code> is used for some private classes to prevent name conflicts with public classes.)</p></li>
+<li><p>Instance variables: <code>_</code></p></li>
+<li><p>Category methods on external classes: <code>cbl_</code></p></li>
+<li><p>Constants: <code>kCBL</code> (do not use <code>ALL_CAPS</code>)</p></li>
+<li><p>Static variables: <code>s</code> (even if defined inside a function/method!)</p></li>
+<li><p>Static functions: No prefix, just lowercase.</p></li>
+</ul>
+<h2>Testing</h2>
+
+<p>Couchbase Lite uses the MYUtilities unit-test framework, whose API you can find in <a href="https://github.com/snej/MYUtilities/blob/master/Test.h"><code>vendor/MYUtilities/Test.h</code></a>. It isn't fully integrated with Xcode 4's nice test support, so you can't just choose the Product &gt; Test menu command to run the tests.</p>
+
+<h3>Testing and Testability</h3>
+
+<ul>
+<li>Adding unit tests is encouraged! Unlike other test frameworks, MYUtilities lets you put unit tests (<code>TestCase(Foo){ ... }</code>) in any source file. For simple tests, you can put them at the end of the source file containing the code you're testing. Larger test suites should go into their own source file, whose name should end with <code>_Tests.m</code>.</li>
+<li>If you need to create classes or static functions for use by unit tests, make sure to wrap them and the tests in <code>#if DEBUG</code>, so they don't take up space in a release build.</li>
+<li>Use <code>Assert()</code> and <code>CAssert()</code> fairly liberally in your code, especially for checking parameters.</li>
+<li>Use <code>Warn()</code> wherever something happens that seems wrong but shouldn't trigger a failure.</li>
+</ul>
+<h3>Running Tests</h3>
+
+<p>Tests run when an executable target launches; they're not a separate target the way Xcode's regular tests are. So you'll need to select a scheme that builds something runnable, like "Mac Demo" or "iOS Demo".</p>
+
+<p>Tests are enabled by command-line arguments whose names start with <code>Test_</code>. (If you don't know how to configure the argument list, see below.)</p>
+
+<ul>
+<li>If a test case is implemented in the source code as <code>TestCase(Foo) {...}</code>, you enable it with argument <code>Test_Foo</code>. You can add any number of such arguments.</li>
+<li>As a shortcut, you can enable all tests via the argument <code>Test_All</code>.</li>
+<li>By default, the app will launch normally after the unit tests pass. To disable this you can add <code>Test_Only</code>.</li>
+</ul>
+<p>Then run the target. Test output appears in the debugger console, of course. If an assertion fails, the test will log a message, raise an exception and exit. Subsequent tests will still run, though. At the end of the run you'll get a list of which tests failed.</p>
+
+<p><em>Pro tip:</em> As a shortcut to enable multiple tests, you can create an aggregate test that uses the <code>RequireTest()</code> macro (see below) to invoke the tests you want to run. Then you just have to enable the aggregate test.</p>
+
+<h3>Configuring Command-Line Arguments</h3>
+
+<ol>
+<li>Select <strong>Product &gt; Scheme &gt; Edit Scheme</strong> (keyboard shortcut: Cmd-Shift-comma).</li>
+<li>From the list on the left side of the sheet, click the <strong>Run</strong> entry. </li>
+<li>Click the <strong>Arguments</strong> tab.</li>
+<li>In the <strong>Arguments Passed On Launch</strong> section, click <strong>+</strong> to add an argument (or multiple args separated by spaces).</li>
+</ol>
+<p><em>Pro tip:</em> You can disable arguments by unchecking them, so it's very easy to toggle tests on and off.</p>
+
+<h3>Writing New Tests</h3>
+
+<p>Unit tests are basically functions, declared with special syntax:</p>
+
+<pre><code>    #import "Test.h"
+
+    TestCase(Arithmetic) {
+        CAssertEq(2 + 2, 4);
+    }
+</code></pre>
+
+<p>This means you can put them anywhere; they don't have to go into separate files. It is convenient to put small unit tests at the end of the source file that implements the feature being tested. That means you don't have to jump between files so much while testing, and the tests can call static functions and internal methods without having to jump through hoops. But for larger test suites it's cleaner to make a separate source file (named like "XXX_Tests.m".)</p>
+
+<p>Tests use a custom set of assertion macros. This isn't strictly necessary &#x2014; you can use NSAssert if you want &#x2014; but I like mine better. Their names start with <code>CAssert&#x2026;</code>, the "<code>C</code>" meaning that they're callable from C functions (there are plain <code>Assert&#x2026;</code> macros too, but they assume the existence of <code>self</code> and <code>_cmd</code>.) There's <code>CAssert</code>, <code>CAssertEq</code> (for scalars), <code>CAsssertEqual</code> (for objects), etc. You can see them all in the header <code>Testing.h</code>.</p>
+
+<p>You can use these assertion macros anywhere in the code, not just in unit tests. You can sprinkle in plenty of them.</p>
+
+<p>A test can require another test as a precondition. That way it can assume that the things already tested work and doesn't have to add assertions for them. To do this, begin a test with one or more <code>RequireTest(Foo)</code> calls, where <code>Foo</code> is the name of the test to require. (Don't put the name in quotes.)</p>
+
+<h3>Precommit Smoke Test:</h3>
+
+<p>Before committing any code:</p>
+
+<ul>
+<li><p>Build both the Mac and iOS demo app targets, to catch platform- or architecture-specific code.</p></li>
+<li><p>Run the static analyzer (Cmd-Shift-B). There should be no issues with our code (there might be one or two issues with third-party code.)</p></li>
+<li><p>Run the unit tests on both platforms: run the demo app with custom arguments <code>Test_All</code> and <code>Test_Only</code>. (This is really easy to do using Cmd-Opt-R.) All the tests must pass.</p></li>
+<li><p>Review your patch hunk-by-hunk to make sure you're not checking in unintended changes.</p></li>
+<li><p>Are you fixing an issue filed in Github? If so, put something like <code>Fixes #999</code> in the commit message, and Github will automatically close the issue and add a comment linking to your commit.</p></li>
+</ul>
+</doc>

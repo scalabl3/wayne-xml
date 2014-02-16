@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Release Notes</h1>
+
+<h2>1.0 Beta 2 (December 2013)</h2>
+
+<p>This is the second Beta release of Couchbase Sync Gateway 1.0. </p>
+
+<p>Couchbase Sync Gateway is a ready-to-go, easy-to-scale sync layer that extends Couchbase Server to facilitate communication between Couchbase Server and your Couchbase Lite-backed apps. This version features syncing and basic admin features. </p>
+
+<p>The beta release is available to all community-edition customers. You can find the Couchbase Sync Gateway documentation on the web at <a href="http://docs.couchbase.com/sync-gateway">http://docs.couchbase.com/sync-gateway</a>.</p>
+
+<h3>Features</h3>
+
+<p>The primary focus of the second Beta release for Sync Gateway has been performance enhancement, horizontal scaling, and increased stability.</p>
+
+<h3>Fixes in Beta 2</h3>
+
+<p>Overall performance fixes to improve product usability.</p>
+
+<h3>Known Issues</h3>
+
+<ul>
+<li>
+<p>Authentication</p>
+
+<ul>
+<li>If your Persona login fails with a 405, make sure you have set the personaOrigin URL on the command line or in the config file.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/sync_gateway/issues/71">71</a></p>
+
+<ul>
+<li>We are actively working on a known Mac issue for Facebook and Persona support stemming from a build bug. For Mac developers looking to use these third-party services, developers can use <a href="http://www.couchbasecloud.com/index/">Couchbase Cloud</a> or build Sync Gateway using these <a href="http://docs.couchbase.com/sync-gateway/#building-from-source">instructions</a> while we fix the Mac installer.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/sync_gateway/issues/71">71</a>, <a href="https://github.com/couchbase/sync_gateway/issues/220">220</a></p>
+</li>
+<li>
+<p>Web Client Support</p>
+
+<ul>
+<li>Web apps will have trouble making XHR requests to Sync Gateway due to browser security restrictions unless the HTML is hosted at the same public host/port.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/sync_gateway/issues/115">115</a></p>
+</li>
+<li>
+<p>Attachment Support</p>
+
+<ul>
+<li>We are actively working on an option to store attachments in third-party storage.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/sync_gateway/issues/197">197</a></p>
+</li>
+<li>
+<p>Higher ulimit</p>
+
+<ul>
+<li>The ulimit can be tuned at the developer's discretion.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/sync_gateway/issues/218">218</a></p>
+</li>
+<li>
+<p>Installation</p>
+
+<ul>
+<li>Installing from Beta 1 to Beta 2 on Ubuntu allows for older instance of Sync Gateway to run. A restart of Sync Gateway will rectify this problem.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/sync_gateway/issues/232">232</a></p>
+</li>
+<li>
+<p>Rebalance support</p>
+
+<ul>
+<li>If a Couchbase Server node is failed over and the cluster is not rebalanced to correct the situation, Sync Gateway will get errors on half the requests.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/sync_gateway/issues/198">198</a></p>
+</li>
+</ul>
+<h2>1.0 Beta (13 September 2013)</h2>
+
+<p>This is the Beta release of Couchbase Sync Gateway 1.0. </p>
+
+<p>Couchbase Sync Gateway is a ready-to-go, easy-to-scale sync layer that extends Couchbase Server to facilitate communication between Couchbase Server and your Couchbase Lite-backed apps. This version features syncing and basic admin features. </p>
+
+<p>The beta release is available to all community-edition customers. You can find the Couchbase Sync Gateway documentation on the web at <a href="http://docs.couchbase.com/sync-gateway">http://docs.couchbase.com/sync-gateway</a>.</p>
+
+<h3>Features</h3>
+
+<ul>
+<li><p><strong>Dynamic sync capabilities via Sync Function APIs</strong>&#x2014;Apps can begin to automatically sync data from the cloud without any manual setup by using Couchbase sync functions. </p></li>
+<li><p><strong>Easy Administration</strong>&#x2014;Manage Sync Gateway via the Admin REST API when you need to.</p></li>
+<li><p><strong>Seamless scale-out</strong>&#x2014;Easily scale your Sync Gateway tier as your application needs grow.</p></li>
+</ul>
+<h3>Fixes</h3>
+
+<p>None.</p>
+
+<h3>Known Issues</h3>
+
+<p>We are currently working on performance tuning and are aware of issues when Sync Gateway is scaled. If you run into a performance issue, please let us know.</p>
+</doc>

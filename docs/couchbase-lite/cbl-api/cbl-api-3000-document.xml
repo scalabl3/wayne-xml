@@ -1,0 +1,1082 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Document Resources</h1>
+
+<p>Document resources enable you to work with individual documents in a database. The following table lists the document resources:</p>
+
+<table>
+<thead><tr>
+<th>HTTP method</th>
+<th>URI pattern</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/{db}</code></td>
+<td>Creates a new document in the database</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/{db}/{doc}</code></td>
+<td>Creates a new document or updates an existing document</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{db}/{doc}</code></td>
+<td>Retrieves a document</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/{db}/{doc}</code></td>
+<td>Deletes a document</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/{db}/{doc}/{attachment}</code></td>
+<td>Adds or updates attachments for a document</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{db}/{doc}/{attachment}</code></td>
+<td>Retrieves attachments for a document</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/{db}/{doc}/{attachment}</code></td>
+<td>Deletes attachments for a document</td>
+</tr>
+</tbody>
+</table>
+<p>The following table defines the parameters used in the URI patterns:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>attachment</code></td>
+<td>Identifier of an attachment</td>
+</tr>
+<tr>
+<td><code>db</code></td>
+<td>Name of the database</td>
+</tr>
+<tr>
+<td><code>doc</code></td>
+<td>Identifier of a document</td>
+</tr>
+</tbody>
+</table>
+<h2>POST /{db}</h2>
+
+<p>This request creates a new document in the specified database. You can either specify the document ID by including the <code>_id</code> object in the request message body, or let the software generate an ID.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>The request uses the following headers:</p>
+
+<ul>
+<li>
+<code>Accept</code>&#x2014;<em>Optional</em>&#x2014;Valid values are:
+
+<ul>
+<li>application/json</li>
+<li>text/plain</li>
+</ul>
+</li>
+<li>
+<code>Content-Type</code>&#x2014;<em>Required</em>&#x2014;Must be application/json.</li>
+</ul>
+<p><strong>Query parameters</strong></p>
+
+<p>The request uses the following query parameter:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td><code>batch</code></td>
+<td>string</td>
+<td>Stores the document in batch mode. To use, set the value to <code>ok</code>.</td>
+<td>none</td>
+</tr></tbody>
+</table>
+<h3>Response</h3>
+
+<p>The response is a JSON document that contains the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>String</td>
+<td>Document identifier</td>
+</tr>
+<tr>
+<td><code>ok</code></td>
+<td>Boolean</td>
+<td>Indicates whether the operation was successful</td>
+</tr>
+<tr>
+<td><code>rev</code></td>
+<td>String</td>
+<td>revision identifier</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>The following request creates a new document in a database named <code>cookbook</code>.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>POST /cookbook HTTP/1.1
+Host: localhost:59840
+Content-Type: application/json
+
+{
+    "description": "Chicken topped with mozzarella and parmesan cheese",
+    "servings": 4,
+    "title": "Chicken Parmagiana"
+}
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 201 Created
+Accept-Ranges: bytes
+Content-Length: 115
+Content-Type: application/json
+Date: Fri, 13 Dec 2013 01:57:54 GMT
+Etag: "1-ed0ebedd2fab89227b352f6455a08010"
+Location: http://localhost:59840/cookbook/209BB170-C1E0-473E-B3C4-A4533ACA3CDD
+Server: CouchbaseLite 1.486
+
+{
+  "id" : "209BB170-C1E0-473E-B3C4-A4533ACA3CDD",
+  "rev" : "1-ed0ebedd2fab89227b352f6455a08010",
+  "ok" : true
+}
+</code></pre>
+
+<p>The following example creates a new document with the identifier <code>LemonChicken</code> in a database named <code>cookbook</code>.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>POST /cookbook
+Host: localhost:59840
+Content-Type: application/json
+
+{
+    "_id": "LemonChicken",
+    "description": "Chinese lemon chicken",
+    "servings": 4,
+    "title": "Lemon Chicken"
+}
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>
+HTTP/1.1 201 Created
+Accept-Ranges: bytes
+Content-Type: application/json
+Date: Fri, 13 Dec 2013 02:31:46 GMT
+Etag: "1-78abf9a6508671ba8338e4ef6daa910a"
+Location: http://localhost:59840/cookbook/LemonChicken
+Server: CouchbaseLite 1.486
+Transfer-Encoding: chunked
+
+{
+  "id" : "LemonChicken",
+  "rev" : "1-78abf9a6508671ba8338e4ef6daa910a",
+  "ok" : true
+}
+</code></pre>
+
+<h2>PUT /{db}/{doc}</h2>
+
+<p>This request creates a new document or creates a new revision of an existing document. It enables you to specify the identifier for a new document rather than letting the software create an identifier. If you want to create a new document and let the software create an identifier, use the <code>POST /db</code> request. </p>
+
+<p>If the document specified by <code>doc</code> does not exist, a new document is created and assigned the identifier specified in <code>doc</code>. If the document already exists, the document is updated with the JSON document in the message body and given a new revision.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<ul>
+<li>
+<p><code>Accept</code>&#x2014;<em>optional</em>&#x2014;Valid values are:</p>
+
+<ul>
+<li>application/json</li>
+<li>text/plain</li>
+<li>
+<code>Content-Type</code>&#x2014;<em>Required</em>&#x2014;Must be application/json.</li>
+</ul>
+</li>
+<li><p><code>If-Match</code> &#x2013; <em>Required for document updates f the <code>rev</code> query parameter is not supplied</em> &#x2014;Revision identifier of the requested document. </p></li>
+</ul>
+<p><strong>Query parameters</strong></p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>batch</code></td>
+<td>string</td>
+<td>Stores the document in batch mode. To use, set the value to <code>ok</code>.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>rev</code></td>
+<td>string</td>
+<td>Revision identifier</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>201 Created &#x2013; Document created and stored on disk</li>
+<li>202 Accepted &#x2013; Document data accepted, but not yet stored on disk </li>
+<li>400 Bad Request &#x2013; Invalid request body or parameters </li>
+<li>401 Unauthorized &#x2013; Write privileges required</li>
+<li>404 Not Found &#x2013; Specified database or document ID doesn&#x2019;t exist</li>
+<li>409 Conflict &#x2013; Document with the specified ID already exists or specified revision is not latest for target document</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<ul>
+<li>
+<p><code>Content-Type</code>&#x2014;The value can be:</p>
+
+<ul>
+<li>application/json</li>
+<li>text/plain; charset=utf-8</li>
+</ul>
+</li>
+<li><p><code>ETag</code>&#x2014;Revision identifier enclosed in double quotes</p></li>
+</ul>
+<p><strong>Message body</strong></p>
+
+<p>The response is a JSON document that contains the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>String</td>
+<td>Document identifier</td>
+</tr>
+<tr>
+<td><code>ok</code></td>
+<td>Boolean</td>
+<td>Indicates whether the operation was successful</td>
+</tr>
+<tr>
+<td><code>rev</code></td>
+<td>String</td>
+<td>revision identifier</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>The following example creates a new document with the identifier <code>ButterChicken</code> in a database named <code>cookbook</code>.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>PUT /cookbook/ButterChicken HTTP/1.1
+Host: localhost:59840
+Content-Type: application/json
+
+{
+    "description": "A very buttery chicken dish",
+    "nutrition": "500 calories",
+    "servings": 4,
+    "title": "Butter Chicken"
+}
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 201 Created
+Accept-Ranges: bytes
+Content-Length: 92
+Content-Type: application/json
+Date: Fri, 13 Dec 2013 19:34:04 GMT
+Etag: "1-4101356e9c47d15d4f8f7390d05dbbcf"
+Location: http://localhost:59840/cookbook/ButterChicken
+Server: CouchbaseLite 1.486
+
+{
+  "id" : "ButterChicken",
+  "rev" : "1-4101356e9c47d15d4f8f7390d05dbbcf",
+  "ok" : true
+}
+</code></pre>
+
+<p>The following example updates the document with the identifier <code>ButterChicken</code> that was created in the previous example. To update an existing document, the revision identifier of the current document must be supplied in an <code>If-Match</code> header or a <code>rev</code> query parameter. This example shows how to use both methods of specifying the revision.</p>
+
+<p><strong>Request</strong></p>
+
+<p>This form of the request uses the <code>If-Match</code> header to supply the revision identifier:</p>
+
+<pre><code>PUT /cookbook/ButterChicken HTTP/1.1
+Host: localhost:59840
+Content-Type: application/json
+If-Match: 1-4101356e9c47d15d4f8f7390d05dbbcf
+
+{
+    "description": "A very buttery chicken dish",
+    "nutrition": "500 calories",
+    "serving-suggestion": "Serve with rice and green beans.",
+    "servings": 4,
+    "title": "Butter Chicken"
+}
+</code></pre>
+
+<p>To use the <code>rev</code> query parameter rather than the <code>If-Match</code> header to supply the revision identifier, structure the request like this:</p>
+
+<pre><code>PUT /cookbook/ButterChicken?rev=1-4101356e9c47d15d4f8f7390d05dbbcf HTTP/1.1
+Host: localhost:59840
+Content-Type: application/json
+
+{
+    "description": "A very buttery chicken dish",
+    "nutrition": "500 calories",
+    "serving-suggestion": "Serve with rice and green beans.",
+    "servings": 4,
+    "title": "Butter Chicken"
+}
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 201 Created
+Accept-Ranges: bytes
+Content-Length: 92
+Content-Type: application/json
+Date: Fri, 13 Dec 2013 19:56:09 GMT
+Etag: "2-1b76d07281d4a576130c7d8f9f621d5e"
+Location: http://localhost:59840/cookbook/ButterChicken
+Server: CouchbaseLite 1.486
+
+{
+  "id" : "ButterChicken",
+  "rev" : "2-1b76d07281d4a576130c7d8f9f621d5e",
+  "ok" : true
+}
+</code></pre>
+
+<h2>GET /{db}/{doc}</h2>
+
+<p>This request retrieves a document from a database.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<ul>
+<li>
+<p><code>Accept</code>&#x2014;<em>optional</em>&#x2014;Valid values are:</p>
+
+<ul>
+<li>application/json</li>
+<li>multipart/mixed</li>
+<li>text/plain</li>
+</ul>
+</li>
+<li><p><code>If-None-Match</code>&#x2014;<em>optional</em>&#x2014;Document revision identifier enclosed in double quotes</p></li>
+</ul>
+<p><strong>Query parameters</strong></p>
+
+<p>The following query parameters are all optional.</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>attachments</code></td>
+<td>Boolean</td>
+<td>Include attachment bodies in response</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>att_encoding_info</code></td>
+<td>Boolean</td>
+<td>Include encoding information in attachment stubs if the attachment is compressed</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>atts_since</code></td>
+<td>array</td>
+<td>Include attachments only since specified revisions. Does not include attachments for specified revisions</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>conflicts</code></td>
+<td>Boolean</td>
+<td>Include information about conflicts in document</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>deleted_conflicts</code></td>
+<td>Boolean</td>
+<td>Include information about deleted conflicted revisions</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>latest</code></td>
+<td>Boolean</td>
+<td>Force retrieval of latest leaf revision, no matter what revision was requested</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>local_seq</code></td>
+<td>Boolean</td>
+<td>Include last update sequence number for the document</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>meta</code></td>
+<td>Boolean</td>
+<td>Acts same as specifying all conflicts, deleted<em>conflicts and open</em>revs query parameters</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>open_revs</code></td>
+<td>array</td>
+<td>Retrieve documents of specified leaf revisions. You can specify  the value <code>all</code> to return all leaf revisions</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>rev</code></td>
+<td>string</td>
+<td>Retrieve the specified revision of the document</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>revs</code></td>
+<td>Boolean</td>
+<td>Include a list of all known document revisions</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>revs_info</code></td>
+<td>Boolean</td>
+<td>Include detailed information for all known document revisions</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h3>Response</h3>
+
+<p>The response contains a JSON document in the message body.</p>
+
+<p><strong>Response headers</strong></p>
+
+<ul>
+<li>
+<p><code>Content-Type</code>&#x2014;The value can be:</p>
+
+<ul>
+<li>application/json</li>
+<li>multipart/mixed</li>
+<li>text/plain; charset=utf-8</li>
+</ul>
+</li>
+<li><p><code>ETag</code>&#x2014;Document revision identifier contained in double quotes.</p></li>
+<li><p><code>Transfer-Encoding</code>&#x2014;This header appears when the request uses the <code>open-revs</code> query parameter. The value is <code>chunked</code>.</p></li>
+</ul>
+<p><strong>Message body</strong></p>
+
+<p>The message body contains the following objects in a JSON document.</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>_id</code></td>
+<td>string</td>
+<td>Document identifier</td>
+</tr>
+<tr>
+<td><code>_rev</code></td>
+<td>string</td>
+<td>revision identifier</td>
+</tr>
+<tr>
+<td><code>_deleted</code></td>
+<td>Boolean</td>
+<td>Indicates whether the document is deleted. Appears only when the document was deleted.</td>
+</tr>
+<tr>
+<td>_<code>attachments</code>
+</td>
+<td>object</td>
+<td>Stubs for the attachments. Appears only when the document has attachments.</td>
+</tr>
+<tr>
+<td><code>_conflicts</code></td>
+<td>array</td>
+<td>List of revisions with conflicts. Appears only when the request uses the <code>conflicts=true</code> query parameter.</td>
+</tr>
+<tr>
+<td><code>_deleted_conflicts</code></td>
+<td>array</td>
+<td>List of revisions with conflicts that were deleted. Appears only when the request uses the <code>deleted_conflicts=true</code> query parameter.</td>
+</tr>
+<tr>
+<td><code>_local_seq</code></td>
+<td>integer</td>
+<td>Sequence number of the document in the database. Appears only when the request uses the <code>local_seq=true</code> query parameter.</td>
+</tr>
+<tr>
+<td><code>_revs_info</code></td>
+<td>array</td>
+<td>List of objects with information about local revisions and their status. Appears only when the request uses the <code>open_revs=true</code> query parameter.</td>
+</tr>
+<tr>
+<td><code>_revisions</code></td>
+<td>object</td>
+<td>List of locals revision identifiers. Appears only when the request uses the <code>revs=true</code> query parameter.</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>The following example retrieves a document with the identifier <code>beer_#17_Cream_Ale</code> from a database named <code>beer-db</code>. Because the identifier contains a number sign (#) character, the identifier must be URL encoded in the URI.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>GET /beer-db/beer_%2317_Cream_Ale HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: must-revalidate
+Content-Length: 259
+Content-Type: application/json
+Date: Thu, 12 Dec 2013 21:12:28 GMT
+Etag: "1-431506b53aeac96a225e619cfa7bb569"
+Server: CouchbaseLite 1.486
+
+{
+  "category" : "North American Lager",
+  "brewery" : "Big Ridge Brewing",
+  "style" : "American-Style Lager",
+  "updated" : "2010-07-22 20:00:20",
+  "_id" : "beer_#17_Cream_Ale",
+  "_rev" : "1-431506b53aeac96a225e619cfa7bb569",
+  "name" : "#17 Cream Ale"
+}
+</code></pre>
+
+<h2>DELETE /{db}/{doc}</h2>
+
+<p>This request deletes a document from the database. When a document is deleted, the revision number is updated so the database can track the deletion in synchronized copies.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<ul>
+<li>
+<p><code>Accept</code>&#x2014;<em>optional</em>&#x2014;Valid values are:</p>
+
+<ul>
+<li>application/json</li>
+<li>text/plain</li>
+</ul>
+</li>
+<li><p><code>If-Match</code> &#x2013; <em>Required if the <code>rev</code> query parameter is not supplied</em> &#x2014;Revision identifier of the requested document. </p></li>
+</ul>
+<p><strong>Query parameters</strong></p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>batch</code></td>
+<td>string</td>
+<td>Stores the document in batch mode. To use, set the value to <code>ok</code>.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>rev</code></td>
+<td>string</td>
+<td>Revision identifier</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Message body</strong></p>
+
+<p>None</p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Document successfully removed</li>
+<li>202 Accepted &#x2013; Request was accepted, but changes are not yet stored on disk</li>
+<li>400 Bad Request &#x2013; Invalid request body or parameters</li>
+<li>401 Unauthorized &#x2013; Write privileges required</li>
+<li>404 Not Found &#x2013; Specified database or document ID doesn&#x2019;t exists</li>
+<li>409 Conflict &#x2013; Specified revision is not the latest for target document</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<ul>
+<li>
+<p><code>Content-Type</code>&#x2014;The value can be:</p>
+
+<ul>
+<li>application/json</li>
+<li>text/plain; charset=utf-8</li>
+</ul>
+</li>
+<li><p><code>ETag</code>&#x2014;Revision identifier enclosed in double quotes</p></li>
+</ul>
+<p><strong>Message body</strong></p>
+
+<p>The response is a JSON document that contains the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>String</td>
+<td>Document identifier</td>
+</tr>
+<tr>
+<td><code>ok</code></td>
+<td>Boolean</td>
+<td>Indicates whether the operation was successful</td>
+</tr>
+<tr>
+<td><code>rev</code></td>
+<td>String</td>
+<td>revision identifier</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>Request</p>
+
+<pre><code>DELETE /cookbook/ButterChicken?rev=2-1b76d07281d4a576130c7d8f9f621d5e
+Host: localhost:59840
+</code></pre>
+
+<p>Response</p>
+
+<pre><code>HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Content-Type: application/json
+Date: Fri, 13 Dec 2013 20:52:38 GMT
+Etag: "3-7c9a006fb9938b0994cb06a9c11521e7"
+Server: CouchbaseLite 1.486
+Transfer-Encoding: chunked
+
+{
+  "id" : "ButterChicken",
+  "rev" : "3-7c9a006fb9938b0994cb06a9c11521e7",
+  "ok" : true
+}
+</code></pre>
+
+<h2>PUT /{db}/{doc}/{attachment}</h2>
+
+<p>This request adds or updates the supplied request content as an attachment to the specified document. The attachment name must be a URL-encoded string (the file name). You must also supply either the <code>rev</code> query parameter or the <code>If-Match</code> HTTP header for validation, and the <code>Content-Type</code> headers (to set the attachment content type).</p>
+
+<p>When uploading an attachment using an existing attachment name, the corresponding stored content of the database will be updated. Because you must supply the revision information to add an attachment to the document, this serves as validation to update the existing attachment.</p>
+
+<p>Uploading an attachment updates the corresponding document revision. Revisions are tracked for the parent document, not individual attachments.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<ul>
+<li>
+<p><code>Content-Type</code>&#x2014;<em>Required</em>&#x2014;MIME type of the attachment.</p>
+
+<ul>
+<li>
+<code>If-Match</code> &#x2013; <em>Required if the <code>rev</code> query parameter is not supplied</em> &#x2014;Revision identifier of the requested document. </li>
+</ul>
+</li>
+</ul>
+<p><strong>Query parameters</strong></p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td><code>rev</code></td>
+<td>string</td>
+<td>Revision identifier</td>
+<td>none</td>
+</tr></tbody>
+</table>
+<p><strong>Message body</strong></p>
+
+<p>The message body contains the attachment, in the format specified in the <code>Content-Type</code> header.</p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Attachment successfully removed</li>
+<li>202 Accepted &#x2013; Request was accepted, but changes are not yet stored on disk</li>
+<li>400 Bad Request &#x2013; Invalid request body or parameters</li>
+<li>401 Unauthorized &#x2013; Write privileges required</li>
+<li>404 Not Found &#x2013; Specified database, document or attachment was not found</li>
+<li>409 Conflict &#x2013; Document&#x2019;s revision wasn&#x2019;t specified or it&#x2019;s not the latest</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<ul>
+<li>
+<code>Accept-Ranges</code> &#x2013; Range request aware. Used for attachments with application/octet-stream</li>
+<li>
+<code>Content-Encoding</code> &#x2013; Used compression codec. Available if the attachment&#x2019;s content is a compressible type.</li>
+<li>
+<code>Content-Length</code> &#x2013; Attachment size. If compression codec is used, this value represents the compressed size, not the actual size.</li>
+<li>
+<code>Content-MD5</code> &#x2013; Base64 encoded MD5 binary digest</li>
+<li>
+<code>ETag</code>&#x2014;Revision identifier enclosed in double quotes</li>
+</ul>
+<p><strong>Message body</strong></p>
+
+<p>The response is a JSON document that contains the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>String</td>
+<td>Document identifier</td>
+</tr>
+<tr>
+<td><code>ok</code></td>
+<td>Boolean</td>
+<td>Indicates whether the operation was successful</td>
+</tr>
+<tr>
+<td><code>rev</code></td>
+<td>String</td>
+<td>revision identifier</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>The following example adds a plain text attachment to the document identified by <code>LemonChicken</code> in the <code>cookbook</code> database.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>PUT /cookbook/LemonChicken/lcnote.txt?rev=1-78abf9a6508671ba8338e4ef6daa910a HTTP/1.1
+Host: localhost:59840
+Content-Type: text/plain
+
+Some notes about the Lemon Chicken recipe from testers
+
+* This recipe is fabulous
+* I wish it made more servings
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 201 Created
+Accept-Ranges: bytes
+Content-Length: 91
+Content-Type: application/json
+Date: Fri, 13 Dec 2013 22:52:49 GMT
+Etag: "2-6847bbc089e24db84bd0371b9c169566"
+Location: http://localhost:59840/cookbook/LemonChicken/lcnote.txt
+Server: CouchbaseLite 1.486
+
+{
+  "id" : "LemonChicken",
+  "rev" : "2-6847bbc089e24db84bd0371b9c169566",
+  "ok" : true
+}
+</code></pre>
+
+<h2>GET /{db}/{doc}/{attachment}</h2>
+
+<p>This request retrieves the file attachment associated with the document. The raw data of the associated attachment is returned (just as if you were accessing a static file). The returned content is the same content type set when the document attachment was added to the database.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<ul>
+<li><p><code>If-Match</code> &#x2013; <em>Optional</em> &#x2014;Revision identifier of the requested document. Alternative to the <code>rev</code> query parameter</p></li>
+<li><p><code>If-None-Match</code>&#x2014;<em>Optional</em>&#x2014;The attachment&#x2019;s Base64-encoded MD5 binary digest.</p></li>
+</ul>
+<p><strong>Query parameters</strong></p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td><code>rev</code></td>
+<td>string</td>
+<td>Revision identifier</td>
+<td>none</td>
+</tr></tbody>
+</table>
+<p><strong>Message body</strong></p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Attachment exists</li>
+<li>304 Not Modified &#x2013; Attachment wasn&#x2019;t modified if ETag equals specified If-None-Match header</li>
+<li>401 Unauthorized &#x2013; Read privilege required</li>
+<li>404 Not Found &#x2013; Specified database, document or attachment was not found</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<ul>
+<li>
+<code>Accept-Ranges</code> &#x2013; Range request aware. Used for attachments with application/octet-stream</li>
+<li>
+<code>Content-Encoding</code> &#x2013; Used compression codec. Available if the attachment&#x2019;s content is a compressible type.</li>
+<li>
+<code>Content-Length</code> &#x2013; Attachment size. If compression codec is used, this value represents the compressed size, not the actual size.</li>
+<li>
+<code>Content-MD5</code> &#x2013; Base64 encoded MD5 binary digest</li>
+<li>
+<code>ETag</code>&#x2014;Revision identifier enclosed in double quotes</li>
+</ul>
+<p><strong>Message body</strong></p>
+
+<p>The message body contains the attachment, in the format specified in the <code>Content-Type</code> header.</p>
+
+<h3>Example</h3>
+
+<p><strong>Request</strong></p>
+
+<p>The following request retrieves the attachment that was added in the previous example.</p>
+
+<pre><code>GET http://localhost:59840/cookbook/LemonChicken/lcnote.txt?rev=2-6847bbc089e24db84bd0371b9c169566
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: must-revalidate
+Content-Length: 112
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 13 Dec 2013 22:59:25 GMT
+Etag: "2-6847bbc089e24db84bd0371b9c169566"
+Server: CouchbaseLite 1.486
+
+Some notes about the Lemon Chicken recipe from testers
+
+* This recipe is fabulous
+* I wish it made more servings
+</code></pre>
+
+<h2>DELETE /{db}/{doc}/{attachment}</h2>
+
+<p>This request deletes an attachment to the specified document. To delete an attachment, you must supply the <code>rev</code> query parameter or <code>If-Match</code> header with the current revision identifier.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<ul>
+<li>
+<p><code>Accept</code>&#x2014;<em>optional</em>&#x2014;Valid values are:</p>
+
+<ul>
+<li>application/json</li>
+<li>text/plain</li>
+</ul>
+</li>
+<li><p><code>If-Match</code> &#x2013; <em>Required if the <code>rev</code> query parameter is not supplied</em> &#x2014;Revision identifier of the requested document. </p></li>
+</ul>
+<p><strong>Query parameters</strong></p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>batch</code></td>
+<td>string</td>
+<td>Stores the document in batch mode. To use, set the value to <code>ok</code>.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>rev</code></td>
+<td>string</td>
+<td>Revision identifier</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Message body</strong></p>
+
+<p>None</p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Attachment successfully removed</li>
+<li>202 Accepted &#x2013; Request was accepted, but changes are not yet stored on disk</li>
+<li>400 Bad Request &#x2013; Invalid request body or parameters</li>
+<li>401 Unauthorized &#x2013; Write privileges required</li>
+<li>404 Not Found &#x2013; Specified database, document or attachment was not found</li>
+<li>409 Conflict &#x2013; Document&#x2019;s revision wasn&#x2019;t specified or it&#x2019;s not the latest</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<ul>
+<li>
+<p><code>Content-Type</code>&#x2014;The value can be:</p>
+
+<ul>
+<li>application/json</li>
+<li>text/plain; charset=utf-8</li>
+</ul>
+</li>
+<li><p><code>ETag</code>&#x2014;Revision identifier enclosed in double quotes</p></li>
+</ul>
+<p><strong>Message body</strong></p>
+
+<p>The response is a JSON document that contains the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String</td>
+<td>Document identifier</td>
+</tr>
+<tr>
+<td>ok</td>
+<td>Boolean</td>
+<td>Indicates whether the operation was successful</td>
+</tr>
+<tr>
+<td>rev</td>
+<td>String</td>
+<td>revision identifier</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>The following example deletes the attachment that was added in a previous example.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>DELETE /cookbook/LemonChicken/lcnote.txt?rev=2-6847bbc089e24db84bd0371b9c169566
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Content-Length: 91
+Content-Type: application/json
+Date: Sat, 14 Dec 2013 00:32:26 GMT
+Etag: "3-6210945863a15ee7eff1e540133d19da"
+Server: CouchbaseLite 1.486
+
+{
+  "id" : "LemonChicken",
+  "rev" : "3-6210945863a15ee7eff1e540133d19da",
+  "ok" : true
+}
+</code></pre>
+</doc>

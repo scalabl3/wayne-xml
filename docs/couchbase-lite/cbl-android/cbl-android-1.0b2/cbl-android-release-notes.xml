@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Release Notes</h1>
+
+<h2>1.0 Beta 2 (January 2014)</h2>
+
+<p>This is the second beta release of Couchbase Lite Android 1.0. Couchbase Lite is an ultra-lightweight, reliable, secure JSON database built for all your online and offline mobile application needs. The 1.0 version features native APIs, REST APIs, JSON support, and sync capability. The beta release is available to all community-edition customers.</p>
+
+<h3>Features</h3>
+
+<ul>
+<li>
+<strong>Native API Parity with iOS</strong>&#x2014;The 1.0 feature set available on iOS is now available as native Java APIs on Android. Formal documentation of the Java API set is available <a href="http://www.couchbase.com/autodocs/couchbase-lite-android-latest/index.html">here</a>.</li>
+</ul>
+<h3>Fixes in Beta 2</h3>
+
+<ul>
+<li>
+<p>Minimum Android API level support</p>
+
+<ul>
+<li>We now support Gingerbread (API level 9) and above</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-android/issues/115">115</a></p>
+</li>
+<li>
+<p>Attachment support</p>
+
+<ul>
+<li>Retrieval of an Attachment's body is now working correctly</li>
+<li>Deletion of an Attachment via the REST API is now available</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-android/issues/134">134</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/152">152</a></p>
+</li>
+<li>
+<p>Database support</p>
+
+<ul>
+<li>Attempts to create databases with invalid names now throws correct status code</li>
+<li>A local or remotely replicated document update is now updated in the database document cache and does so by document ID</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-android/issues/146">146</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/164">164</a> </p>
+</li>
+<li>
+<p>Document support</p>
+
+<ul>
+<li>
+<code>_all_docs</code> keys parameter is now supported</li>
+<li>
+<code>missing</code> property now working properly to allow for compaction verification</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-android/issues/147">147</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/155">155</a></p>
+</li>
+</ul>
+<h3>Known Issues</h3>
+
+<ul>
+<li>
+<p>Performance</p>
+
+<ul>
+<li>
+<p>There are known performance issues that we plan to fix before general release. These performance issues include slowness in replication and in view creation.</p>
+
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-android/issues/123">123</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/125">125</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/126">126</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Document support</p>
+
+<ul>
+<li>
+<code>_bulk_docs</code> does not include document deletions as part of push replication to target databases and causes conflicting revision trees</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-android/issues/174">174</a></p>
+</li>
+</ul>
+<h2>1.0 Beta (13 September 2013)</h2>
+
+<p>This is the Beta release of Couchbase Lite Android 1.0. </p>
+
+<p>Couchbase Lite is an ultra-lightweight, reliable, secure JSON database built for all your online and offline mobile application needs. This version features REST APIs, JSON support, and sync capability. </p>
+
+<p>The beta release is available to all community-edition customers.</p>
+
+<h3>Features</h3>
+
+<ul>
+<li><p><strong>REST APIs</strong>&#x2014;REST APIs provide an alternative access method based on your development needs.</p></li>
+<li><p><strong>JSON support</strong>&#x2014;Use a flexible data model designed for mobile object-oriented apps. Adapt to your application needs with immediacy and little impact.</p></li>
+<li><p><strong>Easy sync with Couchbase Sync Gateway</strong>&#x2014;Get sync-ready with just a few lines of code. Focus on application development, not syncing.</p></li>
+<li><p><strong>Peer-to-peer support via REST APIs</strong>&#x2014;Communicate with nearby devices, even offline, with our REST API-enabled P2P support.</p></li>
+</ul>
+<h3>Fixes</h3>
+
+<p>None.</p>
+
+<h3>Known Issues</h3>
+
+<ul>
+<li>
+<p>Changes Feed</p>
+
+<ul>
+<li>Change Tracker is not using streaming JSON parser for parsing the changes feed for continuous replications.</li>
+</ul>
+<p>Issue: <a href="https://github.com/couchbase/couchbase-lite-android/issues/97">97</a></p>
+</li>
+<li>
+<p>Document support</p>
+
+<ul>
+<li>Saving large documents with REST often returns an HTTP error 400 due to an incorrect check stop in a method. The method checks to see if there is data to be read in the InputStream, rather than checking whether the stream is empty. </li>
+<li>Occassional error 400 outputted when attempting to do a PUT</li>
+</ul>
+<p>Issue: <a href="https://github.com/couchbase/couchbase-lite-android/issues/95">95</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/99">99</a></p>
+</li>
+<li>
+<p>Attachment support</p>
+
+<ul>
+<li>Updates to documents with attachments are resending attachments even when the attachment data hasn't been updated. This causes performance issues.</li>
+</ul>
+<p>Issue: <a href="https://github.com/couchbase/couchbase-lite-android/issues/66">66</a></p>
+</li>
+</ul>
+</doc>

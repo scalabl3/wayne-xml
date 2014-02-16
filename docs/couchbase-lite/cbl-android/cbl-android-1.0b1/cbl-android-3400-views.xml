@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+<h2>Working With Views</h2>
+
+<p>The following example, shows how to set up a view.</p>
+
+<ol>
+<li>
+<p>Define a view and specify the design document name and view name:</p>
+
+<pre><code class="java">    String dDocName = "ddoc";
+    String viewName = "people";
+    CBLView view = db.getViewNamed(String.format("%s/%s", dDocName, viewName));
+</code></pre>
+</li>
+<li>
+<p>Add the MapReduce implementation blocks for the view:</p>
+
+<pre><code>view.setMapReduceBlocks(new CBLViewMapBlock() {
+
+    @Override
+    public void map(Map&lt;String, Object&gt; document, CBLViewMapEmitBlock emitter) {
+        String type = (String)document.get("type");
+        if("person".equals(type)) {
+            emitter.emit(null, document.get("_id"));
+        }
+    }
+}, new CBLViewReduceBlock() {
+        public Object reduce(List&lt;Object&gt; keys, List&lt;Object&gt; values, boolean rereduce) {
+                return null;
+        }
+}, "1.0");
+</code></pre>
+</li>
+<li>
+<p>Query this view using the Ektorp API:</p>
+
+<pre><code class="java">    ViewQuery viewQuery = new ViewQuery().designDocId("_design/" + dDocName).viewName(viewName);
+    //viewQuery.descending(true); //use this to reverse the sorting order of the view
+    ViewResult viewResult = couchDbConnector.queryView(viewQuery);
+</code></pre>
+</li>
+</ol>
+</doc>

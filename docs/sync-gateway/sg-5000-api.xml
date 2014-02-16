@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Sync Gateway APIs</h1>
+
+<p>To interact with Couchbase Server Sync Gateway, you use the following APIs:</p>
+
+<ul>
+<li><a href="#sync-function-api">Sync Function API</a></li>
+<li><a href="#admin-rest-api">Admin REST API</a></li>
+<li><a href="#sync-rest-api">Sync REST API</a></li>
+</ul>
+<p>For information about controlling access to the REST APIs, <a href="#administering-the-rest-apis">see Administering the REST APIs</a>.</p>
+</doc>

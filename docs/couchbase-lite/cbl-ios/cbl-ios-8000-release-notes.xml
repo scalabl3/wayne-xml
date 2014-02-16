@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Release Notes</h1>
+
+<h2>1.0 Beta 2 (December 2013)</h2>
+
+<p>This is the second Beta release of Couchbase Lite iOS 1.0. Couchbase Lite is an ultra-lightweight, reliable, secure JSON database built for all your online and offline mobile application needs. The 1.0 version features native APIs, REST APIs, JSON support, and sync capability. The beta release is available to all community-edition customers.</p>
+
+<h3>Features</h3>
+
+<ul>
+<li>
+<strong>Replication enhancements</strong>&#x2014;The replicator can now sync specific sets of documents, and pull replications can now optionally poll. Replications run on a separate background thread so they won't block the main thread or regular Couchbase Lite operations (except unavoidably while writing to the database).</li>
+<li>
+<strong>Revision management enhancements</strong>&#x2014;Database compaction now prunes the oldest revisions after a document's revision history grows beyond a maximum length.</li>
+<li>
+<strong>CBLModel enhancements</strong>&#x2014;CBLModel now supports all remaining scalar property types and custom object classes as properties.</li>
+<li>
+<strong>Performance enhancements</strong>&#x2014;A number of performance enhancements were added, including tuning of the <code>CBLBatcher</code> class, incremental parsing of the <code>_changes</code> feed, and significant speeds to SQLite database access. </li>
+<li>
+<strong>API name changes</strong>&#x2014;API names changed to follow a language-neutral API spec in preparation to make development for other platforms simple and consistent.</li>
+<li>
+<strong>Flexible concurrency</strong>&#x2014;Made concurrency more flexible by allowing Couchbase Lite to run on a dispatch queue and adding a way to call it from any thread.</li>
+<li>Support for 64-bit iOS apps.</li>
+</ul>
+<h3>Fixes in Beta 2</h3>
+
+<ul>
+<li>
+<p>Indexing and Querying for JSON</p>
+
+<ul>
+<li>The <code>CBLQueryRow</code> class equality test now compares sequence numbers if emitted values are nil or reflect no change.</li>
+<li>During database compaction, excessively-deep revision trees have their oldest revisions removed entirely. The depth limit can be configured.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/115">115</a>, <a href="https://github.com/couchbase/couchbase-lite-ios/issues/118">118</a></p>
+</li>
+<li>
+<p>Replication</p>
+
+<ul>
+<li>The property <code>docs_id</code> is now supported.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/102">102</a></p>
+</li>
+</ul>
+<h3>Known Issues</h3>
+
+<ul>
+<li>
+<p>API names in Beta 2</p>
+
+<ul>
+<li>As mentioned in the Beta 2 feature list, we've made API changes to support a language-neutral spec. In Beta 2 the old method and property names are still available, but marked as deprecated. Xcode issues warnings for these, and the warning messages tell you what name to use instead.</li>
+</ul>
+</li>
+<li>
+<p>Indexing and querying for JSON</p>
+
+<ul>
+<li>
+<p>Working on a JavaScript equivalent of the CouchDB MapReduce sum() function, which adds up the numeric values of all arguments.</p>
+
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/75">75</a>, <a href="https://github.com/couchbase/couchbase-lite-ios/issues/76">76</a></p>
+</li>
+<li>
+<p>The querying parameter startkey_docid is not yet implemented.</p>
+
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/111">111</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Third-party Compatibility</p>
+
+<ul>
+<li>We do not recommend using Couchbase Lite with the Dropbox Sync SDK at the same time in development.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/199">199</a></p>
+
+<ul>
+<li>Server header modification is required when attempting to use <code>_bulk_get</code> with a reverse proxy.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/215">215</a></p>
+</li>
+<li>
+<p>Sync Gateway support</p>
+
+<ul>
+<li>To share a cookie with an application, you need to set the path option in the cookie header with <code>Path=/</code>.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/212">212</a></p>
+</li>
+</ul>
+<h2>1.0 Beta (September 2013)</h2>
+
+<p>This is the Beta release of Couchbase Lite iOS 1.0. Couchbase Lite is an ultra-lightweight, reliable, secure JSON database built for all your online and offline mobile application needs. The 1.0 version features Native APIs, REST APIs, JSON support, and sync capability. The beta release is available to all community-edition customers.</p>
+
+<h3>Features</h3>
+
+<ul>
+<li><p><strong>Native API</strong>&#x2014;The native API enables you to manage your mobile database by using APIs optimized specifically for iOS.</p></li>
+<li><p><strong>REST APIs</strong>&#x2014;REST APIs provide an alternative access method based on your development needs.</p></li>
+<li><p><strong>JSON support</strong>&#x2014;JSON support provides a flexible data model designed for mobile object-oriented apps. Adapt to your application needs with immediacy and little impact.</p></li>
+<li><p><strong>Easy sync with Couchbase Sync Gateway</strong>&#x2014;Easy sync enables you to focus on application development, not syncing. You can be sync-ready with just a few lines of code.</p></li>
+</ul>
+<h3>Fixes</h3>
+
+<p>None.</p>
+
+<h3>Known Issues</h3>
+
+<ul>
+<li>
+<p>Indexing and querying for JSON</p>
+
+<ul>
+<li>Working on a JavaScript equivalent of the CouchDB MapReduce sum() function, which adds up the numeric values of all arguments.</li>
+<li>If a document value is updated to nil, or any value that the client is interested in, <code>CBLLiveQuery</code> does not notify observers that the document has changed.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/75">75</a>, <a href="https://github.com/couchbase/couchbase-lite-ios/issues/115">115</a></p>
+</li>
+<li>
+<p>Easy sync with Couchbase Sync Gateway</p>
+
+<ul>
+<li>The revs list being sent from the client to the server can continually grow and  cause a performance impact.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/118">118</a></p>
+</li>
+</ul>
+</doc>

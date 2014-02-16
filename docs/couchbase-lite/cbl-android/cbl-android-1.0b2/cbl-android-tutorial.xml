@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Tutorial</h1>
+
+<p>This section contains a Hello World tutorial that shows how to set up and build an Android app with Couchbase Lite. The tutorial has separate sections written for specific Android IDEs:</p>
+
+<ul>
+<li><a href="#building-your-first-app-with-android-studio">Building your first app with Android Studio</a></li>
+<li><a href="#building-your-first-app-with-eclipse-studio">Building your first app with Eclipse</a></li>
+</ul>
+<p>If you want to play with a demonstration app, you can download and run <a href="https://github.com/couchbaselabs/GrocerySync-Android">GrocerySync</a> from our GitHub repository.  </p>
+</doc>

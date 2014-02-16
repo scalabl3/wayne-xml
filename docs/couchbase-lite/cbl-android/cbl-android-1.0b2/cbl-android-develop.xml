@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Developing Apps</h1>
+
+<p>This section describes how to use Couchbase Lite in your Android app. Many of the examples in this section are from the <a href="https://github.com/couchbaselabs/GrocerySync-Android">Grocery Sync Demo app</a>. You can download it from GitHub to view the examples in context of a complete app.</p>
+</doc>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Introduction</h1>
+
+<p>This guide provides information for developers who want to use Couchbase Lite to develop apps for iOS devices. To get an overview of Couchbase Lite, read the <a href="/couchbase-lite/cbl-concepts/">Couchbase Lite Concepts Guide</a>.</p>
+
+<p>This guide assumes you are familiar with developing software for iOS devices. If you are new to iOS development, read Apple's <a href="http://developer.apple.com/library/ios/documentation/iphone/conceptual/iphoneosprogrammingguide/Introduction/Introduction.html">iOS App Programming Guide</a> before beginning to work with Couchbase Lite.</p>
+</doc>

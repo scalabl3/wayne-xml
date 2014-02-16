@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Troubleshooting</h1>
+
+<p>This section contains information to help you troubleshoot the apps you develop with Couchbase Lite.</p>
+
+<h2>Starting Debugging Tests From the Command Line</h2>
+
+<ol>
+<li><p>Set some breakpoints in your test code</p></li>
+<li><p>./gradlew connectedInstrumentTest</p></li>
+<li><p>In Android Studio, go to Run / Attach Debugger to running process</p></li>
+<li><p>Wait until you see your test process, since it might take a few seconds</p></li>
+<li><p>Choose it in the "Choose Process" window (it will look something like <a href="http://cl.ly/image/0v313G320T3B">this</a>)</p></li>
+<li><p>Wait until it reaches your breakpoint</p></li>
+</ol>
+<h2>Running and Debugging a Single Test From Android Studio</h2>
+
+<p>These instructions work with either your own application unit tests or the Couchbase lite library code.  However, in the case of the latter, you need to depend on the Couchbase Lite code directly rather than using Maven artifacts.</p>
+
+<ol>
+<li><p>Go to Run / Edit Configurations.</p></li>
+<li><p>Click the Plus (+) button and choose Android Tests, and give it a name (for example, MyTest).</p></li>
+<li>
+<p>In the module pulldown menu, choose the module in which your test lives.</p>
+
+<p>The following figure shows selecting a test in the <strong>cblite</strong> library.<br><img src="images/debug-screen.png" alt=""/>
+</br>
+<li><p>In the "Test" section, choose the Class radio button.</p></li>
+<li><p>Under class, add the fully qualified class name that you want to test. For example, <code>com.couchbase.cblite.testapp.tests.Router</code>.</p></li>
+<li><p>Click <strong>Apply</strong> or <strong>OK</strong></p></li>
+<li><p>Make sure MyTest is chosen in the configuration pulldown, and choose Run / Debug.</p></li>
+<li><p>Wait until it reaches your breakpoint.</p></li>
+</p>
+<h2>Running the Test Suite</h2>
+
+<ol>
+<li><p>If Sync Gateway is not already installed, install it by following the instructions in <a href="/sync-gateway/#getting-started-with-sync-gateway">Installing Sync Gateway</a>.</p></li>
+<li>
+<p>Create a file named <strong>config.json</strong> and copy the following JSON-formatted configuration data into it:</p>
+
+<pre><code class="json">{
+   "log": ["CRUD", "REST+"],
+   "databases": {
+      "cblite-test": {
+         "server": "walrus:data",
+         "sync": `function(doc){channel(doc.channels);}`,
+         "users": {
+            "GUEST": {"disabled": false,    "admin_channels": ["*"]}
+         }
+      }
+   }
+}
+</code></pre>
+</li>
+<li>
+<p>Start Sync Gateway:</p>
+
+<pre><code>$ ./bin/sync-gateway config.json
+</code></pre>
+</li>
+<li>
+<p>Create a copy of the <strong>test.properties</strong> file and name it <strong>local-test.properties</strong>:</p>
+
+<pre><code>$ cd CBLite/src/instrumentTest/assets/
+$ cp test.properties local-test.properties
+</code></pre>
+</li>
+<li>
+<p>Customize the <strong>local-test.properties</strong> file to point to your database (URL and database name).  For example:</p>
+
+<pre><code>replicationServer=10.0.2.2
+replicationPort=4984
+</code></pre>
+
+<p><strong>Note</strong>: You need to create a <strong>local-test.properties</strong> file for each of the library projects that contain tests (for example, CBLite, CBLiteEktorp, and CBLiteJavascript).</p>
+
+<p><strong>Note</strong>: If you are running the tests on the android emulator, then you can use the special <code>10.0.2.2</code> address, which has use the IP address of the workstation that launched the emulator (assuming that's where your server is).</p>
+</li>
+<li>
+<p>In Android Studio,  select <strong>Tools  Android  AVD Manager</strong>.</p>
+
+<p>The Android emulator starts.</p>
+</li>
+<li>
+<p>Launch the test suite:</p>
+
+<pre><code>$ ./gradlew clean  ./gradlew :CBLite:connectedInstrumentTest  ./gradlew :CBLiteJavascript:connectedInstrumentTest
+</code></pre>
+</li>
+</ol>
+</li></ol></doc>

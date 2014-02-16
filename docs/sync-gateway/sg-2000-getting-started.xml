@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Getting Started With Sync Gateway</h1>
+
+<p>You can run Sync Gateway on the following operating systems:</p>
+
+<ul>
+<li><p>Mac OS X 10.6 or later with a 64-bit CPU</p></li>
+<li><p>Red Hat Linux</p></li>
+<li><p>Ubuntu Linux</p></li>
+</ul>
+<h2>Installing Sync Gateway</h2>
+
+<p>You can download Sync Gateway for your platform from <a href="http://www.couchbase.com/communities/couchbase-sync-gateway">http://www.couchbase.com/communities/couchbase-sync-gateway</a>.</p>
+
+<p>The download contains an executable file called <code>sync_gateway</code> that you run as a command-line tool. For convenience, you can move it to a directory that is included in your $PATH environment variable.</p>
+
+<h2>Connecting Sync Gateway to Couchbase Server</h2>
+
+<p>You can connect Sync Gateway to <a href="http://www.couchbase.com/couchbase-server/overview">Couchbase Server 2.0</a> or later.</p>
+
+<p>To connect Sync Gateway to Couchbase Server:</p>
+
+<ol>
+<li>Open the Couchbase Server Admin Console and log on using your administrator credentials.</li>
+<li>In the toolbar, click <strong>Data Buckets</strong>.</li>
+<li>On the Data Buckets page, click <strong>Create New Data Bucket</strong> and create a bucket named <code>sync_gateway</code> in the default pool.</li>
+</ol>
+<p>You can use any name you want for your bucket, but <code>sync_gateway</code> is the default name that Sync Gateway uses if you do not specify a bucket name when you start Sync Gateway. If you use a different name for your bucket, you need to specify the <code>-bucket</code> option when you start Sync Gateway.</p>
+
+<h2>Starting Sync Gateway</h2>
+
+<p>You start Sync Gateway by running <code>sync_gateway</code> with the  <code>-url</code> option. The argument for the <code>-url</code> option is the HTTP URL of the Couchbase server to which you want Sync Gateway to connect. If you do not include any additional command-line options, the default values are used. </p>
+
+<p>The following command starts Sync Gateway on port 4984, connects to the default bucket named  <code>sync_gateway</code> in the Couchbase Serving running on localhost, and starts the admin server on port 4985. </p>
+
+<pre><code>$ ./sync_gateway -url http://localhost:8091
+</code></pre>
+
+<p>If you used a different name for the Couchbase Server bucket or want to listen on a different port, you need to include those parameters as command-line options. For information about the available command-line options, see <a href="#administering-sync-gateway">Administering Sync Gateway</a>.</p>
+
+<h2>Stopping Sync Gateway</h2>
+
+<p>You can stop Sync Gateway by typing Control-C. There is no specific shutdown procedure and it is safe to stop it at any time.</p>
+</doc>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+<h2>Working with databases</h2>
+
+<p>Databases are represented by the <code>Database</code> class and managed by the <code>Manager</code> class.</p>
+
+<p>When your app is launched for the first time, you need to set up a database. Depending on your app design, you might need to <a href="#setting-up-the-initial-database">set up an initial database</a> the first time a user launches your app and then <a href="#connecting-to-an-existing-database">connect to the existing database</a> upon subsequent launches. Each time the app launches, you must check whether the database exists in Couchbase Lite.</p>
+
+<p>Database names must begin with an lowercase letter. You can test a database name for validity by calling <code>isValidDatabaseName()</code>. The following characters are valid in database names:</p>
+
+<ul>
+<li>lowercase letters: <code>a-z</code>
+</li>
+<li>numbers: <code>0-9</code>
+</li>
+<li>special characters: <code>_$()+-/</code>
+</li>
+</ul>
+<h3>Creating a database</h3>
+
+<p>To create a database in your app, you need to create a <code>Database</code> instance by using the <code>getDatabase()</code> method provided in the <code>Manager</code> class. If the database specified in a call to <code>getDatabase()</code> already exists, the existing database is opened. If the database does not exist, a new database is created. In the following example, <code>manager</code> is declared as static because it needs to be shared with other parts of the app. </p>
+
+<pre><code class="java">
+protected static Manager manager;
+private Database database;
+public static final String DATABASE_NAME = "grocery-sync";
+
+// create a manager
+manager = new Manager(getApplicationContext().getFilesDir(), Manager.DEFAULT_OPTIONS);
+
+// create a new database
+database = manager.getDatabase(DATABASE_NAME);
+
+</code></pre>
+
+<h3>Connecting to an existing database</h3>
+
+<p>If the database already exists, you can open it by using the <code>getExistingDatabase()</code> method:</p>
+
+<pre><code class="java">database = manager.getExistingDatabase(DATABASE_NAME);
+</code></pre>
+
+<p>If the specified database does not exist, the <code>getExistingDatabase()</code> method throws an exception.</p>
+</doc>

@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Introduction</h1>
+
+<p>The Couchbase Lite Plug-in for PhoneGap enables you to develop cross-platform mobile apps that use Couchbase Lite by using PhoneGap and standard web technologies (HTML5, CSS, and JavaScript). </p>
+
+<p><a href="http://phonegap.com">PhoneGap</a> is a web application framework that provides a container to wrap your app in. You develop an app that uses Couchbase Lite and standard web technologies, wrap it in a PhoneGap container, and then build executables for iOS and Android devices from the same code base. </p>
+
+<p>The following diagram shows the architecture of iOS and Android mobile apps that use the Couchbase Lite Plug-in for PhoneGap:</p>
+
+<p><img src="images/phonegap-arch.png" alt=""/>
+
+<h1>Getting Started in 5 Minutes</h1>
+
+<p>The following sections show how to build iOS and Android apps with the Couchbase Lite Plug-in for PhoneGap. This example uses a shared to-do list app called Todo Lite that demonstrates many Couchbase Lite features. When you develop your own apps later, you can follow these instructions and substitute your own source code for the ToDo Lite app source code.</p>
+
+<h2>Before You Begin</h2>
+
+<p>Before you can build apps with PhoneGap, you need to install PhoneGap and several other tools on your computer. You might already have some of them installed. If you have problems installing the tools, see the <a href="troubleshooting-the-todo-lite-build">troubleshooting</a> section.</p>
+
+<p>To get set up to use PhoneGap, install the following tools: </p>
+
+<ol>
+<li><p>Install <a href="http://git-scm.com">Git</a>, which is a distributed version control system.</p></li>
+<li><p>If you want to build apps for iOS devices:</p></li>
+</ol>
+<pre><code>* Install [Xcode](https://developer.apple.com/xcode/).
+
+* Install [ios-sim](https://github.com/phonegap/ios-sim), which is a command-line application launcher for the Xcode iOS Simulator, by using [Homebrew](http://brew.sh):
+
+    ```sh
+$ brew install ios-sim
+```
+
+For additional information about setting up your iOS development environment, refer to the [PhoneGap iOS Platform Guide](http://docs.phonegap.com/en/3.0.0/guide_platforms_ios_index.md.html#iOS%20Platform%20Guide).
+</code></pre>
+
+<ol>
+<li>If you want to build apps for Android devices: </li>
+</ol>
+<pre><code>* Install [Apache Ant](http://ant.apache.org), which is a build tool.
+
+* Install [Android Studio](http://developer.android.com/sdk/installing/studio.html). 
+
+* Install the Android SDK by using the Android SDK Manager. If you have a project open in Android Studio, you can run the SDK Manager by selecting **Tools  Android  SDK Manager**.
+
+* Set up an Android emulator by using the Android AVD Manager. If you have a project open in Android Studio, you can run the AVD Manager by selecting **Tools  Android  AVD Manager**.
+
+* Add paths to the Android SDK tools and platform tools to your system's
+  PATH environment variable; for example, on Mac OS X add the following:
+    * `/Applications/Android Studio.app/sdk/tools`
+    * `/Applications/Android Studio.app/sdk/platform-tools` 
+
+  For additional information about setting up your Android development environment, refer to the [PhoneGap Android Platform Guide](http://docs.phonegap.com/en/3.0.0/guide_platforms_android_index.md.html#Android%20Platform%20Guide).
+</code></pre>
+
+<ol>
+<li>
+<p>Install <a href="http://nodejs.org/download">Node.js</a>, which is a JavaScript network application platform. </p>
+
+<p>The Node.js download installs both Node.js and the Node.js package manager (npm).</p>
+</li>
+<li>
+<p>Install PhoneGap:</p>
+
+<pre><code class="sh">$ npm install -g phonegap
+</code></pre>
+
+<p>If you can't install PhoneGap with this command, try <code>sudo npm install -g phonegap</code> instead.</p>
+</li>
+</ol>
+<h2>Building Todo Lite</h2>
+
+<p>Now that you have all the tools installed, you can build the Todo Lite app. If you have problems building the app, see the <a href="troubleshooting-the-todo-lite-build">troubleshooting</a> section.</p>
+
+<p>Get out a stopwatch, your 5 minutes starts now!</p>
+
+<ol>
+<li><p>Open a terminal window and change to the directory that you want to store the Todo Lite project in.</p></li>
+<li>
+<p>Create a new PhoneGap project and change to its directory:</p>
+
+<pre><code class="sh">$ phonegap create todo-lite com.couchbase.TodoLite TodoLite
+$ cd todo-lite
+</code></pre>
+
+<p>After you create a new PhoneGap project, the project directory contains a directory named <strong>www</strong>. The <strong>www</strong> directory contains a default application.</p>
+</li>
+<li>
+<p>Add the Couchbase Lite plug-in to your project:</p>
+
+<pre><code class="sh">$ phonegap local plugin add https://github.com/couchbaselabs/Couchbase-Lite-PhoneGap-Plugin.git
+</code></pre>
+</li>
+<li>
+<p>Add the following additional plug-ins to your project:</p>
+
+<pre><code class="sh">$ phonegap local plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-camera.git
+$ phonegap local plugin add https://github.com/apache/cordova-plugin-inappbrowser.git
+$ phonegap local plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-network-information.git
+</code></pre>
+
+<p>These plug-ins activate the camera, the InAppBrowser, and network information.</p>
+</li>
+<li>
+<p>Replace the default application in the <strong>www</strong> directory with the Todo Lite source code:</p>
+
+<pre><code class="sh">$ rm -rf www
+$ git clone https://github.com/couchbaselabs/TodoLite-PhoneGap.git www
+</code></pre>
+
+<p>When you develop your own app, replace the default application  in the <strong>www</strong> directory with your source code.</p>
+</li>
+<li>
+<p>Build and run the Todo Lite iOS app:</p>
+
+<pre><code class="sh">$ phonegap run ios
+</code></pre>
+
+<p>The Todo Lite app opens in the iOS simulator. If the iOS simulator does not open automatically, make sure ios-sim is installed.</p>
+</li>
+<li>
+<p>Build and run the Todo Lite Android app:</p>
+
+<pre><code class="sh">$ phonegap run android
+</code></pre>
+
+<p>The Todo Lite app opens in the Android simulator. If the Android simulator does not open and you are prompted to log on to the Adobe PhoneGap build service, your Android device emulator is not set up correctly. You do not need to sign up for the PhoneGap build service to run this example.</p>
+</li>
+</ol>
+<h2>Troubleshooting the ToDo Lite Build</h2>
+
+<p>If you cannot build the ToDo Lite app, review the troubleshooting tips in this section.</p>
+
+<h3>Troubleshooting Tools</h3>
+
+<p>If you can't build the ToDo Lite app, first make sure you have all the tools listed in <a href="#before-you-begin">Before You Begin</a> installed and that you have the latest released version of each tool. </p>
+
+<p>To verify that the command-line tools are installed and check version numbers, you can run the following commands in a terminal window:</p>
+
+<pre><code class="sh">$ git --version
+$ brew -v
+$ ios-sim --version
+$ node -v
+$ npm -v
+$ phonegap -v
+</code></pre>
+
+<h3>Troubleshooting IDEs</h3>
+
+<p>To make sure PhoneGap and your IDEs are set up correctly, try building the default PhoneGap app for iOS and Android: </p>
+
+<pre><code class="sh">$ phonegap create my-app
+$ cd my-app
+$ phonegap run ios
+$ phonegap run android
+</code></pre>
+
+<p>For more information about setting up the SDKs on your computer, see:</p>
+
+<ul>
+<li><p><a href="http://docs.phonegap.com/en/3.0.0/guide_platforms_ios_index.md.html#iOS%20Platform%20Guide">PhoneGap iOS Platform Guide</a></p></li>
+<li><p><a href="http://docs.phonegap.com/en/3.0.0/guide_platforms_android_index.md.html#Android%20Platform%20Guide">PhoneGap Android Platform Guide</a> </p></li>
+</ul>
+<h3>Troubleshooting Other Problems</h3>
+
+<p>The following table contains solutions for some other problems you might encounter when building the ToDo Lite app:</p>
+
+<table>
+<thead><tr>
+<th>Problem</th>
+<th>Solution</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>You can't install a command-line tool.</td>
+<td>Use the <code>sudo</code> command to install the tool. For example: <code>sudo npm install -g phonegap</code>
+</td>
+</tr>
+<tr>
+<td>When you add plug-ins to your project, you get the following error message: [error] project directory could not be found.</td>
+<td>Make sure you are in the <strong>/todo-lite</strong> directory.</td>
+</tr>
+<tr>
+<td>When you build an iOS app, the iOS simulator doesn't start automatically.</td>
+<td>Make sure ios-sim is installed.</td>
+</tr>
+<tr>
+<td>When you build an Android app, it uses the remote environment and prompts you to log on to the PhoneGap build service.</td>
+<td>Make sure your Android device emulator is set up. For more information about setting up an emulator, read the <a href="http://docs.phonegap.com/en/3.0.0/guide_platforms_android_index.md.html#Android%20Platform%20Guide">Deploy to Emulator section in the <em>PhoneGap Android Platform Guide</em></a>
+</td>
+</tr>
+<tr>
+<td>When attempting to run the app for Android, you encounter the following error: <em>[error] An error occurred during creation of android sub-project</em>.</td>
+<td>Ensure that the Android SDK <strong>tools</strong> and <strong>platform-tools</strong> directories are added to your system's PATH environment variable.</td>
+</tr>
+</tbody>
+</table>
+<h3>Using Apache Cordova</h3>
+
+<p>If you cannot access the Couchbase Lite Plug-in for PhoneGap in the GitHub repository, you can use the Cordova download as an alternative. You can build apps with the Couchbase Lite Plug-in for PhoneGap by using <a href="http://cordova.apache.org">Cordova</a> instead of PhoneGap. The Couchbase Lite Plug-in for PhoneGap is listed on the <a href="http://plugins.cordova.io/#/com.couchbase.lite.phonegap">Cordova Plugin Registry</a>. </p>
+
+<p>When using Cordova, you install the Couchbase Lite Plug-in for PhoneGap into your app by using the Cordova command-line tool.</p>
+
+<p>To install Cordova on your computer:</p>
+
+<pre><code class="sh">$ npm install -g cordova
+</code></pre>
+
+<p>If you can't install Cordova with this command, try <code>sudo npm install -g cordova</code> instead.</p>
+
+<p>To use Cordova to add the Couchbase Lite Plug-in for PhoneGap to your app:</p>
+
+<pre><code class="sh">$ cd your/project/directory
+$ cordova local plugin add com.couchbase.lite.phonegap
+</code></pre>
+</p></doc>

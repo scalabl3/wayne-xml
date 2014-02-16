@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Developing Apps</h1>
+
+<p>This section describes how to use Couchbase Lite in your Android app.</p>
+
+<p>We're currently working on native APIs for Android. In the meantime, there's a number of tools in the wild that you can use in conjunction with our REST APIs. Some of the examples in this section use one such tool, <a href="http://www.ektorp.org">Ektorp</a>.</p>
+</doc>

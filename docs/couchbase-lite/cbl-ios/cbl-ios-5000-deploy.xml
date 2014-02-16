@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Deployment Considerations</h1>
+
+<!--
+This section covers deployment considerations, including:
+
+* Architecture
+* Best practices
+    * Push notifications (suite of different ways to trigger sync, one of most efficient is push notifications)
+    * Battery life
+* Upgrading
+* Sizing
+* Limitations
+ -->
+
+<p>TBD</p>
+</doc>

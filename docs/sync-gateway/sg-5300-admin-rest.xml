@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+<h2>Admin REST API</h2>
+
+<p>The Admin REST API is a superset of the Sync REST API with the following major extensions:</p>
+
+<ul>
+<li>The capability to view, create, and modify users and roles.</li>
+<li>The capability to perform management tasks such as creating and deleting databases.</li>
+<li>The capability to perform administrative tasks without authentication.  The Admin REST API operates in superuser mode&#x2014;you can view and modify anything without needing a password or session cookie.</li>
+</ul>
+<p>By default, the Admin REST API runs on port 4985 (unless you change the <code>adminInterface</code> configuration parameter). <strong>Do not expose this port</strong>&#x2014;It belongs behind your firewall. Anyone who can reach this port has free access to and control over your databases and user accounts.</p>
+
+<h3>Admin REST API Endpoints</h3>
+
+<p><code>PUT /$DB/</code> -- Configures a new database. The body of the request contains the database configuration as a JSON object ()the same as an entry in the <code>databases</code> property of a configuration file. Note that this doesn't create a Couchbase Server bucket&#x2014;you need to do that before configuring the database.</p>
+
+<p><code>DELETE /$DB/</code> -- Removes a database. It doesn't delete the Couchbase Server bucket or any of its data, though, so you could bring the database back later with a PUT.</p>
+
+<p><code>/$DB/_user/$name</code> -- represents a user account. It supports GET, PUT, and DELETE, and you can also POST to <code>/$DB/_user/</code>. The body is a JSON object; for details see the [[Authentication]] page. The special user name <code>GUEST</code> applies to unauthenticated requests.</p>
+
+<p><code>/$DB/_role/$name</code> -- represents a role. This API is similar to users.</p>
+
+<p><code>/$DB/_session</code> -- POST to this endpoint to create a logon session. The request body is a JSON object containing the username in the <code>name</code> object and the duration of the session (in seconds) in the <code>ttl</code> object. The response is a JSON object with properties <code>session_id</code> (the session cookie string), <code>expires</code> (the time the session expires) and <code>cookie_name</code> (the name of the HTTP cookie to set).</p>
+
+<p><code>/_compact</code> -- Compacts a database by removing obsolete document bodies. Needs to be run occasionally.</p>
+
+<p><code>/_profile</code> -- POST to this endpoint to enable Go CPU profiling, which can be useful for diagnosing performance problems. To start profiling, send a JSON body with a <code>file</code> property whose value is a path to write the profile to. To stop profiling, send a request without a <code>file</code> property.</p>
+
+<h3>Tips</h3>
+
+<p>A quick way to tell whether you're talking to the Admin REST API is by sending a <code>GET /</code> request and checking whether the resulting object contains an <code>"ADMIN": true</code> property.</p>
+
+<p><a href="#command-line-tool">HTTP requests logged to the console</a> show the user name of the requester after the URL. If the request is made on the admin port, this is "(ADMIN)" instead.</p>
+</doc>

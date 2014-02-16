@@ -1,0 +1,1290 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Database Resources</h1>
+
+<p>Database resources provide an interface to an entire database. 
+The following table lists the database resources:</p>
+
+<table>
+<thead><tr>
+<th>HTTP Method</th>
+<th>URI pattern</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/{db}</code></td>
+<td>Creates a new database</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{db}</code></td>
+<td>Retrieves information about a database</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/{db}</code></td>
+<td>Deletes a database</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{db}/_all_docs</code></td>
+<td>Retrieve the built-in view of all documents in the database</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/{db}/_all_docs</code></td>
+<td>Retrieves specified documents from the built-in view of all documents in the database</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/{db}/_bulk_docs</code></td>
+<td>Inserts multiple documents into the database in a single request</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{db}/_changes</code></td>
+<td>Returns changes for the database</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/{db}/_compact</code></td>
+<td>Starts a compaction for the database</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/{db}/_purge</code></td>
+<td>Purges some historical documents from the database history</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/{db}/_temp_view</code></td>
+<td>Executes a given view function for all documents and returns the result</td>
+</tr>
+</tbody>
+</table>
+<p>In the URI patterns, <code>{db}</code> represents the name of the database on which you want to operate.</p>
+
+<h2>PUT /{db}</h2>
+
+<p>This request creates a new database. The database name must begin with a lowercase letter. The legal characters for the database name are: lowercase letters [<code>a-z</code>], digits [<code>0-9</code>], and special characters [<code>$_()+-/</code>].</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>This request does not have any required headers.</p>
+
+<p><strong>Query parameters</strong></p>
+
+<p>This request does not use query parameters.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>This request does not use a message body.</p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>201 Created &#x2013; Database created successfully</li>
+<li>400 Bad Request &#x2013; Invalid database name</li>
+<li>401 Unauthorized &#x2013; Administrator privileges required</li>
+<li>412 Precondition Failed &#x2013; Database already exists</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<ul>
+<li>
+<code>Content-Type</code>&#x2014;The value can be:
+
+<ul>
+<li>application/json</li>
+<li>multipart/mixed</li>
+<li>text/plain; charset=utf-8</li>
+</ul>
+</li>
+<li>Location&#x2014;URI of the new database</li>
+</ul>
+<p><strong>Message body</strong></p>
+
+<p>The response contains a JSON document that contains some of the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td>String</td>
+<td>Error message</td>
+</tr>
+<tr>
+<td><code>ok</code></td>
+<td>Boolean</td>
+<td>Indicates whether the operation was successful</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Integer</td>
+<td>HTTP error code</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>The following example creates a new database named <code>cookbook</code>.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>PUT /cookbook HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 201 Created
+Server: CouchbaseLite 1.485
+Location: http://localhost:59840/cookbook
+Accept-Ranges: bytes
+Content-Length: 18
+Content-Type: application/json
+Date: Sun, 08 Dec 2013 20:17:16 GMT
+
+{
+  "ok" : true
+}
+</code></pre>
+
+<p>The following example shows the error you receive when trying to create a database that already exists:</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>PUT /cookbook HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 412 Precondition Failed
+Transfer-Encoding: chunked
+Accept-Ranges: bytes
+Content-Type: application/json
+Server: CouchbaseLite 1.485
+Date: Mon, 09 Dec 2013 19:26:09 GMT
+
+{
+  "status" : 412,
+  "error" : "file_exists"
+}
+</code></pre>
+
+<p>The following example show the error you receive when you specify an invalid database name.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>PUT /ACookbook HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 400 Bad Request
+Transfer-Encoding: chunked
+Accept-Ranges: bytes
+Content-Type: application/json
+Server: CouchbaseLite 1.486
+Date: Thu, 12 Dec 2013 19:42:12 GMT
+
+{
+  "status" : 400,
+  "error" : "Invalid database\/document\/revision ID"
+}
+</code></pre>
+
+<h2>GET /{db}</h2>
+
+<p>This request retrieves information about a database.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>This request does not have any required headers.</p>
+
+<p><strong>Query parameters</strong></p>
+
+<p>This request does not use query parameters.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>This request does not use a message body.</p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Request completed successfully</li>
+<li>404 Not Found &#x2013; Requested database not found</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<p>This response uses only standard HTTP headers.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>The message body is a JSON document that contains the following objects:</p>
+
+<p>| Name | Type |Description |<br>
+|  ------   | ------    |<br>
+|<code>committed_update_seq</code> | Integer |Number of committed updates to the database 
+| <code>db_name</code> | String|Name of the database
+| <code>db_uuid</code> |String |Database identifier
+| <code>disk_format_version</code> |Integer |Database schema version
+| <code>disk_size</code> |Integer |Total amount of data stored on the disk. Units: bytes 
+|<code>doc_count</code> |Integer |Number of documents in the database
+| <code>instance_start_time</code> | Integer|Date and time the database was opened. Units:  microseconds since the epoch (1 January 1970)
+| <code>purge_seq</code> |Integer|Returns 0.
+|<code>update_seq</code> |Integer  |Number of updates to the database</br>
+
+<h3>Example</h3>
+
+<p>The following example retrieves information about a database named <code>beer-db</code>.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>GET /beer-db HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code class="json">HTTP/1.1 200 OK
+Server: CouchbaseLite 1.485
+Content-Type: application/json
+Accept-Ranges: bytes
+Content-Length: 281
+Cache-Control: must-revalidate
+Date: Fri, 06 Dec 2013 22:31:17 GMT
+
+{
+  "instance_start_time" : 1386620242527997,
+  "committed_update_seq" : 25800,
+  "disk_size" : 15360000,
+  "purge_seq" : 0,
+  "db_uuid" : "65FB16DF-FFD7-4514-9E8D-B734B066D28D",
+  "doc_count" : 5048,
+  "db_name" : "beer-db",
+  "update_seq" : 25800,
+  "disk_format_version" : 11
+}
+</code></pre>
+
+<p>The following example shows the response returned when you request information about a database that does not exist on the server. The example requests information about a database named <code>cookbook</code>, which does not exist on the server.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>GET /cookbook HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 404 Not Found
+Transfer-Encoding: chunked
+Accept-Ranges: bytes
+Content-Type: application/json
+Server: CouchbaseLite 1.485
+Date: Sun, 08 Dec 2013 20:16:50 GMT
+
+{
+  "status" : 404,
+  "error" : "not_found"
+}
+</code></pre>
+
+<h2>DELETE /{db}</h2>
+
+<p>This request deletes a database, including all documents and attachments.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>This request does not have any required headers.</p>
+
+<p><strong>Query parameters</strong></p>
+
+<p>This request does not use query parameters.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>This request does not use a message body.</p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Database removed successfully</li>
+<li>400 Bad Request &#x2013; Invalid database name</li>
+<li>401 Unauthorized &#x2013; CouchDB Server Administrator privileges required</li>
+<li>404 Not Found &#x2013; Database doesn&#x2019;t exist</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<p>This response uses only standard HTTP headers.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>The response contains a JSON document that contains some of the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td>String</td>
+<td>Error message</td>
+</tr>
+<tr>
+<td><code>ok</code></td>
+<td>Boolean</td>
+<td>Indicates whether the operation was successful</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Integer</td>
+<td>HTTP error code</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p><strong>Request</strong></p>
+
+<pre><code>DELETE /genealogy HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+Accept-Ranges: bytes
+Content-Length: 18
+Server: CouchbaseLite 1.485
+Date: Mon, 09 Dec 2013 04:24:05 GMT
+
+{
+  "ok" : true
+}
+</code></pre>
+
+<h2>GET /{db}/<em>all</em>docs</h2>
+
+<p>This request returns a built-in view of all documents in the database.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>This request does not have any required headers.</p>
+
+<p><strong>Query parameters</strong></p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>conflicts</code></td>
+<td>Boolean</td>
+<td>Include conflict information in the response. This parameter is ignored if the <code>include_docs</code> parameter is <code>false</code>.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>descending</code></td>
+<td>Boolean</td>
+<td>Return documents in descending order</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>endkey</code></td>
+<td>string</td>
+<td>If this parameter is provided, stop returning records when the specified key is reached.</td>
+<td>none</td>
+</tr>
+<tr>
+<td/>
+<td><code>end_key</code></td>
+<td>string</td>
+<td>Alias for the <code>endkey</code> parameter</td>
+</tr>
+<tr>
+<td><code>endkey_docid</code></td>
+<td>string</td>
+<td>If this parameter is provided, stop returning records when the specified document identifier is reached</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>end_key_doc_id</code></td>
+<td>string</td>
+<td>Alias for the <code>endkey_docid</code> parameter</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>include_docs</code></td>
+<td>Boolean</td>
+<td>Indicates whether to include the full content of the documents in the response</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>inclusive_end</code></td>
+<td>Boolean</td>
+<td>Indicates whether the specified end key should be included in the result</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td>string</td>
+<td>If this parameter is provided, return only document that match the specified key.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>integer</td>
+<td>If this parameter is provided, return only the specified number of documents</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>skip</code></td>
+<td>integer</td>
+<td>If this parameter is provided, skip the specified number of documents before starting to return results</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>stale</code></td>
+<td>string</td>
+<td>Allow the results from a stale view to be used, without triggering a rebuild of all views within the encompassing design document. Valid values: <code>ok</code> and <code>update_after</code>.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>startkey</code></td>
+<td>string</td>
+<td>If this parameter is provided, return documents starting with the specified key.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>start_key</code></td>
+<td>string</td>
+<td>Alias for <code>startkey</code> param</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>startkey_docid</code></td>
+<td>string</td>
+<td>If this parameter is provided, return documents starting with the specified document identifier.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>update_seq</code></td>
+<td>Boolean</td>
+<td>Indicates whether to include <code>update_seq</code> in the response</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Message body</strong></p>
+
+<p>This request does not use a message body.</p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Request completed successfully</li>
+<li>400 &#x2014; Invalid database</li>
+<li>404 &#x2014; Database not found</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<ul>
+<li>
+<p><code>Content-Type</code>&#x2014;The value can be:</p>
+
+<ul>
+<li>application/json</li>
+<li>text/plain; charset=utf-8</li>
+</ul>
+</li>
+<li><p><code>ETag</code>&#x2014;Response signature</p></li>
+</ul>
+<p><strong>Message body</strong></p>
+
+<p>The message body is a JSON document that contains the following objects:</p>
+
+<p>|Name|Type|Description|<br>
+| ------    | ------    |<br>
+|<code>offset</code>| integer| Starting index of the returned rows. 
+|<code>rows</code>| array|Array of row objects. Each row contains the following objects: <code>id</code>, <code>key</code>, and <code>value</code>. The <code>value</code> object contains the revision identifier in a <code>rev</code> object.
+|<code>total_rows</code>| integer|Number of documents in the database.This number is <em>not</em> the number of rows returned.|<br>
+|<code>update_seq</code> | integer | Sequence identifier of the underlying database that the view reflects</br>
+
+<h3>Example</h3>
+
+<p>The following request retrieves all documents from a database named <code>cookbook</code>.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>GET /cookbook/_all_docs HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: must-revalidate
+Content-Type: application/json
+Date: Fri, 13 Dec 2013 02:42:23 GMT
+Etag: "3"
+Server: CouchbaseLite 1.486
+
+{
+  "offset" : 0,
+  "rows" : [
+    {
+      "key" : "209BB170-C1E0-473E-B3C4-A4533ACA3CDD",
+      "value" : {
+        "rev" : "1-ed0ebedd2fab89227b352f6455a08010"
+      },
+      "id" : "209BB170-C1E0-473E-B3C4-A4533ACA3CDD"
+    },
+    {
+      "key" : "A329CFEC-29E8-4DCF-BB49-EFCE8CD6B212",
+      "value" : {
+        "rev" : "1-afbf905396a144446feb2431c37065f9"
+      },
+      "id" : "A329CFEC-29E8-4DCF-BB49-EFCE8CD6B212"
+    },
+    {
+      "key" : "LemonChicken",
+      "value" : {
+        "rev" : "1-78abf9a6508671ba8338e4ef6daa910a"
+      },
+      "id" : "LemonChicken"
+    }
+  ],
+  "total_rows" : 3
+}
+</code></pre>
+
+<h2>POST /{db}/<em>all</em>docs</h2>
+
+<p>This request retrieves specified documents from the database.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>This request does not have any required headers.</p>
+
+<p><strong>Query parameters</strong></p>
+
+<p>This request does not use query parameters.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>The message body is a JSON document that contains the following object:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td><code>keys</code></td>
+<td>array</td>
+<td>List of identifiers of the documents to retrieve</td>
+</tr></tbody>
+</table>
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Request completed successfully</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<ul>
+<li>
+<code>Content-Type</code>&#x2014;The value can be:
+
+<ul>
+<li>application/json</li>
+<li>text/plain; charset=utf-8</li>
+</ul>
+</li>
+</ul>
+<p><strong>Message body</strong></p>
+
+<p>The message body is a JSON document that contains the following objects:</p>
+
+<p>|Name|Type|Description|<br>
+| ------    | ------    |<br>
+|<code>offset</code>| integer| Starting index of the returned rows. 
+|<code>rows</code>| array|Array of row objects. Each row contains the following objects: <code>id</code>, <code>key</code>, and <code>value</code>. The <code>value</code> object contains the revision identifier in a <code>rev</code> object.
+|<code>total_rows</code>| integer|Number of documents in the database.This number is <em>not</em> the number of rows returned.|  </br>
+
+<h3>Example</h3>
+
+<p>The following request retrieves specified documents from the database named <code>cookbook</code>.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>POST /cookbook/_all_docs
+Host: localhost:59840
+
+{
+    "keys": [
+        "LemonChicken",
+        "209BB170-C1E0-473E-B3C4-A4533ACA3CDD"
+    ]
+}
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Content-Length: 406
+Content-Type: application/json
+    Date: Sun, 15 Dec 2013 21:38:59 GMT
+    Server: CouchbaseLite 1.486
+
+{
+  "offset" : 0,
+  "rows" : [
+    {
+      "key" : "LemonChicken",
+      "value" : {
+        "rev" : "3-6210945863a15ee7eff1e540133d19da"
+      },
+      "id" : "LemonChicken"
+    },
+    {
+      "key" : "209BB170-C1E0-473E-B3C4-A4533ACA3CDD",
+      "value" : {
+        "rev" : "1-ed0ebedd2fab89227b352f6455a08010"
+      },
+      "id" : "209BB170-C1E0-473E-B3C4-A4533ACA3CDD"
+    }
+  ],
+  "total_rows" : 2
+}
+</code></pre>
+
+<h2>POST /{db}/<em>bulk</em>docs</h2>
+
+<p>This request enables you to add, update, or delete multiple documents to a database in a single request.</p>
+
+<p>To new documents, you can either specify the ID or let the software create an ID.</p>
+
+<p>To update existing documents, you must provide the document ID, revision identifier, and new document values.</p>
+
+<p>To delete existing documents you must provide the document ID, revision identifier, and a deletion flag (<code>_deleted</code>).</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>This request does not have any required headers.</p>
+
+<p><strong>Query parameters</strong></p>
+
+<p>This request does not use query parameters.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>The message body is a JSON document that contains the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>all_or_nothing</code></td>
+<td>Boolean</td>
+<td>
+<em>Optional</em>. Indicates whether to use all-or-nothing semantics for the database commit mode</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>docs</code></td>
+<td>array</td>
+<td>List containing new or updated documents. The docs object can contain <code>_id,</code><em>rev<code>,</code></em>deleted`, and values for new and updated documents.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>new_edits</code></td>
+<td>Boolean</td>
+<td>
+<em>Optional</em>. Indicates whether to assign new revision identifiers to new edits.</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>201 Created &#x2013; Document(s) have been created or updated</li>
+<li>400 Bad Request &#x2013; The request provided invalid JSON data</li>
+<li>417 Expectation Failed &#x2013; Occurs when all<em>or</em>nothing option set as true and at least one document was rejected by validation function</li>
+<li>500 Internal Server Error &#x2013; Malformed data provided, while it&#x2019;s still valid JSON</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<p>This response uses only standard HTTP headers.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>The response message body is a JSON documental that contains an array. Each array element contains the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>String</td>
+<td>Document identifier</td>
+</tr>
+<tr>
+<td><code>ok</code></td>
+<td>Boolean</td>
+<td>Indicates whether the operation was successful</td>
+</tr>
+<tr>
+<td><code>rev</code></td>
+<td>String</td>
+<td>revision identifier</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>Sample request:</p>
+
+<p>The following example adds a new document with the identifier <code>PeachCobbler</code>, modifies the document with the identifier <code>LemonChicken</code>, and deletes the document with the identifier <code>CinnamonCookies</code>.</p>
+
+<pre><code>POST /cookbook/_bulk_docs
+Host: localhost:59840
+
+{
+    "docs": [
+        {
+            "_id": "PeachCobbler",
+            "description": "Juicy peaches topped with pie crust",
+            "title": "Peach Cobbler"
+        },
+        {
+            "_id": "LemonChicken",
+            "_rev": "3-6210945863a15ee7eff1e540133d19da",
+            "description": "Chinese lemon chicken",
+            "serving-suggestion": "Serve with plain jasmine rice.",
+            "servings": 4,
+            "title": "Lemon Chicken"
+        },
+        {
+            "_deleted": true,
+            "_id": "CinnamonCookies",
+            "_rev": "1-2c25302ccf3d70d3461f28b8df9fafd0"
+        }
+    ]
+}
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 201 Created
+Accept-Ranges: bytes
+Content-Type: application/json
+Date: Mon, 16 Dec 2013 17:01:56 GMT
+Server: CouchbaseLite 1.486
+Transfer-Encoding: chunked
+
+[
+  {
+    "id" : "PeachCobbler",
+    "rev" : "1-eb8eafda1b60edecef37f7daa02baa9e",
+    "ok" : true
+  },
+  {
+    "id" : "LemonChicken",
+    "rev" : "4-51737756120a34de2d4981ab0f02c5a5",
+    "ok" : true
+  },
+{
+    "id" : "CinnamonCookies",
+    "rev" : "2-28df61cdda892ad3dd4339f2bce18463",
+    "ok" : true
+  }
+]
+</code></pre>
+
+<h2>GET /{db}/_changes</h2>
+
+<p>This request retrieves a sorted list of changes made to documents in the database, in time order of application, can be obtained from the database&#x2019;s _changes resource. Only the most recent change for a given document is guaranteed to be provided. For example if a document has had fields added, and then deleted, an API client checking for changes will not necessarily receive the intermediate state of added documents.</p>
+
+<p>This request can be used to listen for update and modifications to the database for post processing or synchronization. A continuously connected changes feed is a reasonable approach for generating a real-time log for most applications.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>This request does not have any required headers.</p>
+
+<p><strong>Query parameters</strong></p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>attachments</code></td>
+<td>Boolean</td>
+<td>Indicates whether to include the Base64-encoded content of attachments in the documents that are included when <code>include_docs</code> is true. this parameter is ignored when <code>include_docs</code> is false.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>att_encoding_info</code></td>
+<td>Boolean</td>
+<td>Indicates whether to include encoding information in attachment stubs when <code>include_docs</code> is true.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>conflicts</code></td>
+<td>Boolean</td>
+<td>Includes conflicts information in response. Ignored if include_docs isn&#x2019;t true.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>descending</code></td>
+<td>Boolean</td>
+<td>Return the change results in descending sequence order (most recent change first).</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>doc_ids</code></td>
+<td>array</td>
+<td>List of document IDs to filter the changes feed as valid JSON array. Used with <em>doc</em>ids filter.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>feed</code></td>
+<td>string</td>
+<td>Specifies type of change feed. Valid values: <code>normal</code>, <code>continuous</code>, <code>eventsource</code>, <code>longpoll</code>
+</td>
+<td><code>normal</code></td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td>string</td>
+<td>Reference to a filter function from a design document that will filter whole stream emitting only filtered events.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>heartbeat</code></td>
+<td>integer</td>
+<td>Period in milliseconds after which an empty line is sent in the results. Only applicable for longpoll or continuous feeds. Overrides any timeout to keep the feed alive indefinitely.</td>
+<td>60000</td>
+</tr>
+<tr>
+<td><code>include_docs</code></td>
+<td>Boolean</td>
+<td>Indicates whether to include the associated document with each result. f there are conflicts, only the winning revision is returned.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>last-event-id</code></td>
+<td>integer</td>
+<td>Alias for the <code>Last-Event-ID</code> header.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>integer</td>
+<td>Limits the number of result rows to the specified value. Using a value of 0 has the same effect as the value 1.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>since</code></td>
+<td>integer</td>
+<td>Starts the results from the change immediately after the given sequence number. The value can be an integer or a row value.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>style</code></td>
+<td>string</td>
+<td>Number of revisions to return in the <code>changes</code> array. <code>main_only</code> returns the current winning revision, <code>all_docs</code> returns all leaf revisions including conflicts and deleted former conflicts.</td>
+<td><code>main_only</code></td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td>integer</td>
+<td>Maximum period in milliseconds to wait for a change before the response is sent, even if there are no results. Only applicable for <code>longpoll</code> or <code>continuous</code> feeds. The default value is specified by the httpd/changes_timeout configuration option. If not specified, the default maximum timeout is used to prevent undetected dead connections.</td>
+<td>60000</td>
+</tr>
+<tr>
+<td><code>view</code></td>
+<td>string</td>
+<td>Name of a view function to use as a filter</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Message body</strong></p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Request completed successfully</li>
+<li>400 Bad Request &#x2013; Bad request</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<p>This response uses only standard HTTP headers.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>The response message body contains a JSON document with the following objects;</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>last_seq</code></td>
+<td>integer</td>
+<td>Last change sequence number</td>
+</tr>
+<tr>
+<td><code>results</code></td>
+<td>array</td>
+<td>List of changes to the database. See the following table for a list of fields in this object.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>results</code> array contains the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>changes</code></td>
+<td>array</td>
+<td>List of the document's leafs. Each leaf object contains one field, <code>rev</code>.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Document identifier</td>
+</tr>
+<tr>
+<td><code>seq</code></td>
+<td>Update sequence number</td>
+<td/>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>The following example requests the changes to the database named <code>cookbook</code> and specifies that only two rows be included in the response:</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>GET /cookbook/_changes?limit=2 HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: must-revalidate
+Content-Type: application/json
+Date: Mon, 16 Dec 2013 21:09:35 GMT
+Etag: "13"
+Server: CouchbaseLite 1.486
+Transfer-Encoding: chunked
+
+{
+  "results" : [
+    {
+      "seq" : 1,
+      "id" : "A329CFEC-29E8-4DCF-BB49-EFCE8CD6B212",
+      "changes" : [
+        {
+          "rev" : "1-afbf905396a144446feb2431c37065f9"
+        }
+      ]
+    },
+    {
+      "seq" : 2,
+      "id" : "209BB170-C1E0-473E-B3C4-A4533ACA3CDD",
+      "changes" : [
+        {
+          "rev" : "1-ed0ebedd2fab89227b352f6455a08010"
+        }
+      ]
+    }
+  ],
+  "last_seq" : 2
+}
+</code></pre>
+
+<h2>POST /{db}/_compact</h2>
+
+<p>This request compacts the database. Compaction compresses the disk database file by performing the following operations:</p>
+
+<ul>
+<li><p>Writes a new, optimized version of the database file. Unused sections are removed from the new version during write. Because a new file is temporarily created for this purpose, up to twice the current storage space of the specified database is required for the compaction routine to complete.</p></li>
+<li><p>Removes old revisions of documents from the database, up to the per-database limit specified by the <em>revs</em>limit database parameter.</p></li>
+</ul>
+<p>The compaction process runs as a background process.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>This request does not have any required headers.</p>
+
+<p><strong>Query parameters</strong></p>
+
+<p>This request does not use query parameters.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>This request does not use a message body.</p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>202 Accepted &#x2013; Compaction request has been accepted</li>
+<li>400 Bad Request &#x2013; Invalid database name</li>
+<li>401 Unauthorized &#x2013; Administrator privileges required</li>
+<li>415 Unsupported Media Type &#x2013; Bad Content-Type value</li>
+</ul>
+<p><strong>Response headers</strong></p>
+
+<p>This response uses only standard HTTP headers.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>The response contains a JSON document that contains some of the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td>String</td>
+<td>Error message</td>
+</tr>
+<tr>
+<td><code>ok</code></td>
+<td>Boolean</td>
+<td>Indicates whether the operation was successful</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Integer</td>
+<td>HTTP error code</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p>The following example requests the database named  <code>cookbook</code>  to be compacted.</p>
+
+<p><strong>Request</strong></p>
+
+<pre><code>POST /cookbook/_compact HTTP/1.1
+Host: localhost:59840
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>HTTP/1.1 202 Accepted
+Accept-Ranges: bytes
+Content-Length: 18
+Content-Type: application/json
+Date: Mon, 16 Dec 2013 17:22:34 GMT
+Server: CouchbaseLite 1.486
+
+{
+  "ok" : true
+}
+</code></pre>
+
+<h2>POST /{db}/_purge</h2>
+
+<p>This request permanently removes references to specified deleted documents from the database. </p>
+
+<p>Deleting a document does not remove the document from the database&#x2014; that just marks it as deleted and creates a new revision to ensure that deleted documents can be replicated to other databases as having been deleted. This also means that you can check the status of a document and determine that the document has been deleted by its absence.</p>
+
+<p>Purging documents does not remove the space used by them on disk. To reclaim disk space, run a database compact (see /db/<em>compact) or compact views (see /db/</em>compact/design-doc) request.</p>
+
+<div class="notebox warning">
+<p>Warning</p>
+<p>Avoid using <code>POST/db/_purge</code> requests because they can have unanticipated side effects.</p>
+</div>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p>This request does not have any required headers.</p>
+
+<p><strong>Query parameters</strong></p>
+
+<p>This request does not use query parameters.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>The request message body is a JSON document that contains an object in which the key is a document identifier and the value is a list of the revision identifiers.</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>not applicable</td>
+<td>object</td>
+<td>An object that represents the document to be purged. The key is the document identifier and the value is an array that contains identifiers of the revisions to be purged.</td>
+</tr></tbody>
+</table>
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<ul>
+<li>200 OK &#x2013; Request completed successfully</li>
+<li>400 Bad Request &#x2013; Invalid database name or JSON payload<br>
+</br>
+<li>415 Unsupported Media Type &#x2013; Bad Content-Type value</li>
+</li>
+<p><strong>Response headers</strong></p>
+
+<p>This response uses only standard HTTP headers.</p>
+
+<p><strong>Message body</strong></p>
+
+<p>The response message body contains the following objects:</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>purge_seq</code></td>
+<td>integer</td>
+<td>Purge sequence number</td>
+</tr>
+<tr>
+<td><code>purged</code></td>
+<td>object</td>
+<td>An object that represents the purged document. The key is the document identifier and the value is an array that contains identifiers of the purged revisions.</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+
+<p><strong>Request</strong></p>
+
+<pre><code>POST /cookbook/_purge HTTP/1.1
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<h2>POST /{db}/<em>temp</em>view</h2>
+
+<p>Executes a temporary view function for all documents and returns the result.</p>
+
+<h3>Request</h3>
+
+<p><strong>Request headers</strong></p>
+
+<p><strong>Query parameters</strong></p>
+
+<p><strong>Message body</strong></p>
+
+<h3>Response</h3>
+
+<p><strong>Status codes</strong></p>
+
+<p><strong>Response headers</strong></p>
+
+<p><strong>Message body</strong></p>
+
+<h3>Example</h3>
+
+<p><strong>Request</strong></p>
+
+<pre><code>POST /cookbook/_temp_view
+</code></pre>
+
+<p><strong>Response</strong></p>
+</ul></br></p></br></br></p></br></p></doc>

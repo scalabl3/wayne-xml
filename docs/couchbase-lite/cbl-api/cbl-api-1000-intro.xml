@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Introduction</h1>
+
+<p>This reference manual provides information for developers who want to use the Couchbase Lite REST API to develop apps for mobile devices. To get an overview of Couchbase Lite, read the <a href="/couchbase-lite/cbl-concepts/">Couchbase Lite Concepts Guide</a>.</p>
+
+<div class="notebox">
+<p>Work In Progress</p>
+<p>The Couchbase Lite REST API Reference is a work in progress. All the APIs that Couchbase Lite supports are listed in this document, but some of them are not  documented yet.</p>
+<p>If you want to help fill in the gaps, please feel free to fork the <a href="https://github.com/couchbaselabs/docs-ng">official Couchbase documentation repository</a> on GitHub, make documentation updates in your fork, and then send a pull request.</p>
+<p>If you have questions about the REST API, please ask them on the <a href="https://groups.google.com/forum/#!forum/mobile-couchbase"> Couchbase Mobile mailing list</a>.</p>
+</div>
+
+<h2>Resource Groups</h2>
+
+<p>The REST API enables you to interact with all of your database resources. The Couchbase Lite REST API is divided into the following logical groups of resources:</p>
+
+<table>
+<thead><tr>
+<th>Resource Group</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="#database-resources">Database</a></td>
+<td>APIs that operate on the whole database</td>
+</tr>
+<tr>
+<td><a href="#document-resources">Document</a></td>
+<td>APIs that operate on individual documents</td>
+</tr>
+<tr>
+<td><a href="#local-document-resources">Local Document</a></td>
+<td>APIs that operate on local documents that are not replicated</td>
+</tr>
+<tr>
+<td><a href="#design-document-resources">Design Document</a></td>
+<td>APIs that operate on design documents (for views)</td>
+</tr>
+<tr>
+<td><a href="#server-resources">Server</a></td>
+<td>APIs that operate on the database host server</td>
+</tr>
+<tr>
+<td><a href="#authentication-resources">Authentication</a></td>
+<td>APIs that operate on session and authentication data</td>
+</tr>
+</tbody>
+</table>
+<h2>HTTP requests and responses</h2>
+
+<p>The Couchbase Lite REST API uses the <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">Hypertext Transfer Protocol (HTTP)</a>. Each API is an HTTP request. For each HTTP request that you send, you receive an HTTP response. HTTP requests consist of a request line, header lines, and a message body. HTTP responses consist of a status line, header lines, and a message body. </p>
+
+<p>The message body for both the HTTP requests and HTTP responses is formatted as a JSON document. To learn more about JSON, check out <a href="http://json.org">JSON.org</a> or the <a href="http://www.w3schools.com/json/">W3Schools JSON Tutorial</a>.</p>
+
+<p>The examples in this document are shown in the basic HTTP format.</p>
+
+<p>The following table lists some of the status codes returned by Couchbase Lite:</p>
+
+<table>
+<thead><tr>
+<th>HTTP Status Code</th>
+<th>Returned String</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created</td>
+</tr>
+<tr>
+<td>202</td>
+<td>Accepted</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad data encoding</td>
+</tr>
+<tr>
+<td>400</td>
+<td>bad_request</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Invalid attachment</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Invalid database/document/revision ID</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Invalid JSON</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Invalid parameter in HTTP query or JSON body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>unauthorized</td>
+</tr>
+<tr>
+<td>403</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Attachment not found</td>
+</tr>
+<tr>
+<td>404</td>
+<td>deleted</td>
+</tr>
+<tr>
+<td>404</td>
+<td>not_found</td>
+</tr>
+<tr>
+<td>406</td>
+<td>not_acceptable</td>
+</tr>
+<tr>
+<td>409</td>
+<td>conflict</td>
+</tr>
+<tr>
+<td>412</td>
+<td>file_exists</td>
+</tr>
+<tr>
+<td>415</td>
+<td>bad<em>content</em>type</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Application callback block failed</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Attachment store error</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Database error!</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Database locked</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal error</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Invalid data in database</td>
+</tr>
+<tr>
+<td>502</td>
+<td>Invalid response from remote replication server</td>
+</tr>
+</tbody>
+</table>
+<h2>Notation Conventions</h2>
+
+<p>Within the paths of the URIs presented in this reference manual:</p>
+
+<ul>
+<li><p>Path segments that start with an underscore character are static components of the URI that you use exactly as given. For example: <code>_replicate</code>.</p></li>
+<li><p>Path segments that are not preceded by an underscore character represent variables that you replace with your own value. These variables are usually enclosed in brackets as a reminder. For example: <code>{db}</code> or <code>&lt;db&gt;</code>.</p></li>
+</ul>
+<p>For example, suppose you have a database named cookbook. In the database, the IDs for recipes start with the string "recipe" and IDs for design documents start with the string "ddoc". The following table shows examples of values you might use for the URI path in the request that you send to the database:</p>
+
+<table>
+<thead><tr>
+<th>Path</th>
+<th>Sample value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>/&lt;db&gt;</code></td>
+<td><code>/cookbook</code></td>
+</tr>
+<tr>
+<td><code>/&lt;db&gt;/_changes</code></td>
+<td><code>/cookbook/_changes</code></td>
+</tr>
+<tr>
+<td><code>/&lt;db&gt;/&lt;doc&gt;</code></td>
+<td><code>/cookbook/recipe123</code></td>
+</tr>
+<tr>
+<td><code>/&lt;db&gt;/_design/&lt;design-doc&gt;</code></td>
+<td><code>/cookbook/_design/ddoc456</code></td>
+</tr>
+<tr>
+<td><code>/_replicate</code></td>
+<td><code>/_replicate</code></td>
+</tr>
+</tbody>
+</table>
+</doc>

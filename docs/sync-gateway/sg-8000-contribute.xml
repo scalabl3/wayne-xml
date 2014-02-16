@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Contributing</h1>
+
+<p>The Sync Gateway code is available on GitHub: <a href="https://github.com/couchbase/sync_gateway">https://github.com/couchbase/sync_gateway</a>.</p>
+
+<h2>Building From Source</h2>
+
+<p>To build Sync Gateway from source, you must have <a href="http://golang.org">Go</a> 1.2 or later installed on your computer. </p>
+
+<p>On Mac or Unix systems, you can build Sync Gateway from source as follows:</p>
+
+<ol>
+<li><p>Open a terminal window and change to the directory that you want to store Sync Gateway in.</p></li>
+<li>
+<p>Clone the Sync Gateway GitHub repository:</p>
+
+<pre><code>$ git clone https://github.com/couchbase/sync_gateway.git
+</code></pre>
+</li>
+<li>
+<p>Change to the <strong>sync_gateway</strong> directory:</p>
+
+<pre><code>$ cd sync_gateway
+</code></pre>
+</li>
+<li>
+<p>Set up the submodules:</p>
+
+<pre><code>$ git submodule init
+$ git submodule update
+</code></pre>
+</li>
+<li>
+<p>Build Sync Gateway:</p>
+
+<pre><code>$ ./build.sh
+</code></pre>
+</li>
+</ol>
+<p>Sync Gateway is a standalone, native executable located in the <strong>./bin</strong> directory. You can run the executable from the build location or move it anywhere you want.</p>
+
+<p>To update your build later, pull the latest updates from GitHub, update the submodules, and run <code>./build.sh</code> again.</p>
+</doc>

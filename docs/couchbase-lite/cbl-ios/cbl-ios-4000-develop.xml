@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Developing Apps</h1>
+
+<p>This section shows how to use the native Objective-C API for common tasks. For detailed information about the native API, see the <a href="http://couchbase.github.io/couchbase-lite-ios/docs/html/index.html">Couchbase Lite Objective-C API Reference Manual</a>.</p>
+</doc>

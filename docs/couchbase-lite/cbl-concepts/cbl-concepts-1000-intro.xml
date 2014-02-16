@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Introduction</h1>
+
+<p>This guide provides a platform-independent overview of Couchbase Lite that  focuses on what it is is and how it works with your data.</p>
+
+<p><strong>Couchbase Lite</strong> is a lightweight, document-oriented (NoSQL), syncable database engine suitable for embedding into mobile apps.</p>
+
+<p><strong>Lightweight</strong> means:</p>
+
+<ul>
+<li>Embedded&#x2014;the database engine is a library linked into the app, not a separate server process.</li>
+<li>Small code size&#x2014;important for mobile apps, which are often downloaded over cell networks.</li>
+<li>Quick startup time&#x2014;important because mobile devices have relatively slow CPUs.</li>
+<li>Low memory usage&#x2014;typical mobile data sets are relatively small, but some documents might have large multimedia attachments.</li>
+<li>Good performance&#x2014;exact figures depend on your data and application, of course.</li>
+</ul>
+<p><strong>Document-oriented</strong> means:</p>
+
+<ul>
+<li>Stores records in flexible <a href="http://json.org">JSON</a> format instead of requiring predefined schemas or normalization.</li>
+<li>Documents can have arbitrary-sized binary attachments, such as multimedia content.</li>
+<li>Application data format can evolve over time without any need for explicit migrations.</li>
+<li>MapReduce indexing provides fast lookups without needing to use special query languages.</li>
+</ul>
+<p><strong>Syncable</strong> means:</p>
+
+<ul>
+<li>Any two copies of a database can be brought into sync via an efficient, reliable, proven replication algorithm.</li>
+<li>Sync can be on-demand or continuous (with a latency of a few seconds).</li>
+<li>Devices can sync with a subset of a large database on a remote server.</li>
+<li>The sync engine supports intermittent and unreliable network connections.</li>
+<li>Conflicts can be detected and resolved, with app logic in full control of merging.</li>
+<li>Revision trees allow for complex replication topologies, including server-to-server (for multiple data centers) and peer-to-peer, without data loss or false conflicts.</li>
+</ul>
+<p>Couchbase Lite provides native APIs for seamless  iOS (Objective-C) and Android (Java) development. </p>
+
+<p>In addition, it includes the Couchbase Lite Plug-in for PhoneGap, which enables you to build iOS and Android apps that you develop by using familiar web-application programming techniques and the <a href="http://phonegap.com">PhoneGap mobile development framework</a>.</p>
+
+<h2>Features</h2>
+
+<p>Major features of Couchbase Lite:</p>
+
+<ul>
+<li>
+<strong>JSON-based</strong>. Every document is a <a href="http://json.org">JSON</a> object consisting of freeform key-value pairs. The values can contain arrays or even nested objects.This lets you structure your data in a way that's natural to your app, without having to deal with complex data normalization or joins.</li>
+<li>
+<strong>Schemaless</strong>. This means that you don't have to define a rigid data layout beforehand, and later go through complex migrations if you need to update it. Data layout is somewhat freeform, and records, called <em>documents</em>, can have different structures. A sophisticated MapReduce query engine enables you to perform efficient queries, even on large data sets, regardless of how you structure the data in your documents.</li>
+<li>Provides <strong>native, object-oriented APIs for iOS and Android devices</strong> that integrate with your app framework. These APIs can map database documents to your own native object model, let you work directly with JSON structures, or both. Additionally, apps built with web technologies can use the Couchbase Lite REST API (for example, Javascript, C#, or Python applications).</li>
+<li>Supports <strong>replication</strong> with compatible database servers.  This gives your app best-of-breed sync capabilities. Not only can the user's data stay in sync across multiple devices, but multiple users' data can be synced together.</li>
+<li>Supports <strong>peer-to-peer replication</strong>. By adding an extra HTTP listener component, your app can accept connections from other devices running Couchbase Lite and exchange data with them.
+
+<ul>
+<li>Supports <strong>low-latency</strong> and even <strong>offline</strong> access to data. In contrast with the frequent network request and response cycle of a traditional networked app, you work primarily with local data. This means your app remains responsive whether it's on WiFi, a slow cell network, or offline. The user can even modify data while offline, and it'll be synced to the server as soon as possible.</li>
+</ul>
+</li>
+</ul>
+<h2>Why Use Couchbase Lite?</h2>
+
+<p>The world has gone mobile&#x2014;both businesses and consumers have leapt on the bandwagon. By using Couchbase Lite, you can provide your customers with a seamless mobile experience.</p>
+
+<p>Businesses are moving to mobile solutions to provide better customer experiences and operate their businesses more efficiently.</p>
+
+<p>Today's consumers rely on mobile apps to organize their lives and keep up with family and friends. They have smartphones <em>and</em> tablets. They want to keep their data synched between multiple devices <em>and</em> multiple people. For example, all members of a family could use an app that helps them coordinate schedules and shopping lists.</p>
+
+<h3>JSON Anywhere</h3>
+
+<p>By using flexible JSON documents rather than a rigid schema, your database can evolve over time without impacting the user experience. Your users can count on having an amazing app experience with a fast and unbreakable local database.</p>
+
+<p>Couchbase Lite provides an ultra-lightweight, reliable, secure JSON database built for all your online and offline mobile application needs.</p>
+
+<h3>Easy Sync</h3>
+
+<p>Couchbase Lite provides a sync solution that already works. It's easy to set up, easy to manage, and easy to scale. Data syncing is crucial for mobile apps because it:</p>
+
+<ul>
+<li><p>Lets users work with their data on multiple devices, from phones to desktop computers.</p></li>
+<li><p>Lets groups of users collaborate on shared data.</p></li>
+<li><p>Lets companies update data sets (whether corporate databases or restaurant directories) in one central place and have the updates delivered efficiently to clients.</p></li>
+<li><p>Makes apps more responsive, and even lets users work offline, by <em>taking network I/O out of the critical path</em>. The app's UI operates on local data, and syncing runs in the background.</p></li>
+</ul>
+<p>However, syncing is very difficult to implement properly. It requires special metadata (like vector clocks or revision trees), has to handle network partition and data conflicts, and its algorithms have to work incrementally and be highly failure-tolerant. Some mobile developers have waded into ad-hoc sync implementations and found themselves in over their heads, with delayed or canceled products. Couchbase Lite has sync compatibility with a solution that already works, Couchbase Sync Gateway. </p>
+
+<h3>Use Cases</h3>
+
+<p>We've been working with community users and customers on use cases like these:</p>
+
+<ul>
+<li><p>Medical Records&#x2014;medical data is a great fit for schemaless JSON storage. It's also critical that it be available wherever the health care provider goes, regardless of network conditions.</p></li>
+<li><p>Customer Loyalty and Point of Sale&#x2014;we see a lot of these apps already using our sync technology, and we've been working with some developers closely to ensure a smooth ride.</p></li>
+<li><p>Airline&#x2014;pilots and flight attendants benefit from having easy access to data about passengers and flight plans, with the ability to dynamically refresh the data when they are on the ground.</p></li>
+<li><p>Fleet Management&#x2014;tracking vehicle telemetry and routing it to the cloud when connections are available is a great fit for Couchbase Mobile.</p></li>
+<li><p>Social Media&#x2014;chat and game companies often take a portfolio approach. By offloading the details of pushing data across mobile networks, they can focus on rolling out compelling content that uses a common backbone.</p></li>
+</ul>
+</doc>

@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Design Document Resources</h1>
+
+<p>Design document resources enable you to create and modify views. The following table lists the design document resources.</p>
+
+<table>
+<thead><tr>
+<th>HTTP Method</th>
+<th>URI pattern</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/{db}/_design/{design-doc}</code></td>
+<td>Creates or updates a design document</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{db}/_design/{design-doc}</code></td>
+<td>Retrieves a design document</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/{db}/_design/{design-doc}</code></td>
+<td>Deletes a design document</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{db}/_design/{design-doc}/{attachment}</code></td>
+<td>Retrieves a design document attachment</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/{db}/_design/{design-doc}/{attachment}</code></td>
+<td>Uploads a design document attachment</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/{db}/_design/{design-doc}/{attachment}</code></td>
+<td>Deletes a design document attachment</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{db}/_design/{design-doc}/_view/{view-name}</code></td>
+<td>Retrieves all results of a view</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/{db}/_design/{design-doc}/_view/{view-name}</code></td>
+<td>Retrieves specified rows from a view</td>
+</tr>
+</tbody>
+</table>
+<h2>PUT /{db}/_design/{design-doc}</h2>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+
+<h2>GET /{db}/_design/{design-doc}</h2>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+
+<h2>DELETE /{db}/_design/{design-doc}</h2>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+
+<h2>GET /{db}/_design/{design-doc}/{attachment}</h2>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+
+<h2>PUT /{db}/_design/{design-doc}/{attachment}</h2>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+
+<h2>DELETE /{db}/_design/{design-doc}/{attachment}</h2>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+
+<h2>GET /{db}/<em>design/{design-doc}/</em>view/{view-name}</h2>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+
+<h2>POST /{db}/<em>design/{design-doc}/</em>view/{view-name}</h2>
+
+<h3>Request</h3>
+
+<h3>Response</h3>
+
+<h3>Example</h3>
+</doc>

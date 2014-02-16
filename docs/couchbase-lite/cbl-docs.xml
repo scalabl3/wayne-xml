@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+<p style="font: xx-large bold;color:tomato">Couchbase Lite Documentation</p>
+
+<hr>
+<p><a href="cbl-concepts">Concepts Guide</a>  <span style="color:tomato">Read Me First!</span></p>
+
+<hr>
+<p><a href="cbl-ios">iOS Developer Guide</a></p>
+
+<p><a href="http://www.couchbase.com/autodocs/couchbase-lite-ios-latest/annotated.html">iOS API Reference</a></p>
+
+<hr>
+<p><a href="cbl-android/cbl-android-1.0b2/">Android Developer Guide</a></p>
+
+<p><a href="http://www.couchbase.com/autodocs/couchbase-lite-android-latest/index.html">Android API Reference</a></p>
+
+<hr>
+<p><a href="cbl-phonegap">PhoneGap Plug-in Guide</a></p>
+
+<hr>
+<p><a href="cbl-api">REST API Reference</a></p>
+
+<hr>
+<p><a href="/sync-gateway">Sync Gateway Guide</a>  </p>
+
+<hr>
+</hr></hr></hr></hr></hr></hr></hr></doc>

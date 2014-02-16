@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Release Notes</h1>
+
+<h2>1.0 Beta (13 September 2013)</h2>
+
+<p>This is the Beta release of Couchbase Lite Android 1.0. </p>
+
+<p>Couchbase Lite is an ultra-lightweight, reliable, secure JSON database built for all your online and offline mobile application needs. This version features REST APIs, JSON support, and sync capability. </p>
+
+<p>The beta release is available to all community-edition customers.</p>
+
+<h3>Features</h3>
+
+<ul>
+<li><p><strong>REST APIs</strong>&#x2014;REST APIs provide an alternative access method based on your development needs.</p></li>
+<li><p><strong>JSON support</strong>&#x2014;Use a flexible data model designed for mobile object-oriented apps. Adapt to your application needs with immediacy and little impact.</p></li>
+<li><p><strong>Easy sync with Couchbase Sync Gateway</strong>&#x2014;Get sync-ready with just a few lines of code. Focus on application development, not syncing.</p></li>
+<li><p><strong>Peer-to-peer support via REST APIs</strong>&#x2014;Communicate with nearby devices, even offline, with our REST API-enabled P2P support.</p></li>
+</ul>
+<h3>Fixes</h3>
+
+<p>None.</p>
+
+<h3>Known Issues</h3>
+
+<ul>
+<li>
+<p>Changes Feed</p>
+
+<p>Change Tracker is not using streaming JSON parser for parsing the changes feed for continuous replications.</p>
+
+<p>Issue: #97</p>
+</li>
+<li>
+<p>REST APIs</p>
+
+<p>Saving large documents with REST often returns an HTTP error 400 due to an incorrect check stop in a method. The method checks to see if there is data to be read in the InputStream, rather than checking whether the stream is empty. </p>
+
+<p>Issue: #95</p>
+</li>
+<li>
+<p>Attachment support on device and in the cloud</p>
+
+<p>Updates to documents with attachments are resending attachments even when the attachment data hasn't been updated. This causes performance issues.</p>
+
+<p>Issue: #66</p>
+</li>
+</ul>
+</doc>

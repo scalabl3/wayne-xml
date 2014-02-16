@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+<h2>Sync REST API</h2>
+
+<p>You use the Sync REST API to synchronize a local database with a remote database. The sync takes place over HTTP and uses JSON documents in the message bodies. For more information about the synchronization protocol, see <a href="https://github.com/couchbase/couchbase-lite-ios/wiki/Replication-Algorithm">Replication Algorithm</a>. You can also see the <a href="https://github.com/couchbase/sync_gateway/blob/master/src/github.com/couchbaselabs/sync_gateway/rest/routing.go">URL mappings in the Sync Gateway source code</a>.</p>
+
+<p>To access the Sync REST API, you need to have a user account.</p>
+
+<h3>HTTP Requests</h3>
+
+<p>You can use the following requests on the remote database. Replace <em>db</em> with the dame of your database.</p>
+
+<p><strong>Push or Pull Requests:</strong></p>
+
+<ul>
+<li><p>Read the last checkpoint<br>
+    GET /<em>db</em>/_local/<em>checkpointid</em></br></p>
+<li><p>Save a new checkpoint<br>
+    PUT /<em>db</em>/_local/<em>checkpointid</em></br></p>
+</li>
+<p><strong>Push Requests:</strong></p>
+
+<ul>
+<li><p>Create remote database<br>
+    PUT /<em>db</em></br></p>
+<li><p>Find revisions that are not known to the remote database<br>
+    POST /<em>db</em> /<em>revs</em>diff</br></p>
+<li><p>Upload revisions<br>
+    POST /<em>db</em>/<em>bulk</em>docs</br></p>
+<li><p>Upload a single document with attachments<br>
+    PUT /<em>db</em>/<em>docid</em>?new_edits=false</br></p>
+</li>
+<p><strong>Pull Requests:</strong></p>
+
+<ul>
+<li><p>Find changes since the last pull (<em>feed</em> can be normal or longpoll)<br>
+    GET /<em>db</em>/<em>changes?style=all</em>docsfeed=<em>feed</em>since=<em>since</em>limit=<em>limit</em>heartbeat=<em>heartbeat</em></br></p>
+<li><p>Download a single document with attachments<br>
+    GET /<em>db</em>/<em>docid</em>?rev=<em>revid</em>revs=trueattachments=trueatts_since=<em>lastrev</em> </br></p>
+<li><p>Download first-generation revisions in bulk<br>
+POST /<em>db</em>/<em>all</em>docs?include_docs=true</br></p>
+</li>
+</li></li></ul></li></li></li></ul></li></ul></doc>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Introduction</h1>
+
+<p>This guide provides information for developers who want to use Couchbase Lite to develop apps for Android devices. To learn about Couchbase Lite, read the <a href="">Couchbase Lite Concepts Guide</a>.</p>
+
+<p>This guide assumes you are familiar with developing software for Android devices. If you are new to Android development, take a look at the  <a href="http://developer.android.com/training/index.html">training classes for Android developers</a> available on the Android website before beginning to work with Couchbase Lite.</p>
+</doc>

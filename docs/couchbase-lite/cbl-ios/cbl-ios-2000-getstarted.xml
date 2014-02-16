@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<doc>
+<h1>Getting Started</h1>
+
+<p>This section contains the information you need to start developing iOS apps with Couchbase Lite. It lists the system requirements, shows how to build a sample app, and explains how to add the Couchbase Lite iOS framework to your project.</p>
+
+<h2>System Requirements</h2>
+
+<p>To develop Couchbase Lite apps for iOS, you need:</p>
+
+<ul>
+<li><a href="http://www.couchbase.com/communities/couchbase-lite">Couchbase Lite for iOS</a></li>
+<li><a href="https://developer.apple.com/xcode/index.php">Xcode 4.6 or later</a></li>
+<li>iOS SDK 6.0 or later</li>
+</ul>
+<h2>Getting Started in 5 Minutes</h2>
+
+<p>This section shows you how to download and build a sample app named ToDo Lite. ToDo Lite is a shared to-do list app that demonstrates many Couchbase Lite features.</p>
+
+<h3>Before You Begin</h3>
+
+<p>Before you can build the ToDo Lite app, make sure you have the following tools installed on your computer. You might already have  some of them installed.</p>
+
+<ol>
+<li><p>Download <a href="https://developer.apple.com/xcode/">Xcode</a>.</p></li>
+<li><p>Download <a href="http://www.couchbase.com/communities/couchbase-lite">Couchbase Lite for iOS</a> and move it to a permanent location.</p></li>
+<li><p>Download and install <a href="http://git-scm.com">Git</a>.</p></li>
+</ol>
+<h3>Building Todo Lite</h3>
+
+<p>To build the Todo Lite app:</p>
+
+<ol>
+<li>
+<p>Open the Terminal application.</p>
+
+<p>Terminal is usually located in the <strong>Applications/Utilities</strong> folder.</p>
+</li>
+<li>
+<p>Change to the directory that you want to store the ToDo Lite app in. For example:</p>
+
+<pre><code class="sh">$ cd ~/dev
+</code></pre>
+</li>
+<li>
+<p>Clone the Todo Lite app:</p>
+
+<pre><code class="sh">$ git clone https://github.com/couchbaselabs/ToDoLite-iOS.git
+</code></pre>
+</li>
+<li><p>In the downloaded Couchbase Lite for iOS folder, find the <strong>CouchbaseLite.framework</strong> folder.</p></li>
+<li><p>Copy the <strong>CouchbaseLite.framework</strong> folder to the <strong>Frameworks</strong> folder inside the <strong>ToDoLite-iOS</strong> folder.</p></li>
+<li><p>In Xcode, select an iOS simulator build scheme.</p></li>
+<li>
+<p>Click <strong>Run</strong>.</p>
+
+<p>The ToDo Lite app opens in the iOS simulator.</p>
+</li>
+</ol>
+<h2>Adding Couchbase Lite To Your App</h2>
+
+<p>To add Couchbase Lite to your own app, you need to add the Couchbase Lite framework and other frameworks to your target and modify the build options, and then initialize Couchbase Lite in your app.</p>
+
+<p><strong>To add the frameworks:</strong> </p>
+
+<ol>
+<li><p>Download the <a href="http://www.couchbase.com/communities/couchbase-lite">latest release of Couchbase Lite for iOS</a> and move it to a permanent location.</p></li>
+<li><p>From the <strong>Couchbase Lite</strong> folder, drag the <strong>CouchbaseLite.framework</strong> folder to the <strong>Frameworks</strong> group in the Xcode Project Navigator.</p></li>
+<li><p>In the <strong>Choose options for adding these files</strong> sheet, make sure that your app target is selected.</p></li>
+<li><p>Open the project editor for your app target and click the <strong>Build Settings</strong> tab.</p></li>
+<li><p>In the <strong>Linking</strong> section, on the <strong>Other Linker Flags</strong> row, add the flag <code>-ObjC</code> (be sure to use the capitalization shown).</p></li>
+<li><p>Click the <strong>Build Phases</strong> tab.</p></li>
+<li>
+<p>In the <strong>Link Binary With Libraries</strong> section, click <strong>+</strong> and add the following items:</p>
+
+<ul>
+<li><code>CFNetwork.framework</code></li>
+<li><code>Security.framework</code></li>
+<li><code>SystemConfiguration.framework</code></li>
+<li><code>libsqlite3.dylib</code></li>
+<li><code>libz.dylib</code></li>
+</ul>
+</li>
+<li><p>Build your app to make sure there are no errors.</p></li>
+</ol>
+<p><strong>To initialize Couchbase Lite in your app:</strong></p>
+
+<p>You initialize Couchbase Lite in your app delegate, which is usually named <strong><em>YourPrefix</em>AppDelegate</strong>, as follows:</p>
+
+<ol>
+<li>
+<p>In the app delegate header file, add the following import directive:  </p>
+
+<pre><code>#import &lt;CouchbaseLite/CouchbaseLite.h&gt;
+</code></pre>
+</li>
+<li>
+<p>In the app delegate header file, add the following property declaration:  </p>
+
+<pre><code>@property (strong, nonatomic) CBLDatabase *database;
+</code></pre>
+</li>
+<li>
+<p>In the app delegate implementation file, add the following code to the <strong>application:didFinishLaunchingWithOptions:</strong> method:  </p>
+
+<pre><code>// create a shared instance of CBLManager
+CBLManager *manager = [CBLManager sharedInstance];
+
+// create a database
+NSError *error;
+self.database = [manager createDatabaseNamed: @"my-database" error: &amp;error];
+</code></pre>
+
+<p>You should also add appropriate error checking code after each call. If either call fails, you might need to display an error message and exit.</p>
+
+<p>The legal characters for the database name are: lowercase letters [<code>a-z</code>], digits [<code>0-9</code>], and special characters [<code>$_()+-/</code>].</p>
+</li>
+</ol>
+</doc>

@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<doc>
+<h2>Channels</h2>
+
+<p>Sync Gateway uses <em>channels</em> to make it easy to share a database between a large number of users and control access to the database. Channels are the intermediaries between documents and users. Every document in the database belongs to a set of channels, and every user is allowed to access a set of channels. You use channels to:</p>
+
+<ul>
+<li>Partition the data set.</li>
+<li>Authorize users to access documents.</li>
+<li>Constrain the amount of data synced to mobile clients.</li>
+</ul>
+<p>A replication from Sync Gateway specifies a set of channels to replicate. Documents that do not belong to any of the specified channels are ignored (even if the user has access to them).</p>
+
+<p>You do not need to register or preassign channels. Channels come into existence as documents are assigned to them. Channels with no documents assigned to them are empty.</p>
+
+<p>Valid channel names consist of text letters [A&#x2013;Z, a&#x2013;z], digits [0&#x2013;9], and a few special characters [= + / . , _ @] . The empty string is not allowed. The special channel name <code>*</code> denotes all channels. Channel names are compared literally&#x2014;the comparison is case and diacritical sensitive.</p>
+
+<h3>Mapping documents to channels</h3>
+
+<p>You assign documents to channels either by adding a <code>channels</code> property to the document or by using a sync function. No matter which option you choose, the channel assignment is implicit&#x2014;the content of the document determines what channels it belongs to.</p>
+
+<h4>Using a Channels Property</h4>
+
+<p>Adding a <code>channels</code> property to each document is the easiest way to map documents to channels. The <code>channels</code> property is an array of strings that contains the names of the channels to which the document belongs. If you do not include a <code>channels</code> property in a document, the document does not appear in any channels.</p>
+
+<h4>Using a Sync Function</h4>
+
+<p>Creating a sync function is a more flexible way to map documents to channels. A <em>sync function</em> is a JavaScript function that takes a document body as input and, based on the document content, decides what channels to assign the document to. The sync function cannot reference any external state and must return the same results every time it's called on the same input.</p>
+
+<p>You specify the sync function in the configuration file for the database. Each sync function applies to one database.</p>
+
+<p>To add the current document to a channel, the sync function calls the special function <code>channel</code>, which takes one or more channel names (or arrays of channel names) as arguments. For convenience, <code>channel</code> ignores <code>null</code> or <code>undefined</code> argument values.</p>
+
+<p>Defining a sync function overrides the default channel mapping mechanism (the document's <code>channels</code> property is ignored). The default mechanism is equivalent to the following simple sync function:</p>
+
+<pre><code>function (doc) {
+    channel (doc.channels);
+}
+</code></pre>
+
+<h3>Replicating Channels to Couchbase Lite</h3>
+
+<p>if a client doesn't specify any channels to replicate, it gets all the channels to which its user account has access. Due to this behavior, most apps do not have to specify a channels filter&#x2014;instead they can just do the default sync configuration on the client (that is, specify the Sync Gateway database URL with no filter) to replicate the channels of interest.</p>
+
+<p>To replicate channels to Couchbase Lite, you configure the replication to use a filter named <code>sync_gateway/bychannel</code> with a filter parameter named <code>channels</code>. The value of the <code>channels</code> parameter is a comma-separated list of channels to fetch. The replication from Sync Gateway now pulls only documents tagged with those channels.</p>
+
+<p>A document can be removed from a channel without being deleted. For example, this can happen when a new revision is not added to one or more channels that the previous revision was in. Subscribers (downstream databases pulling from this database) should know about this change, but it's not exactly the same as a deletion.</p>
+
+<p>Sync Gateway's <code>_changes</code> feed includes one more revision of a document after it stops matching a channel. It adds a <code>removed</code> property to the entry where this happens. (No client yet recognizes this property, though.) The value of  the <code>removed</code> property is an array of strings where each string names a channel in which this revision no longer appears. Also, the body of the document appears to be empty to the client.</p>
+
+<p>The effect on the client is that after a replication it sees the next revision of the document (the one that causes it to no longer match the channel). It won't get any further revisions until the next one that makes the document match again.</p>
+
+<p>This algorithm ensures that any views running in the client do not include an obsolete revision. The app code should use views to filter the results rather than just assuming that all documents in its local database are relevant.</p>
+
+<p>If a user's access to a channel is revoked or a client stops syncing with a channel, documents that have already been synced are not removed from the user's device.</p>
+
+<h3>Authorizing User Access</h3>
+
+<p>The <code>all_channels</code> property of a <a href="#accounts">user account</a> determines which channels the user can access.  Its value is derived from the union of:</p>
+
+<ul>
+<li>The user's <code>admin_channels</code> property, which is settable via the admin REST API.</li>
+<li>The channels that user has been given access to by <code>access()</code> calls from sync functions invoked for current revisions of documents (see <a href="#programmatic-authorization">Programmatic Authorization</a>).</li>
+<li>The <code>all_channels</code> properties of all roles the user belongs to, which are themselves computed according to the above two rules.</li>
+</ul>
+<p>The only documents a user can access are those whose current revisions are assigned to one or more channels the user has access to:</p>
+
+<ul>
+<li>A GET request to a document not assigned to one or more of the user's available channels fails with a 403 error.</li>
+<li>The <code>_all_docs</code> property is filtered to return only documents that are visible to the user.</li>
+<li>The <code>_changes</code> property ignores requests (via the <code>channels</code> parameter) for channels not visible to the user.</li>
+</ul>
+<p>Write protection&#x2014;access control of document PUT or DELETE requests&#x2014;is done by document validation. This is handled in the sync function rather than a separate validation function.</p>
+
+<p>After a user is granted access to a new channel, the changes feed incorporates all existing documents in that channel, even those from earlier sequences than the client's <code>since</code> parameter. That way the next client pull retrieves all documents to which the user now has access.</p>
+
+<h4>Programmatic Authorization</h4>
+
+<p>Documents can grant users access to channels. This is done by writing a sync function that recognizes such documents and calls a special <code>access()</code> function to grant access.</p>
+
+<p>The <code>access()</code> function takes the following parameters:  a user name or array of user names and a channel name or array of channel names. For convenience, null values are ignored (treated as empty arrays).</p>
+
+<p>A typical example is a document that represents a shared resource (like a chat room or photo gallery). The document has a <code>members</code> property that lists the users who can access the resource. If the documents belonging to the resource are all tagged with a specific channel, then the following sync function can be used to detect the membership property and assign access to the users listed in it:</p>
+
+<pre><code>function(doc) {
+  if (doc.type == "chatroom") {
+    access (doc.members, doc.channel_id)
+  }
+}
+</code></pre>
+
+<p>In the example, a chat room is represented by a document with a <code>type</code> property set to <code>chatroom</code>. The <code>channel_id</code> property names the associated channel (with which the actual chat messages are tagged) and the <code>members</code> property lists the users who have access.</p>
+
+<p>The <code>access()</code> function can also operate on roles. If a user name string begins with <code>role:</code> then the remainder of the string is interpreted as a role name. There's no ambiguity here, because ":" is an illegal character in a user or role name.</p>
+
+<p>Because anonymous requests are authenticated as the user "GUEST", you can make a channel and its documents public by calling <code>access</code> with a username of <code>GUEST</code>.</p>
+
+<h4>Authorizing Document Updates</h4>
+
+<p>Sync functions can also authorize document updates. A sync function can reject the document by throwing an exception:</p>
+
+<pre><code>throw ({forbidden: "error message"})
+</code></pre>
+
+<p>A 403 Forbidden status and the given error string is returned to the client.</p>
+
+<p>To validate a document you often need to know which user is changing it, and sometimes you need to compare the old and new revisions. To get access to the old revision, declare the sync function like this:</p>
+
+<pre><code>function(doc, oldDoc) { ... }
+</code></pre>
+
+<p><code>oldDoc</code> is the old revision of the document (or empty if this is a new document). </p>
+
+<p>You can validate user privileges by using the helper functions: <code>requireUser</code>, <code>requireRole</code>, or <code>requireAccess</code>. Here's some examples of how you can use the helper functions:</p>
+
+<pre><code class="javascript">// throw an error if username is not "snej"
+requireUser("snej")
+
+// throw if username is not in the list
+requireUser(["snej", "jchris", "tleyden"]) 
+
+// throw an error unless the user has the "admin" role
+requireRole("admin") 
+
+// throw an error unless the user has one of those roles
+requireRole(["admin", "old-timer"]) 
+
+// throw an error unless the user has access to read the "events" channel
+requireAccess("events") 
+
+// throw an error unless the can read one of these channels
+requireAccess(["events", "messages"]) 
+</code></pre>
+
+<p>Here's a simple sync function that validates whether the user is modifying a document in the old document's <code>owner</code> list:</p>
+
+<pre><code class="javascript">function (doc, oldDoc) {
+  if (oldDoc) {
+    requireUser(oldDoc.owner); // may throw({forbidden: "wrong user"})
+  }
+}
+</code></pre>
+</doc>
