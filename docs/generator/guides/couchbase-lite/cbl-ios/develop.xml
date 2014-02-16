@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <guide xmlns:xi="http://www.w3.org/2001/XInclude">
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4000-develop.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4100-databases.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4200-documents.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4300-model-object.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4400-views-queries.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4500-replication.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4600-json.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4700-authenticate.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4800-async.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4900-rest.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-4999-grocery.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4000-develop.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4100-databases.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4200-documents.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4300-model-object.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4400-views-queries.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4500-replication.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4600-json.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4700-authenticate.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4800-async.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4900-rest.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-4999-grocery.xml" />
 </guide>

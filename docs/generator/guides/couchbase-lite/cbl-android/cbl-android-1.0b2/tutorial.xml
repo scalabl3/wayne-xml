@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <guide xmlns:xi="http://www.w3.org/2001/XInclude">
-    <xi:include href="../../../../../../couchbase-lite/cbl-android/cbl-android-1.0b2/cbl-android-tutorial.xml" />
-    <xi:include href="../../../../../../couchbase-lite/cbl-android/cbl-android-1.0b2/cbl-android-tutorial-studio.xml" />
-    <xi:include href="../../../../../../couchbase-lite/cbl-android/cbl-android-1.0b2/cbl-android-tutorial-eclipse.xml" />
+    <xi:include href="../../../../../src/couchbase-lite/cbl-android/cbl-android-1.0b2/cbl-android-tutorial.xml" />
+    <xi:include href="../../../../../src/couchbase-lite/cbl-android/cbl-android-1.0b2/cbl-android-tutorial-studio.xml" />
+    <xi:include href="../../../../../src/couchbase-lite/cbl-android/cbl-android-1.0b2/cbl-android-tutorial-eclipse.xml" />
 </guide>

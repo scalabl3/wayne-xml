@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <guide xmlns:xi="http://www.w3.org/2001/XInclude">
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-3000-tutorial.xml" />
-    <xi:include href="../../../../../couchbase-lite/cbl-ios/cbl-ios-3100-hello.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-3000-tutorial.xml" />
+    <xi:include href="../../../../src/couchbase-lite/cbl-ios/cbl-ios-3100-hello.xml" />
 </guide>
