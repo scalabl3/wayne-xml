@@ -10,6 +10,43 @@
 	<xsl:include href="util.xslt"/>
 	<xsl:include href="content.xslt"/>
 	
+	<xsl:template match="class">
+		<!-- Merge the docs.  This allows processing as one large doc irregardless of whether
+			 the docs are physically split (which is the way they are written). -->
+		<xsl:variable name="docs">
+			<xsl:for-each select="doc/*">
+				<xsl:copy-of select="."/>
+			</xsl:for-each>
+		</xsl:variable>
+		
+		<xsl:apply-templates select="$docs/h1">
+			<xsl:with-param name="level-1-element-name">class</xsl:with-param>
+			<xsl:with-param name="level-2-element-name">lesson</xsl:with-param>
+			<xsl:with-param name="level-3-element-name">task</xsl:with-param>
+			
+			<xsl:with-param name="level-2-property-name">classes</xsl:with-param>
+			<xsl:with-param name="level-3-property-name">lessons</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
+	
+	<xsl:template match="guide">
+		<!-- Merge the docs.  See 'class' for more info. -->
+		<xsl:variable name="docs">
+			<xsl:for-each select="doc/*">
+				<xsl:copy-of select="."/>
+			</xsl:for-each>
+		</xsl:variable>
+		
+		<xsl:apply-templates select="$docs/h1">
+			<xsl:with-param name="level-1-element-name">guide</xsl:with-param>
+			<xsl:with-param name="level-2-element-name">article</xsl:with-param>
+			<xsl:with-param name="level-3-element-name">topic</xsl:with-param>
+			
+			<xsl:with-param name="level-2-property-name">articles</xsl:with-param>
+			<xsl:with-param name="level-3-property-name">topics</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
+	
 	<xsl:template match="h1">
 		<xsl:param name="level-1-element-name" required="yes"/>
 		<xsl:param name="level-2-element-name" required="yes"/>
@@ -17,7 +54,7 @@
 		<xsl:param name="level-2-property-name" required="yes"/>
 		<xsl:param name="level-3-property-name" required="yes"/>
 		
-		<xsl:result-document href="{concat($output-directory, fn:create-id(.), '/guide.xml')}">
+		<xsl:result-document href="{concat($output-directory, fn:create-id(.), '/', $level-1-element-name, '.xml')}">
 			<xsl:element name="{$level-1-element-name}">
 				<xsl:attribute name="id" select="fn:create-id(.)"/>
 				<xsl:attribute name="title" select="."/>

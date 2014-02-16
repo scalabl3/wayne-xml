@@ -5,20 +5,20 @@
 # = Couchbase Lite =====
 
 # - Concepts -----------
-java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-concepts -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-concepts/
+java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-concepts -xsl:doc.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-concepts/
 
 # - iOS ----------------
-java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-ios -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-ios/
+java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-ios -xsl:doc.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-ios/
 
 # - Android ------------
-java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-android/cbl-android-1.0b2 -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-android/cbl-android-1.0b2/
+java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-android/cbl-android-1.0b2 -xsl:doc.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-android/cbl-android-1.0b2/
 
 # - Phone Gap ----------
-java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-phonegap -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-phonegap/
+java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-phonegap -xsl:doc.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-phonegap/
 
 # - REST API -----------
-java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-api -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-api/
+java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-api -xsl:doc.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-api/
 
 # = Sync Gateway =======
 
-java  -jar saxon9he.jar -xi -s:guides/sync-gateway -xsl:guide.xslt -o:.. output-directory=gen/guides/sync-gateway/
+java  -jar saxon9he.jar -xi -s:guides/sync-gateway -xsl:doc.xslt -o:.. output-directory=gen/guides/sync-gateway/
