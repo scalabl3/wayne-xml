@@ -1,0 +1,7 @@
+# = Guides ==========
+
+# - iOS -------------
+java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-ios -xsl:guide.xslt -o:../gen/guides output-directory=couchbase-lite/cbl-ios/
+
+# - Android ---------
+java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-android/cbl-android-1.0b2 -xsl:guide.xslt -o:../gen/guides output-directory=couchbase-lite/cbl-android/cbl-android-1.0b2/
