@@ -155,8 +155,11 @@
 	
 	<xsl:template match="*">
 		<xsl:message>
-			<xsl:text>Convert Error: Element Not Handled: </xsl:text>
+			<xsl:text>Convert Error: </xsl:text>
+			<xsl:text>&line-feed;</xsl:text>
+			<xsl:text>  Element Not Handled: </xsl:text>
 			<xsl:value-of select="name()"/>
+			<xsl:text>&line-feed;</xsl:text>
 		</xsl:message>
 	</xsl:template>
 
