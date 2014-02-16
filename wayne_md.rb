@@ -5,7 +5,6 @@ require 'yaml'
 require 'chronic'
 require 'nokogiri'
 require 'redcarpet'
-require './classes/redcarpet_rouge_patches.rb'
 require './classes/markdown_render.rb'
 
 
