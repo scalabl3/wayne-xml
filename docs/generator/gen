@@ -5,10 +5,10 @@
 # = Couchbase Lite =====
 
 # - iOS ----------------
-java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-ios -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-ios/
+#java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-ios -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-ios/
 
 # - Android ------------
-java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-android/cbl-android-1.0b2 -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-android/cbl-android-1.0b2/
+#java  -jar saxon9he.jar -xi -s:guides/couchbase-lite/cbl-android/cbl-android-1.0b2 -xsl:guide.xslt -o:.. output-directory=gen/guides/couchbase-lite/cbl-android/cbl-android-1.0b2/
 
 # = Sync Gateway =======
 java  -jar saxon9he.jar -xi -s:guides/sync-gateway -xsl:guide.xslt -o:.. output-directory=gen/guides/sync-gateway/

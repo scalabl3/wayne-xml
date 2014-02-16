@@ -112,6 +112,47 @@
 		</xsl:choose>
 	</xsl:template>
 	
+	<xsl:template match="table">
+		<table>
+			<xsl:for-each select="thead[1]/tr[1]">
+				<header>
+					<xsl:for-each select="th">
+						<cell>
+							<xsl:if test="@colspan">
+								<xsl:attribute name="colspan" select="@colspan"/>
+							</xsl:if>
+							<xsl:if test="@rowspan">
+								<xsl:attribute name="rowspan" select="@rowspan"/>
+							</xsl:if>
+							
+							<xsl:value-of select="."/>
+						</cell>
+					</xsl:for-each>
+				</header>
+			</xsl:for-each>
+			<xsl:for-each select="tbody[1]">
+				<rows>
+					<xsl:for-each select="tr">
+						<row>
+							<xsl:for-each select="td">
+								<cell>
+									<xsl:if test="@colspan">
+										<xsl:attribute name="colspan" select="@colspan"/>
+									</xsl:if>
+									<xsl:if test="@rowspan">
+										<xsl:attribute name="rowspan" select="@rowspan"/>
+									</xsl:if>
+									
+									<xsl:apply-templates select="*|text()"/>
+								</cell>
+							</xsl:for-each>
+						</row>
+					</xsl:for-each>
+				</rows>
+			</xsl:for-each>
+		</table>
+	</xsl:template>
+	
 	<xsl:template match="*">
 		<xsl:message>
 			<xsl:text>Convert Error: Element Not Handled: </xsl:text>
