@@ -2,37 +2,27 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<!--<xs:import namespace="http://www.couchbase.com/lite/api" schemaLocation="lite-api.xsd"/>-->
 	
-	<xs:element name="item" >
-		<xs:complexType>
-			<xs:sequence minOccurs="0" maxOccurs="unbounded">
-				<xs:element ref="set" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="class" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="guide" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="page" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-			
-			<xs:attribute name="title" type="xs:string" use="required" />
-			<xs:attribute name="href" type="xs:string" />
-		</xs:complexType>
-	</xs:element>
+	<!-- ==== -->
+	<!-- Site -->
+	<!-- ==== -->
 	
 	<xs:element name="site">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="site-map" minOccurs="1" maxOccurs="1">
 					<xs:complexType>
-						<xs:sequence minOccurs="1" maxOccurs="unbounded">
-							<xs:element ref="item" minOccurs="0" maxOccurs="unbounded"/>
-							<xs:element name="group" minOccurs="0" maxOccurs="unbounded">
+						<xs:choice minOccurs="1" maxOccurs="unbounded">
+							<xs:element ref="item"/>
+							<xs:element name="group">
 								<xs:complexType>
-									<xs:sequence>
-										<xs:element ref="item" minOccurs="1" maxOccurs="unbounded"/>
-									</xs:sequence>
+									<xs:choice minOccurs="1" maxOccurs="unbounded">
+										<xs:element ref="item"/>
+									</xs:choice>
 									
 									<xs:attribute name="title" type="xs:string" use="required" />
 								</xs:complexType>
 							</xs:element>
-						</xs:sequence>
+						</xs:choice>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -40,6 +30,24 @@
 			<xs:attribute name="title" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
+	
+	<xs:element name="item" >
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="set"/>
+				<xs:element ref="class"/>
+				<xs:element ref="guide"/>
+				<xs:element ref="page"/>
+			</xs:choice>
+			
+			<xs:attribute name="title" type="xs:string" use="required" />
+			<xs:attribute name="href" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- === -->
+	<!-- Set -->
+	<!-- === -->
 	
 	<xs:element name="set">
 		<xs:complexType>
@@ -49,18 +57,19 @@
 				
 				<xs:element name="items" minOccurs="1" maxOccurs="1">
 					<xs:complexType>
-						<xs:choice>
-							<xs:element ref="class" minOccurs="1" maxOccurs="unbounded"/>
-							<xs:element ref="guide" minOccurs="1" maxOccurs="unbounded"/>
-							<xs:element ref="page" minOccurs="1" maxOccurs="unbounded"/>
+						<xs:choice minOccurs="1" maxOccurs="unbounded">
+							<xs:element ref="set"/>
+							<xs:element ref="class"/>
+							<xs:element ref="guide"/>
+							<xs:element ref="page"/>
 						</xs:choice>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
 			
-			<xs:attribute name="id" type="xs:string" use="required" />
-			<xs:attribute name="title" type="xs:string" use="required" />
-			<xs:attribute name="description" type="xs:string" use="required" />
+			<xs:attribute name="id" type="xs:string" use="required"/>
+			<xs:attribute name="title" type="xs:string" use="required"/>
+			<xs:attribute name="description" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	
@@ -77,9 +86,9 @@
 				
 				<xs:element name="lessons" minOccurs="0" maxOccurs="1">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="lesson" minOccurs="1" maxOccurs="unbounded"/>
-						</xs:sequence>
+						<xs:choice minOccurs="1" maxOccurs="unbounded">
+							<xs:element ref="lesson"/>
+						</xs:choice>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -98,8 +107,8 @@
 				
 				<xs:element name="tasks" minOccurs="0" maxOccurs="1">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="task" minOccurs="1" maxOccurs="unbounded">
+						<xs:choice minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="task">
 								<xs:complexType>
 									<xs:complexContent>
 										<xs:extension base="content-type">
@@ -109,7 +118,7 @@
 									</xs:complexContent>
 								</xs:complexType>
 							</xs:element>
-						</xs:sequence>
+						</xs:choice>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -132,9 +141,9 @@
 				
 				<xs:element name="articles" minOccurs="0" maxOccurs="1">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="article" minOccurs="1" maxOccurs="unbounded"/>
-						</xs:sequence>
+						<xs:choice minOccurs="1" maxOccurs="unbounded">
+							<xs:element ref="article"/>
+						</xs:choice>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -153,8 +162,8 @@
 				
 				<xs:element name="topics" minOccurs="0" maxOccurs="1">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="topic" minOccurs="1" maxOccurs="unbounded">
+						<xs:choice minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="topic">
 								<xs:complexType>
 									<xs:complexContent>
 										<xs:extension base="content-type">
@@ -164,7 +173,7 @@
 									</xs:complexContent>
 								</xs:complexType>
 							</xs:element>
-						</xs:sequence>
+						</xs:choice>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -239,17 +248,17 @@
 	<!-- ===== -->
 	
 	<xs:complexType name="ref-list-type">
-		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
 			<xs:element name="item" type="simple-content-type"/>
-		</xs:sequence>
+		</xs:choice>
 	</xs:complexType>
 	
 	<xs:complexType name="simple-content-type" mixed="true">
-		<xs:sequence minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="emphasis" type="simple-content-type" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="strong" type="simple-content-type" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="ref" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emphasis" type="simple-content-type"/>
+			<xs:element name="strong" type="simple-content-type"/>
+			<xs:element ref="ref"/>
+		</xs:choice>
 	</xs:complexType>
 	
 	<!-- TODO: Restrict content containers based on what other containers they can
