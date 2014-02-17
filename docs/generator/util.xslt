@@ -5,6 +5,24 @@
 
 <xsl:param name="output-directory">gen/</xsl:param>
 
+<!-- Creates a relative file path starting w/ from-directory and backing down to its root. -->
+<xsl:function name="fn:root-path">
+    <xsl:param name="from-directory"/>
+    <xsl:param name="to-file"/>
+    
+    <xsl:variable name="path">
+        <xsl:for-each select="tokenize($from-directory, '/')">
+            <xsl:if test="position() > 1">
+                <xsl:text>../</xsl:text>
+            </xsl:if>
+        </xsl:for-each>
+        
+        <xsl:value-of select="$to-file"/>
+    </xsl:variable>
+    
+    <xsl:value-of select="$path"/>
+</xsl:function>
+
 <!-- If expr == true then returns the supplied 'true' othewise returns the supplied 'false'. -->
 <xsl:function name="fn:iif">
     <xsl:param name="expr"/>
