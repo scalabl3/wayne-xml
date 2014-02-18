@@ -64,6 +64,8 @@
 				
 				<xsl:attribute name="id" select="fn:create-id(.)"/>
 				<xsl:attribute name="title" select="."/>
+				<xsl:attribute name="description">TODO: Add description.</xsl:attribute>
+				
 				<xsl:attribute name="xsi:noNamespaceSchemaLocation" select="fn:root-path($directory-path, 'docs.xsd')"/>
 				
 				<xsl:variable name="level-1-index" select="count(self::h1 | preceding-sibling::h1)"/>
@@ -110,6 +112,8 @@
 				
 				<xsl:attribute name="id" select="fn:create-id(.)"/>
 				<xsl:attribute name="title" select="."/>
+				<xsl:attribute name="description">TODO: Add description.</xsl:attribute>
+				
 				<xsl:attribute name="xsi:noNamespaceSchemaLocation" select="fn:root-path($directory-path, 'docs.xsd')"/>
 				
 				<xsl:variable name="level-1-index" select="count(self::h1 | preceding-sibling::h1)"/>
@@ -166,7 +170,7 @@
 	</xsl:template>
 	
 	<xsl:template match="h5">
-		<subsection id="{fn:create-id(.)}" title="{.}">
+		<subsection title="{.}">
 			<xsl:variable name="level-1-index" select="count(self::h1 | preceding-sibling::h1)"/>
 			<xsl:variable name="level-2-index" select="count(self::h2 | preceding-sibling::h2)"/>
 			<xsl:variable name="level-3-index" select="count(self::h3 | preceding-sibling::h3)"/>

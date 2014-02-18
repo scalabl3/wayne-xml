@@ -204,11 +204,31 @@
 		</xs:complexType>
 	</xs:element>
 	
-	<xs:element name="ref">
+	<!--<xs:element name="ref">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="simple-content-type">
 					<xs:attribute name="target-id" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>-->
+	
+	<xs:element name="link">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="simple-content-type">
+					<xs:attribute name="target-id" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="external-link">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="simple-content-type">
+					<xs:attribute name="target" type="xs:string" use="required" />
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -257,7 +277,8 @@
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="emphasis" type="simple-content-type"/>
 			<xs:element name="strong" type="simple-content-type"/>
-			<xs:element ref="ref"/>
+			<xs:element ref="link"/>
+			<xs:element ref="external-link"/>
 		</xs:choice>
 	</xs:complexType>
 	
@@ -267,166 +288,169 @@
 		
 	</xs:complexType>
 	
-	<xs:complexType name="content-type">
-		<xs:complexContent mixed="true">
-			<xs:extension base="simple-content-type">
-				<xs:sequence minOccurs="0" maxOccurs="unbounded">
-					<xs:any namespace="http://www.couchbase.com/lite/api" minOccurs="0" maxOccurs="unbounded"/>
-					
-					<xs:element name="paragraph" type="content-type" minOccurs="0" maxOccurs="unbounded"/>
-					
-					<!-- List -->
-					<xs:element name="ordered-list" minOccurs="0" maxOccurs="unbounded">
-						<xs:complexType>
-							<xs:sequence minOccurs="1" maxOccurs="unbounded">
-								<xs:element name="list-item"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					<xs:element name="unordered-list" minOccurs="0" maxOccurs="unbounded">
-						<xs:complexType>
-							<xs:sequence minOccurs="1" maxOccurs="unbounded">
-								<xs:element name="list-item"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					<xs:element name="description-list" minOccurs="0" maxOccurs="unbounded">
-						<xs:complexType>
-							<xs:sequence minOccurs="1" maxOccurs="unbounded">
-								<xs:element name="list-item">
-									<xs:complexType>
-										<xs:sequence>
-											<xs:element name="title" type="content-type"/>
-											<xs:element name="description" type="content-type"/>
-										</xs:sequence>
-									</xs:complexType>
-								</xs:element>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					
-					<xs:element ref="image" minOccurs="0" maxOccurs="unbounded"/>
-					
-					<xs:element name="figure" minOccurs="0" maxOccurs="unbounded">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element ref="image" minOccurs="1" maxOccurs="1"/>
-								<xs:element name="caption" type="simple-content-type" minOccurs="1" maxOccurs="1"/>
-							</xs:sequence>
-							<xs:attribute name="importance">
+	<xs:complexType name="content-type" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<!-- Simple Content -->
+			<xs:element name="emphasis" type="simple-content-type"/>
+			<xs:element name="strong" type="simple-content-type"/>
+			<xs:element ref="link"/>
+			<xs:element ref="external-link"/>
+			
+			<!-- APIs -->
+			<xs:any namespace="http://www.couchbase.com/lite/api" minOccurs="0" maxOccurs="unbounded"/>
+			
+			<xs:element name="paragraph" type="content-type" minOccurs="0" maxOccurs="unbounded"/>
+			
+			<!-- List -->
+			<xs:element name="ordered-list" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence minOccurs="1" maxOccurs="unbounded">
+						<xs:element name="list-item"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="unordered-list" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence minOccurs="1" maxOccurs="unbounded">
+						<xs:element name="list-item"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="description-list" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence minOccurs="1" maxOccurs="unbounded">
+						<xs:element name="list-item">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="title" type="content-type"/>
+									<xs:element name="description" type="content-type"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			<xs:element ref="image" minOccurs="0" maxOccurs="unbounded"/>
+			
+			<xs:element name="figure" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="image" minOccurs="1" maxOccurs="1"/>
+						<xs:element name="caption" type="simple-content-type" minOccurs="1" maxOccurs="1"/>
+					</xs:sequence>
+					<xs:attribute name="importance">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="primary"/>
+								<xs:enumeration value="secondary"/>
+								<xs:enumeration value="tertiary"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			
+			<xs:element name="note" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="content-type">
+							<xs:attribute name="type">
 								<xs:simpleType>
 									<xs:restriction base="xs:string">
-										<xs:enumeration value="primary"/>
-										<xs:enumeration value="secondary"/>
-										<xs:enumeration value="tertiary"/>
+										<xs:enumeration value="note"/>
+										<xs:enumeration value="tip"/>
+										<xs:enumeration value="caution"/>
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:attribute>
-						</xs:complexType>
-					</xs:element>
-					
-					<xs:element name="note" minOccurs="0" maxOccurs="unbounded">
-						<xs:complexType>
-							<xs:complexContent>
-								<xs:extension base="content-type">
-									<xs:attribute name="type">
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:enumeration value="note"/>
-												<xs:enumeration value="tip"/>
-												<xs:enumeration value="caution"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:attribute>
-								</xs:extension>
-							</xs:complexContent>
-						</xs:complexType>
-					</xs:element>
-					
-					<!-- Sections -->
-					<xs:element name="section" minOccurs="0" maxOccurs="unbounded">
-						<xs:complexType>
-							<xs:complexContent mixed="true">
-								<xs:extension base="content-type">
-									<xs:sequence>
-										<xs:element name="subsection" minOccurs="0" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:complexContent>
-													<xs:extension base="content-type">
-														<xs:attribute name="title" type="xs:string" use="required"/>
-													</xs:extension>
-												</xs:complexContent>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-									
-									<xs:attribute name="id" type="xs:string" use="required" />
-									<xs:attribute name="title" type="xs:string" use="required"/>
-								</xs:extension>
-							</xs:complexContent>
-						</xs:complexType>
-					</xs:element>
-					
-					
-					<xs:element name="table" minOccurs="0" maxOccurs="unbounded">
-						<xs:complexType>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			
+			<!-- Sections -->
+			<xs:element name="section" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent mixed="true">
+						<xs:extension base="content-type">
 							<xs:sequence>
-								<xs:element name="header" minOccurs="1" maxOccurs="1">
+								<xs:element name="subsection" minOccurs="0" maxOccurs="unbounded">
 									<xs:complexType>
-										<xs:sequence>
-											<xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
-												<xs:complexType>
-													<xs:complexContent>
-														<xs:extension base="simple-content-type">
-															<xs:attribute name="colspan" type="xs:integer"/>
-															<xs:attribute name="rowspan" type="xs:integer"/>
-														</xs:extension>
-													</xs:complexContent>
-												</xs:complexType>
-											</xs:element>
-										</xs:sequence>
+										<xs:complexContent>
+											<xs:extension base="content-type">
+												<xs:attribute name="title" type="xs:string" use="required"/>
+											</xs:extension>
+										</xs:complexContent>
 									</xs:complexType>
 								</xs:element>
-								<xs:element name="rows" minOccurs="1" maxOccurs="1">
-									<xs:complexType>
-										<xs:sequence>
-											<xs:element name="row" minOccurs="1" maxOccurs="unbounded">
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
-															<xs:complexType>
-																<xs:complexContent>
-																	<xs:extension base="content-type">
-																		<xs:attribute name="colspan" type="xs:integer"/>
-																		<xs:attribute name="rowspan" type="xs:integer"/>
-																	</xs:extension>
-																</xs:complexContent>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-												</xs:complexType>
-											</xs:element>
-										</xs:sequence>
-									</xs:complexType>
-								</xs:element>
-								<xs:element name="caption" type="simple-content-type" minOccurs="0" maxOccurs="1"/>
 							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					
-					<!-- Code -->
-					<xs:element ref="code" minOccurs="0" maxOccurs="unbounded"/>
-					
-					<!-- Code-Set -->
-					<xs:element name="code-set" minOccurs="0" maxOccurs="unbounded">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element ref="code" minOccurs="1" maxOccurs="unbounded"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
+							
+							<xs:attribute name="id" type="xs:string" use="required" />
+							<xs:attribute name="title" type="xs:string" use="required"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			
+			
+			<xs:element name="table" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="header" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:extension base="simple-content-type">
+													<xs:attribute name="colspan" type="xs:integer"/>
+													<xs:attribute name="rowspan" type="xs:integer"/>
+												</xs:extension>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="rows" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="row" minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="cell" minOccurs="1" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:complexContent>
+															<xs:extension base="content-type">
+																<xs:attribute name="colspan" type="xs:integer"/>
+																<xs:attribute name="rowspan" type="xs:integer"/>
+															</xs:extension>
+														</xs:complexContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="caption" type="simple-content-type" minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			<!-- Code -->
+			<xs:element ref="code" minOccurs="0" maxOccurs="unbounded"/>
+			
+			<!-- Code-Set -->
+			<xs:element name="code-set" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="code" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
 	</xs:complexType>
 </xs:schema>

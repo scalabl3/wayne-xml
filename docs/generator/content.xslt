@@ -61,7 +61,7 @@
 			<xsl:attribute name="type">
 				<xsl:choose>
 					<xsl:when test="contains(@class, 'tip')">tip</xsl:when>
-					<xsl:when test="contains(@class, 'warning')">warning</xsl:when>
+					<xsl:when test="contains(@class, 'warning')">caution</xsl:when>
 					<xsl:otherwise>note</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
