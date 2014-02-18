@@ -8,7 +8,7 @@
 
 <p>The following diagram shows the architecture of iOS and Android mobile apps that use the Couchbase Lite Plug-in for PhoneGap:</p>
 
-<p><img src="images/phonegap-arch.png" alt=""/>
+<img src="images/phonegap-arch.png" alt=""/>
 
 <h1>Getting Started in 5 Minutes</h1>
 
@@ -214,4 +214,4 @@ $ phonegap run android
 <pre><code class="sh">$ cd your/project/directory
 $ cordova local plugin add com.couchbase.lite.phonegap
 </code></pre>
-</p></doc>
+</doc>

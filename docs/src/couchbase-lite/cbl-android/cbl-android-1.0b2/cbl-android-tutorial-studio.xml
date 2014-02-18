@@ -45,11 +45,11 @@
 
 <p>After you fill in the fields, the New Project window should look something like this:</p>
 
-<p><img src="images/new-project.png" width="100%"/>
-</p>
+<img src="images/new-project.png" width="100%"/>
+</li>
 <li><p>Click <strong>Next</strong>, and then move through the remaining setup screens and enter settings as necessary (or just accept the defaults).</p></li>
 <li><p>Click <strong>Finish</strong>.</p></li>
-</li>
+</ol>
 <h4>Step 2: Add Couchbase Lite dependencies via Maven</h4>
 
 <ol>
@@ -58,10 +58,10 @@
 
 <p>You should see a file that looks something like this:</p>
 
-<p><img src="images/build-gradle.png" width="100%"/>
+<img src="images/build-gradle.png" width="100%"/>
 
 <p>If the <strong>build.gradle</strong> file is empty, then you are looking at the wrong one. Make sure you open the one in the <strong>HelloWorld</strong> folder (and not the one at the project level).</p>
-</p>
+</li>
 <li>
 <p>In the <strong>build.gradle</strong> file, add the following lines to the top-level <strong>repositories</strong> section (not the one under the buildscript section) so it can resolve dependencies through Maven Central and the Couchbase Maven repository:</p>
 
@@ -120,16 +120,16 @@ compile 'com.couchbase.cblite:CBLite:1.0.0-beta2'
 <li>
 <p>In the Android Studio tool bar, click <strong>Sync Project with Gradle Files</strong>.</p>
 
-<p><img src="images/sync-gradle.png" width="50%"/>
-</p>
+<img src="images/sync-gradle.png" width="50%"/>
+</li>
 <li>
 <p>In the Android Studio tool bar, click <strong>Run</strong>.</p>
 
 <p>When requested, start the emulator. You should see the app start in the emulator and the text "Hello World" in the app window, similar to the following figure:</p>
 
-<p><img src="images/hello-world-emulator.png" width="40%"/>
-</p>
+<img src="images/hello-world-emulator.png" width="40%"/>
 </li>
+</ol>
 <h5>Troubleshooting tips</h5>
 
 <p>Running the empty app at this point verifies whether the dependencies are set up correctly. If the app doesn't run properly for you, try the following troubleshooting tips:</p>
@@ -270,7 +270,7 @@ Log.d(TAG, "End Hello World App");
 
 <p>If you filter the logcat output on the string <code>/Hello</code>, you can see just the messages from Hello World:</p>
 
-<p><img src="images/hello-logcat.png" width="100%"/>
-</p>
+<img src="images/hello-logcat.png" width="100%"/>
 </li>
-</ol></li></li></ol></ol></doc>
+</ol>
+</doc>

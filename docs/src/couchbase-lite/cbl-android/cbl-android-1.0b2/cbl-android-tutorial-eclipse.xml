@@ -31,11 +31,11 @@
 
 <p>After you fill in the fields, the New Project window should look something like this:</p>
 
-<p><img src="images/new-project-eclipse.png" width="100%"/>
-</p>
+<img src="images/new-project-eclipse.png" width="100%"/>
+</li>
 <li><p>Click <strong>Next</strong>, and then move through the remaining setup screens and enter settings as necessary (or just accept the defaults).</p></li>
 <li><p>Click <strong>Finish</strong>.</p></li>
-</li>
+</ol>
 <h4>Step 2: Add Couchbase Lite</h4>
 
 <ol>
@@ -61,10 +61,10 @@
 
 <p>When requested, start the emulator. You should see the app start in the emulator and the text "Hello World" in the app window, similar to the following figure:</p>
 
-<p><img src="images/hello-world-emulator-eclipse.png" width="40%"/>
+<img src="images/hello-world-emulator-eclipse.png" width="40%"/>
 
 <p>Running the empty app at this point verifies whether the dependencies are set up correctly. The app won't run properly if you have Android Studio running simultaneously with the ADT bundle Eclipse. </p>
-</p>
+</li>
 </li>
 <h4>Step 3: Add the HelloWorld code</h4>
 
@@ -176,7 +176,7 @@ Log.d(TAG, "End Hello World App");
 
 <p>If you filter the logcat output on the string <code>tag:/HelloWorld</code>, you can see just the messages from Hello World:</p>
 
-<p><img src="images/hello-logcat-eclipse.png" width="100%"/>
-</p>
+<img src="images/hello-logcat-eclipse.png" width="100%"/>
 </li>
-</ol></li></li></ol></ol></doc>
+</ol>
+</li></ol></doc>

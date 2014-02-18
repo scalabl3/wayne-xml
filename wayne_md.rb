@@ -99,6 +99,7 @@ def traverse_nav_tree_and_convert_to_xml(node)
 		html = MarkdownRender::render(mod.markdown)
 		doc = Nokogiri::HTML(html) 
 		xml = doc.css('body')[0].serialize #(save_with: 0)
+		xml.gsub!(/^<p><img /, "<img ")
 		xml = Nokogiri::XML(xml)
 		b = xml.at_css "body"
 		b.name = "doc"
@@ -118,6 +119,7 @@ def traverse_nav_tree_and_convert_to_xml(node)
 		html = MarkdownRender::render(mod.markdown)
 		doc = Nokogiri::HTML(html)
 		xml = doc.css('body')[0].serialize #(save_with: 0)
+		xml.gsub!(/^<p><img /, "<img ")
 		xml = Nokogiri::XML(xml)
 
     img_sizes = {

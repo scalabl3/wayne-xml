@@ -45,8 +45,8 @@
 <li>
 <p>Open the Couchbase Lite folder and drag the <strong>CouchbaseLite.framework</strong> folder to the <strong>Frameworks</strong> group in the Xcode project navigator.</p>
 
-<p><img src="images/cbl-framework.png" width="600px"/>
-</p>
+<img src="images/cbl-framework.png" width="600px"/>
+</li>
 <li><p>In the <strong>Choose options for adding these files</strong> sheet, make sure that your app target is selected.</p></li>
 <li><p>In the navigator, click on the HelloCBL project file to open the project editor for your app, and then click the <strong>Build Settings</strong> tab.</p></li>
 <li>
@@ -67,9 +67,9 @@
 </ul>
 <p>Click the <strong>+</strong> at the bottom of the section to add each item.  When you are done, it should look similar to the following screenshot:</p>
 
-<p><img src="images/build-phases.png" width="600px/"/>
-</p>
+<img src="images/build-phases.png" width="600px/"/>
 </li>
+</p>
 <h3>Step 3: Add the Hello Couchbase Lite code</h3>
 
 <ol>
@@ -178,8 +178,8 @@ NSLog (@"This Hello Couchbase Lite run %@!", (result ? @"was a total success" : 
 <li>
 <p>Set the active scheme to the iOS simulator for iPhone Retina (4-inch):</p>
 
-<p><img src="images/active-scheme.png" width="600px"/>
-</p>
+<img src="images/active-scheme.png" width="600px"/>
+</li>
 <li>
 <p>Click <strong>Run</strong>.</p>
 
@@ -190,8 +190,8 @@ NSLog (@"This Hello Couchbase Lite run %@!", (result ? @"was a total success" : 
 
 <p>The console output should look similar to the following screenshot. Don't worry about the error message at the end of the console output that mentions the view controller&#x2014;the view controller has been omitted from this bare-bones app. </p>
 
-<p><img src="images/console-output.png" width="600px"/>
-</p>
+<img src="images/console-output.png" width="600px"/>
 </li>
+</ol>
 <p>Congratulations! You've just created your first Couchbase Lite app! </p>
-</li></ol></p></li></li></ol></doc>
+</li></ol></doc>
