@@ -58,17 +58,14 @@
 <p>Indexing and querying for JSON</p>
 
 <ul>
-<li>
-<p>Working on a JavaScript equivalent of the CouchDB MapReduce sum() function, which adds up the numeric values of all arguments.</p>
-
-<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/75">75</a>, <a href="https://github.com/couchbase/couchbase-lite-ios/issues/76">76</a></p>
-</li>
-<li>
-<p>The querying parameter startkey_docid is not yet implemented.</p>
-
-<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/111">111</a></p>
-</li>
+<li>Working on a JavaScript equivalent of the CouchDB MapReduce sum() function, which adds up the numeric values of all arguments.</li>
 </ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/75">75</a>, <a href="https://github.com/couchbase/couchbase-lite-ios/issues/76">76</a></p>
+
+<ul>
+<li>The querying parameter startkey_docid is not yet implemented.</li>
+</ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-ios/issues/111">111</a></p>
 </li>
 <li>
 <p>Third-party Compatibility</p>

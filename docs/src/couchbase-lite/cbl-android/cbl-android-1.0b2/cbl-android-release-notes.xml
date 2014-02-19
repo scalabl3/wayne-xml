@@ -60,12 +60,9 @@
 <p>Performance</p>
 
 <ul>
-<li>
-<p>There are known performance issues that we plan to fix before general release. These performance issues include slowness in replication and in view creation.</p>
-
-<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-android/issues/123">123</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/125">125</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/126">126</a></p>
-</li>
+<li>There are known performance issues that we plan to fix before general release. These performance issues include slowness in replication and in view creation.</li>
 </ul>
+<p>Issues: <a href="https://github.com/couchbase/couchbase-lite-android/issues/123">123</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/125">125</a>, <a href="https://github.com/couchbase/couchbase-lite-android/issues/126">126</a></p>
 </li>
 <li>
 <p>Document support</p>
