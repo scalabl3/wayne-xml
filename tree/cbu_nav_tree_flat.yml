@@ -19,9 +19,11 @@
   siblings:
   - couchbase-lite
   - sync-gateway
+  - jessica
   siblings_links:
   - couchbase-lite
   - sync-gateway
+  - jessica
   descendants:
   - cbl-docs
   - cbl-android
@@ -3093,9 +3095,11 @@
   siblings:
   - couchbase-lite
   - sync-gateway
+  - jessica
   siblings_links:
   - couchbase-lite
   - sync-gateway
+  - jessica
   descendants:
   - sg-1000-intro
   - sg-2000-getting-started
@@ -3908,5 +3912,123 @@
   - sync-gateway/sg-7000-trouble
   - sync-gateway/sg-8000-contribute
   - sync-gateway/sg-9000-release-notes
+  descendants: []
+  descendants_links: []
+- !omap
+  doctype: nav
+  subtype: nav_1
+  nav_type: folder
+  nav_level: 1
+  nav_order: 3
+  nav_title: Jessica
+  source: jessica
+  link: jessica
+  full_link: "/d/jessica"
+  parent: 
+  parent_nav_title: ''
+  parent_link: ''
+  parent_full_link: ''
+  ancestors: []
+  ancestors_links: []
+  siblings:
+  - couchbase-lite
+  - sync-gateway
+  - jessica
+  siblings_links:
+  - couchbase-lite
+  - sync-gateway
+  - jessica
+  descendants:
+  - cbl-ios-2000-getstarted
+  - cbl-ios-3000-tutorial
+  - cbl-ios-3100-hello
+  descendants_links:
+  - jessica/cbl-ios-2000-getstarted
+  - jessica/cbl-ios-3000-tutorial
+  - jessica/cbl-ios-3100-hello
+  navigation_yml: false
+  index_erb: false
+- !omap
+  doctype: nav
+  subtype: nav_2
+  nav_type: markdown
+  nav_level: 2
+  nav_order: 1
+  nav_title: CBL iOS 2000 Getstarted
+  source: cbl-ios-2000-getstarted
+  link: jessica/cbl-ios-2000-getstarted
+  full_link: "/d/jessica/cbl-ios-2000-getstarted"
+  parent: jessica
+  parent_nav_title: Jessica
+  parent_link: jessica
+  parent_full_link: "/d/jessica"
+  ancestors:
+  - jessica
+  ancestors_links:
+  - jessica
+  siblings:
+  - cbl-ios-2000-getstarted
+  - cbl-ios-3000-tutorial
+  - cbl-ios-3100-hello
+  siblings_links:
+  - jessica/cbl-ios-2000-getstarted
+  - jessica/cbl-ios-3000-tutorial
+  - jessica/cbl-ios-3100-hello
+  descendants: []
+  descendants_links: []
+- !omap
+  doctype: nav
+  subtype: nav_2
+  nav_type: markdown
+  nav_level: 2
+  nav_order: 2
+  nav_title: CBL iOS 3000 Tutorial
+  source: cbl-ios-3000-tutorial
+  link: jessica/cbl-ios-3000-tutorial
+  full_link: "/d/jessica/cbl-ios-3000-tutorial"
+  parent: jessica
+  parent_nav_title: Jessica
+  parent_link: jessica
+  parent_full_link: "/d/jessica"
+  ancestors:
+  - jessica
+  ancestors_links:
+  - jessica
+  siblings:
+  - cbl-ios-2000-getstarted
+  - cbl-ios-3000-tutorial
+  - cbl-ios-3100-hello
+  siblings_links:
+  - jessica/cbl-ios-2000-getstarted
+  - jessica/cbl-ios-3000-tutorial
+  - jessica/cbl-ios-3100-hello
+  descendants: []
+  descendants_links: []
+- !omap
+  doctype: nav
+  subtype: nav_2
+  nav_type: markdown
+  nav_level: 2
+  nav_order: 3
+  nav_title: CBL iOS 3100 Hello
+  source: cbl-ios-3100-hello
+  link: jessica/cbl-ios-3100-hello
+  full_link: "/d/jessica/cbl-ios-3100-hello"
+  parent: jessica
+  parent_nav_title: Jessica
+  parent_link: jessica
+  parent_full_link: "/d/jessica"
+  ancestors:
+  - jessica
+  ancestors_links:
+  - jessica
+  siblings:
+  - cbl-ios-2000-getstarted
+  - cbl-ios-3000-tutorial
+  - cbl-ios-3100-hello
+  siblings_links:
+  - jessica/cbl-ios-2000-getstarted
+  - jessica/cbl-ios-3000-tutorial
+  - jessica/cbl-ios-3100-hello
   descendants: []
   descendants_links: []
