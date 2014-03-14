@@ -4,7 +4,7 @@
 ]>
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+	
 	<xsl:output method="xml" indent="yes"/>
 	
 	<xsl:template match="p">
@@ -44,10 +44,10 @@
 	</xsl:template>
 	
 	<xsl:template match="pre[code]">
-		<code>
+		<code-block>
 			<xsl:text>&line-feed;</xsl:text>
 			<xsl:apply-templates select="code/(*|text())"/>
-		</code>
+		</code-block>
 	</xsl:template>
 	
 	<xsl:template match="code">
@@ -71,9 +71,9 @@
 	</xsl:template>
 	
 	<xsl:template match="img">
-		<image source="{@src}">
+		<image href="{@src}">
 			<xsl:if test="@alt">
-				<xsl:attribute name="description" select="@alt"/>
+				<xsl:attribute name="alt" select="@alt"/>
 			</xsl:if>
 			<xsl:if test="@width">
 				<xsl:attribute name="width" select="@width"/>
@@ -85,53 +85,43 @@
 	</xsl:template>
 	
 	<xsl:template match="a">
-		<xsl:choose>
-			<xsl:when test="starts-with(@href, 'http://')">
-				<external-link target="{@href}"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<link>
-					<xsl:attribute name="target-id">
-						<xsl:choose>
-							<xsl:when test="starts-with(@href, '#')">
-								<xsl:value-of select="substring-after(@href, '#')"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="@href"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-					
-					<xsl:value-of select="*|text()"/>
-				</link>
-			</xsl:otherwise>
-		</xsl:choose>
+		<ref href="{@href}">
+			<xsl:if test="starts-with(@href, 'http://')">
+				<xsl:attribute name="scope">external</xsl:attribute>
+			</xsl:if>
+			
+			<xsl:value-of select="*|text()"/>
+		</ref>
 	</xsl:template>
 	
 	<xsl:template match="table">
 		<table>
-			<xsl:for-each select="thead[1]/tr[1]">
+			<xsl:for-each select="thead">
 				<header>
-					<xsl:for-each select="th">
-						<cell>
-							<xsl:if test="@colspan">
-								<xsl:attribute name="colspan" select="@colspan"/>
-							</xsl:if>
-							<xsl:if test="@rowspan">
-								<xsl:attribute name="rowspan" select="@rowspan"/>
-							</xsl:if>
-							
-							<xsl:value-of select="."/>
-						</cell>
+					<xsl:for-each select="tr">
+						<row>
+							<xsl:for-each select="th">
+								<entry>
+									<xsl:if test="@colspan">
+										<xsl:attribute name="colspan" select="@colspan"/>
+									</xsl:if>
+									<xsl:if test="@rowspan">
+										<xsl:attribute name="rowspan" select="@rowspan"/>
+									</xsl:if>
+									
+									<xsl:value-of select="."/>
+								</entry>
+							</xsl:for-each>
+						</row>
 					</xsl:for-each>
 				</header>
 			</xsl:for-each>
-			<xsl:for-each select="tbody[1]">
-				<rows>
+			<xsl:for-each select="tbody">
+				<body>
 					<xsl:for-each select="tr">
 						<row>
 							<xsl:for-each select="td">
-								<cell>
+								<entry>
 									<xsl:if test="@colspan">
 										<xsl:attribute name="colspan" select="@colspan"/>
 									</xsl:if>
@@ -140,11 +130,11 @@
 									</xsl:if>
 									
 									<xsl:apply-templates select="*|text()"/>
-								</cell>
+								</entry>
 							</xsl:for-each>
 						</row>
 					</xsl:for-each>
-				</rows>
+				</body>
 			</xsl:for-each>
 		</table>
 	</xsl:template>
@@ -162,5 +152,5 @@
 			<xsl:text>&line-feed;</xsl:text>
 		</xsl:message>
 	</xsl:template>
-
+	
 </xsl:stylesheet>
