@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <guide xmlns:xi="http://www.w3.org/2001/XInclude">
-    <xi:include href="../../../src/sync-gateway/sg-4000-develop.xml" />
-    <xi:include href="../../../src/sync-gateway/sg-4100-channels.xml" />
-    <xi:include href="../../../src/sync-gateway/sg-4200-walrus.xml" />
+    <xi:include href="../../../src/sync-gateway/sg-3000-administer.xml" />
+    <xi:include href="../../../src/sync-gateway/sg-3100-authorize.xml" />
 </guide>
