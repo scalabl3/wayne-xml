@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <doc>
-<h1>Couchbase Lite Concepts</h1>
+<h1>Key concepts</h1>
 
-<p>This section describes how Couchbase Lite structures and works with data. If you're familiar with relational databases and SQL, you'll notice that Couchbase Lite works differently and has its own database terminology. The following table compares the terminology:</p>
+<p>Couchbase Lite handles documents, databases, views and queries, replication, revisions, and the changes feed. If you're familiar with relational databases and SQL, you'll notice that Couchbase Lite works differently and has its own database terminology. The following table compares the terminology:</p>
 
 <table style="width:55%">
 <col style="width:50%;text-align:left">
@@ -57,9 +57,9 @@
 </col>
 <h2>Documents</h2>
 
-<p>Couchbase Lite is a <strong>document</strong> database. A document has a much more flexible data format than a SQL database row, generally contains all the information about a data entity (including compound data) rather than being normalized across tables, and can have arbitrary-sized binary attachments.</p>
+<p>A document is a JSON object, similar to a dictionary data structure, that consists of arbitrary key-value pairs. There&#x2019;s no schema&#x2014;every document can have its own individual set of keys, although almost all databases adopt one or more informal schemas.</p>
 
-<p>A document is a JSON object, similar to a dictionary data structure, that consists of arbitrary key-value pairs. There's no schema&#x2014;every document can have its own individual set of keys, although almost all databases adopt one or more informal schemas.</p>
+<p>A document has a much more flexible data format than a SQL database row, generally contains all the information about a data entity (including compound data) rather than being normalized across tables, and can have arbitrary-sized binary attachments.</p>
 
 <p>Whatever its contents, though, every document has a special property called <code>_id</code>. This property is the <strong>document ID</strong>, which is the document's unique identifier in its database. A document ID is similar to a SQL primary key, except that primary keys are usually integers while document IDs are strings.  When you create a document, you can either provide your own ID or let Couchbase Lite assign one. If you provide your own document IDs, you can use any string you want, such as a <a href="http://en.wikipedia.org/wiki/Uuid">universally unique identifier</a> (UUID) or a string that is meaningful to your application.</p>
 
@@ -73,6 +73,8 @@
 
 <h2>Views And Queries</h2>
 
+<p>You use MapReduce functions to create indexes, called views, of the documents in a database. Then query the view to retrieve data from the database.</p>
+
 <p>Querying is probably the hardest thing about Couchbase Lite for SQL users to get used to. In SQL, you use a complex query language to specify exactly what data you want, then run the query and get back the data. In Couchbase Lite it's a two-stage process based on a technique called <a href="http://en.wikipedia.org/wiki/MapReduce">MapReduce</a>.</p>
 
 <p>First you define a <strong>view</strong> that uses a <em>map function</em> to extract information out of every document. The map function is written in the same language as your app&#x2014;most likely Objective-C or Java&#x2014;so it's very flexible. The result of applying the map function to the database is an ordered set of key-value pairs. For example, a map function might grind through an address-book database and produce a set of mappings from names to phone numbers. The view's output is stored persistently in the database and updated incrementally as documents change. It's very much like the type of index a SQL database creates internally to optimize queries.</p>
@@ -83,7 +85,7 @@
 
 <h2>Replication</h2>
 
-<p>Replication is a key feature of Couchbase Lite and enables document syncing. Replication is conceptually simple&#x2014;take everything that's changed in database A and copy it over to database B. </p>
+<p>Replication is the key feature of Couchbase Lite that enables document syncing. Replication is conceptually simple&#x2014;take everything that's changed in database A and copy it over to database B. </p>
 
 <p>Replication is basically unidirectional. A replication from a remote to a local database is called a <em>pull</em>, and a replication from a local to a remote database is called a <em>push</em>. Bidirectional replication, or <em>sync</em>, is done by configuring both a pull and a push between the same two databases.</p>
 
@@ -111,7 +113,7 @@
 
 <h2>Revisions</h2>
 
-<p>One significant difference from other databases is document <strong>versioning</strong>. Couchbase Lite uses a technique called <a href="http://en.wikipedia.org/wiki/Multiversion_concurrency_control">Multiversion Concurrency Control</a> (MVCC) to manage conflicts between multiple writers. This is the same technique used by version-control systems like Git or Subversion, and by <a href="http://en.wikipedia.org/wiki/Webdav">WebDAV</a>. Document versioning is similar to the check-and-set mechanism (CAS) of Couchbase Server, except that in Couchbase Lite versioning is required rather than optional and the token is a UUID rather than an integer.</p>
+<p>Couchbase Lite uses revisions to resolve conflicts detected during replication. One significant difference from other databases is document <strong>versioning</strong>. Couchbase Lite uses a technique called <a href="http://en.wikipedia.org/wiki/Multiversion_concurrency_control">Multiversion Concurrency Control</a> (MVCC) to manage conflicts between multiple writers. This is the same technique used by version-control systems like Git or Subversion, and by <a href="http://en.wikipedia.org/wiki/Webdav">WebDAV</a>. Document versioning is similar to the check-and-set mechanism (CAS) of Couchbase Server, except that in Couchbase Lite versioning is required rather than optional and the token is a UUID rather than an integer.</p>
 
 <p>Every document has a special field called <code>_rev</code> that contains the revision ID. The revision ID is assigned automatically each time the document is saved. Every time a document is updated, it gets a different and unique revision ID.</p>
 

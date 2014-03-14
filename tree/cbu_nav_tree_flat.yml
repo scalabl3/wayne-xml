@@ -38,7 +38,7 @@
   - couchbase-lite/cbl-concepts
   - couchbase-lite/cbl-ios
   - couchbase-lite/cbl-phonegap
-  navigation_yml: true
+  navigation_yml: false
   index_erb: true
 - !omap
   doctype: nav
@@ -112,7 +112,7 @@
   descendants_links:
   - couchbase-lite/cbl-android/cbl-android-1.0b1
   - couchbase-lite/cbl-android/cbl-android-1.0b2
-  navigation_yml: true
+  navigation_yml: false
   index_erb: false
 - !omap
   doctype: nav
@@ -158,7 +158,7 @@
   - couchbase-lite/cbl-android/cbl-android-1.0b1/cbl-android-3500-replication
   - couchbase-lite/cbl-android/cbl-android-1.0b1/cbl-android-6000-trouble
   - couchbase-lite/cbl-android/cbl-android-1.0b1/cbl-android-7000-release-notes
-  navigation_yml: true
+  navigation_yml: false
   index_erb: true
 - !omap
   doctype: nav
@@ -550,7 +550,7 @@
   - couchbase-lite/cbl-android/cbl-android-1.0b2/cbl-android-tutorial-studio
   - couchbase-lite/cbl-android/cbl-android-1.0b2/cbl-android-tutorial
   - couchbase-lite/cbl-android/cbl-android-1.0b2/cbl-android-views
-  navigation_yml: true
+  navigation_yml: false
   index_erb: true
 - !omap
   doctype: nav
@@ -1276,7 +1276,7 @@
   - couchbase-lite/cbl-api/cbl-api-5000-design
   - couchbase-lite/cbl-api/cbl-api-6000-server
   - couchbase-lite/cbl-api/cbl-api-7000-auth
-  navigation_yml: true
+  navigation_yml: false
   index_erb: true
 - !omap
   doctype: nav
@@ -1588,7 +1588,7 @@
   - couchbase-lite/cbl-concepts/cbl-concepts-3000-concepts
   - couchbase-lite/cbl-concepts/cbl-concepts-4000-where
   - couchbase-lite/cbl-concepts/cbl-concepts-5000-faq
-  navigation_yml: true
+  navigation_yml: false
   index_erb: true
 - !omap
   doctype: nav
@@ -1832,7 +1832,7 @@
   - couchbase-lite/cbl-ios/cbl-ios-6000-trouble
   - couchbase-lite/cbl-ios/cbl-ios-7000-contribute
   - couchbase-lite/cbl-ios/cbl-ios-8000-release-notes
-  navigation_yml: true
+  navigation_yml: false
   index_erb: true
 - !omap
   doctype: nav
@@ -3048,7 +3048,7 @@
   - cbl-pg-1000-intro
   descendants_links:
   - couchbase-lite/cbl-phonegap/cbl-pg-1000-intro
-  navigation_yml: true
+  navigation_yml: false
   index_erb: true
 - !omap
   doctype: nav
@@ -3132,7 +3132,7 @@
   - sync-gateway/sg-7000-trouble
   - sync-gateway/sg-8000-contribute
   - sync-gateway/sg-9000-release-notes
-  navigation_yml: true
+  navigation_yml: false
   index_erb: true
 - !omap
   doctype: nav
@@ -3946,7 +3946,7 @@
   - jessica/cbl-ios-2000-getstarted
   - jessica/cbl-ios-3000-tutorial
   - jessica/cbl-ios-3100-hello
-  navigation_yml: false
+  navigation_yml: true
   index_erb: false
 - !omap
   doctype: nav

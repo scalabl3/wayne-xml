@@ -27,10 +27,8 @@ These instructions work with either your own application unit tests or the Couch
 
 3. In the module pulldown menu, choose the module in which your test lives.
 
-    ![](images/debug-screen.png)
-    
-    The following figure shows selecting a test in the **cblite** library.  
-
+	The following figure shows selecting a test in the **cblite** library.  
+![](images/debug-screen.png)
 
 4. In the "Test" section, choose the Class radio button.
   
@@ -49,52 +47,52 @@ These instructions work with either your own application unit tests or the Couch
 
 2. Create a file named **config.json** and copy the following JSON-formatted configuration data into it:
 
-    ```json
-    {
-       "log": ["CRUD", "REST+"],
-       "databases": {
-          "cblite-test": {
-             "server": "walrus:data",
-             "sync": `function(doc){channel(doc.channels);}`,
-             "users": {
-                "GUEST": {"disabled": false,  "admin_channels": ["*"]}
-             }
-          }
-       }
-    }
-    ```
+	```json
+	{
+	   "log": ["CRUD", "REST+"],
+	   "databases": {
+	      "cblite-test": {
+	         "server": "walrus:data",
+	         "sync": `function(doc){channel(doc.channels);}`,
+	         "users": {
+	            "GUEST": {"disabled": false, 	"admin_channels": ["*"]}
+	         }
+	      }
+	   }
+	}
+	```
 
 3. Start Sync Gateway:
 
-    `$ ./bin/sync-gateway config.json`
+		$ ./bin/sync-gateway config.json
 
 
 4. Create a copy of the **test.properties** file and name it **local-test.properties**:
 
-    ```
-    $ cd CBLite/src/instrumentTest/assets/
-    $ cp test.properties local-test.properties
-    ```
+	```
+	$ cd CBLite/src/instrumentTest/assets/
+	$ cp test.properties local-test.properties
+	```
 
 5. Customize the **local-test.properties** file to point to your database (URL and database name).  For example:
 
-    ```
-    replicationServer=10.0.2.2
-    replicationPort=4984
-    ```
+	```
+	replicationServer=10.0.2.2
+	replicationPort=4984
+	```
 
-    **Note**: You need to create a **local-test.properties** file for each of the library projects that contain tests (for example, CBLite, CBLiteEktorp, and CBLiteJavascript).
+	**Note**: You need to create a **local-test.properties** file for each of the library projects that contain tests (for example, CBLite, CBLiteEktorp, and CBLiteJavascript).
 
-    **Note**: If you are running the tests on the android emulator, then you can use the special `10.0.2.2` address, which has use the IP address of the workstation that launched the emulator (assuming that's where your server is).
+	**Note**: If you are running the tests on the android emulator, then you can use the special `10.0.2.2` address, which has use the IP address of the workstation that launched the emulator (assuming that's where your server is).
 
 6. In Android Studio,  select **Tools > Android > AVD Manager**.
 
-    The Android emulator starts.
+	The Android emulator starts.
 
 7. Launch the test suite:
 
-    ```
-    $ ./gradlew clean && ./gradlew :CBLite:connectedInstrumentTest && ./gradlew :CBLiteJavascript:connectedInstrumentTest
-    ```
+	```
+	$ ./gradlew clean && ./gradlew :CBLite:connectedInstrumentTest && ./gradlew :CBLiteJavascript:connectedInstrumentTest
+```
 
 

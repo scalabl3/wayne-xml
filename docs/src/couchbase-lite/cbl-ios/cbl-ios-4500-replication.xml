@@ -18,7 +18,7 @@
 </ul>
 <p>Creating a replication object does not start the replication automatically. To start a replication, you need to send a <code>start</code> message to the replication object.</p>
 
-<p>Newly created replications are nonpersistent and noncontinuous. To change those settings, you need to immediately set their <code>persistent</code> or <code>continuous</code> properties.</p>
+<p>Newly created replications are noncontinuous. To change the settings, you need to immediately set their <code>continuous</code> properties.</p>
 
 <p>It's not strictly necessary to keep references to the replication objects, but you do need them if you want to <a href="#monitoring-replication-progress">monitor their progress</a>.</p>
 
@@ -92,7 +92,7 @@ self.push = [repls objectAtIndex: 1];
 
 <h3>Deleting replications</h3>
 
-<p>You can cancel persistent and continuous replications by deleting them. The following example shows how to delete a replication by deleting the associated <code>CBLModel</code> object, <code>repl</code>:</p>
+<p>You can cancel continuous replications by deleting them. The following example shows how to delete a replication by deleting the associated <code>CBLModel</code> object, <code>repl</code>:</p>
 
 <pre><code class="objectivec">[repl deleteDocument: &amp;error];
 </code></pre>

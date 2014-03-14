@@ -29,7 +29,7 @@
 
 <p>Enabling "channels" works the same way. Add another argument item whose value is, for example, <code>-LogFoo YES</code> to turn on channel <code>Foo</code>. (Remember that you also need to have the <code>-Log YES</code> item enabled or no logs will appear at all.)</p>
 
-<img src="images/logging.png" alt=""/>
+<img src="images/logging.png"/>
 
 <h3>Useful Logging Channels</h3>
 

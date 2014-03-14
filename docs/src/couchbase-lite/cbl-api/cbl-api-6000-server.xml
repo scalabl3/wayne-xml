@@ -75,30 +75,12 @@
 
 <p>The response message body contains a JSON document with the following objects:</p>
 
-<table>
-<thead><tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr>
-<td><code>CouchbaseLite</code></td>
-<td>String</td>
-<td>Contains the string "Welcome"</td>
-</tr>
-<tr>
-<td><code>couchdb</code></td>
-<td>String</td>
-<td>Contains the string "Welcome"</td>
-</tr>
-<tr>
-<td><code>version</code></td>
-<td>String</td>
-<td>Couchbase Lite version number</td>
-</tr>
-</tbody>
-</table>
+<p>|Name | Type | Description|<br>
+| ------    | ------    |<br>
+| <code>CouchbaseLite</code> | String | Contains the string "Welcome"<br>
+| <code>couchdb</code> | String | Contains the string "Welcome"<br>
+| <code>version</code> | String | Couchbase Lite version number  </br>
+
 <h3>Example</h3>
 
 <p>The following example requests information about the server running at http://localhost:59840/.</p>
@@ -468,4 +450,4 @@ Date: Mon, 09 Dec 2013 03:20:40 GMT
   ]
 }
 </code></pre>
-</doc>
+</br></br></br></p></doc>

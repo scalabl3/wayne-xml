@@ -20,26 +20,21 @@
 <ol>
 <li>Open Xcode and select <strong>File &gt; New &gt; Project</strong>.</li>
 <li>In the new project template sheet, click <strong>Empty Application</strong> and then click <strong>Next</strong>.</li>
-<li>In the new project options sheet, enter values for each field and then click <strong>Next</strong>.</li>
-</ol>
-<p>Here are the values used in the sample app:</p>
+<li>
+<p>In the new project options sheet, enter values for each field and then click <strong>Next</strong>.</p>
 
-<ul>
-<li>
-<strong>Product Name</strong>&#x2014;HelloCBL</li>
-<li>
-<strong>Organization Name</strong>&#x2014;Couchbase</li>
-<li>
-<strong>Company Identifier</strong>&#x2014;com.couchbase</li>
-<li>
-<strong>Bundle Identifier</strong>&#x2014;com.couchbase.HelloCBL</li>
-<li>
-<strong>Class Prefix</strong>&#x2014;HC</li>
-<li>
-<strong>Devices</strong>&#x2014;iPhone</li>
-<li>
-<strong>Use Core Data</strong>&#x2014;no</li>
-</ul>
+<p>Here are the values used in the sample app:</p>
+</li>
+</ol>
+<pre><code>* **Product Name**&#x2014;HelloCBL
+* **Organization Name**&#x2014;Couchbase
+* **Company Identifier**&#x2014;com.couchbase
+* **Bundle Identifier**&#x2014;com.couchbase.HelloCBL
+* **Class Prefix**&#x2014;HC
+* **Devices**&#x2014;iPhone
+* **Use Core Data**&#x2014;no
+</code></pre>
+
 <ol>
 <li>Select a location for your new project, and then click <strong>Create</strong>.</li>
 </ol>
@@ -50,17 +45,15 @@
 <li>
 <p>Open the Couchbase Lite folder and drag the <strong>CouchbaseLite.framework</strong> folder to the <strong>Frameworks</strong> group in the Xcode project navigator.</p>
 
-<img src="images/cbl-framework.png" alt=""/>
+<img src="images/cbl-framework.png" width="600px"/>
 </li>
 <li><p>In the <strong>Choose options for adding these files</strong> sheet, make sure that your app target is selected.</p></li>
 <li><p>In the navigator, click on the HelloCBL project file to open the project editor for your app, and then click the <strong>Build Settings</strong> tab.</p></li>
 <li>
 <p>Scroll to the <strong>Linking</strong> section, find the <strong>Other Linker Flags</strong> row, and then add the flag <code>-ObjC</code> (be sure to use the capitalization shown).</p>
 
-<img src="images/build-settings.png" alt=""/>
-
-<p>The <strong>Other Linker Flags</strong> row should look similar to screenshot.</p>
-</li>
+<p>The <strong>Other Linker Flags</strong> row should look similar to the following screenshot:<br><img src="images/build-settings.png" width="600px/"/>
+</br>
 <li><p>Click the <strong>Build Phases</strong> tab.</p></li>
 <li>
 <p>Expand the <strong>Link Binary With Libraries</strong> section and add the following items:</p>
@@ -74,9 +67,9 @@
 </ul>
 <p>Click the <strong>+</strong> at the bottom of the section to add each item.  When you are done, it should look similar to the following screenshot:</p>
 
-<img src="images/build-phases.png" alt=""/>
+<img src="images/build-phases.png" width="600px/"/>
 </li>
-</ol>
+</p>
 <h3>Step 3: Add the Hello Couchbase Lite code</h3>
 
 <ol>
@@ -99,71 +92,70 @@ NSLog (@"This Hello Couchbase Lite run %@!", (result ? @"was a total success" : 
 </code></pre>
 
 <p>The first line calls the <code>sayHello</code> method, which demonstrates the basic Couchbase Lite iOS APIs. The second line executes after the return from the <code>sayHello</code> method and prints a message on the console that indicates whether the run was successful.</p>
-
-<ol>
-<li>Just before the <code>@end</code> statement at the end of the file, add the following method:</li>
+</li>
+<li><p>Just before the <code>@end</code> statement at the end of the file, add the following method:</p></li>
 </ol>
-<pre><code>// creates a database, and then creates, stores, and retrieves a document
+<pre><code>
+// creates a database, and then creates, stores, and retrieves a document
 - (BOOL) sayHello {
-
+   
     // holds error error messages from unsuccessful calls
     NSError *error;
-
+    
     // create a shared instance of CBLManager
     CBLManager *manager = [CBLManager sharedInstance];
     if (!manager) {
         NSLog (@"Cannot create shared instance of CBLManager");
         return NO;
     }
-
+    
     // create a name for the database and make sure the name is legal
     NSString *dbname = @"my-new-database";
     if (![CBLManager isValidDatabaseName: dbname]) {
         NSLog (@"Bad database name");
         return NO;
     }
-
+    
     // create a new database
     CBLDatabase *database = [manager databaseNamed: dbname error: error];
     if (!database) {
         NSLog (@"Cannot create database. Error message: %@", error.localizedDescription);
         return NO;
     }
-
+    
     // create an object that contains data for the new document
     NSDictionary *myDictionary =
         [NSDictionary dictionaryWithObjectsAndKeys:
             @"Hello Couchbase Lite!", @"message",
             [[NSDate date] description], @"timestamp",
             nil];
-
+    
     // display the data for the new document
     NSLog (@"This is the data for the document: %@", myDictionary);
-
+    
     // create an empty document
     CBLDocument* doc = [database createDocument];
-
+    
     // write the document to the database
     CBLRevision *newRevision = [doc putProperties: myDictionary error: error];
     if (!newRevision) {
         NSLog (@"Cannot write document to database. Error message: %@", error.localizedDescription);
     }
-
+    
     // save the ID of the new document
     NSString *docID = doc.documentID;
-
+    
     // retrieve the document from the database
     CBLDocument *retrievedDoc = [database documentWithID: docID];
-
+    
     // display the retrieved document
     NSLog(@"The retrieved document contains: %@", retrievedDoc.properties);
-
+    
     return YES;
 
 }
 </code></pre>
-</li>
-</ol>
+
 <p>The <code>sayHello</code> method creates a new database, and then creates a document, stores the document in the database, and retrieves the document. This section contains additional notes that supplement the comments in the code.</p>
 
 <p>The <code>sayHello</code> method creates a shared <code>CBLManager</code> object that manages a collection of databases. The CBLManager object can be used only in a single thread.</p>
@@ -186,7 +178,7 @@ NSLog (@"This Hello Couchbase Lite run %@!", (result ? @"was a total success" : 
 <li>
 <p>Set the active scheme to the iOS simulator for iPhone Retina (4-inch):</p>
 
-<img src="images/active-scheme.png" alt=""/>
+<img src="images/active-scheme.png" width="600px"/>
 </li>
 <li>
 <p>Click <strong>Run</strong>.</p>
@@ -198,8 +190,8 @@ NSLog (@"This Hello Couchbase Lite run %@!", (result ? @"was a total success" : 
 
 <p>The console output should look similar to the following screenshot. Don't worry about the error message at the end of the console output that mentions the view controller&#x2014;the view controller has been omitted from this bare-bones app. </p>
 
-<img src="images/console-output.png" alt=""/>
+<img src="images/console-output.png" width="600px"/>
 </li>
 </ol>
 <p>Congratulations! You've just created your first Couchbase Lite app! </p>
-</doc>
+</li></ol></doc>

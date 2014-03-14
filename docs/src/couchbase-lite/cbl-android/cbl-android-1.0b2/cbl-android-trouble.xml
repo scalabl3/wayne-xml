@@ -24,16 +24,14 @@
 <li>
 <p>In the module pulldown menu, choose the module in which your test lives.</p>
 
-<img src="images/debug-screen.png" alt=""/>
-
-<p>Figure shows selecting a test in the <strong>cblite</strong> library.  </p>
-</li>
+<p>The following figure shows selecting a test in the <strong>cblite</strong> library.<br><img src="images/debug-screen.png" alt=""/>
+</br>
 <li><p>In the "Test" section, choose the Class radio button.</p></li>
 <li><p>Under class, add the fully qualified class name that you want to test. For example, <code>com.couchbase.cblite.testapp.tests.Router</code>.</p></li>
 <li><p>Click <strong>Apply</strong> or <strong>OK</strong></p></li>
 <li><p>Make sure MyTest is chosen in the configuration pulldown, and choose Run / Debug.</p></li>
 <li><p>Wait until it reaches your breakpoint.</p></li>
-</ol>
+</p>
 <h2>Running the Test Suite</h2>
 
 <ol>
@@ -48,7 +46,7 @@
          "server": "walrus:data",
          "sync": `function(doc){channel(doc.channels);}`,
          "users": {
-            "GUEST": {"disabled": false,  "admin_channels": ["*"]}
+            "GUEST": {"disabled": false,    "admin_channels": ["*"]}
          }
       }
    }
@@ -58,7 +56,8 @@
 <li>
 <p>Start Sync Gateway:</p>
 
-<p><code>$ ./bin/sync-gateway config.json</code></p>
+<pre><code>$ ./bin/sync-gateway config.json
+</code></pre>
 </li>
 <li>
 <p>Create a copy of the <strong>test.properties</strong> file and name it <strong>local-test.properties</strong>:</p>
@@ -90,4 +89,4 @@ replicationPort=4984
 </code></pre>
 </li>
 </ol>
-</doc>
+</li></ol></doc>

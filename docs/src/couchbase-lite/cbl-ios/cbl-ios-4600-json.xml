@@ -68,7 +68,7 @@
 <ul>
 <li>A new expense report, created by a user account that doesn't have permission to file expense reports.</li>
 <li>A revision that changes the dollar value of an existing expense report, which is supposed to be immutable.</li>
-<li>A revision that changes the approval status of an expense report, submitted by a user account that doesn't have permission to to do so (e.g. isn't in the originator's management hierarchy.)</li>
+<li>A revision that changes the approval status of an expense report, submitted by a user account that doesn't have permission to do so (e.g. isn't in the originator's management hierarchy.)</li>
 </ul>
 <p>Cases like these still need to be checked with custom logic. <code>CBLValidationContext</code> has some convenience methods for this, like <code>changedKeys</code> and <code>enumerateChanges:</code>.</p>
 </doc>

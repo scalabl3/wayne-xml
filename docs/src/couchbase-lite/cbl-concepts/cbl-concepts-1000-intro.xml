@@ -2,7 +2,9 @@
 <doc>
 <h1>Introduction</h1>
 
-<p>This guide provides a platform-independent overview of Couchbase Lite that  focuses on what it is is and how it works with your data.</p>
+<p>This guide provides a platform-independent overview of Couchbase Lite that focuses on what it is and how it works with your data.</p>
+
+<h1>What is Couchbase Lite?</h1>
 
 <p><strong>Couchbase Lite</strong> is a lightweight, document-oriented (NoSQL), syncable database engine suitable for embedding into mobile apps.</p>
 
@@ -33,25 +35,23 @@
 <li>Conflicts can be detected and resolved, with app logic in full control of merging.</li>
 <li>Revision trees allow for complex replication topologies, including server-to-server (for multiple data centers) and peer-to-peer, without data loss or false conflicts.</li>
 </ul>
-<p>Couchbase Lite provides native APIs for seamless  iOS (Objective-C) and Android (Java) development. </p>
-
-<p>In addition, it includes the Couchbase Lite Plug-in for PhoneGap, which enables you to build iOS and Android apps that you develop by using familiar web-application programming techniques and the <a href="http://phonegap.com">PhoneGap mobile development framework</a>.</p>
+<p>Couchbase Lite provides native APIs for seamless iOS (Objective-C) and Android (Java) development. In addition, it includes the Couchbase Lite Plug-in for PhoneGap, which enables you to build iOS and Android apps that you develop by using familiar web-application programming techniques and the <a href="http://phonegap.com">PhoneGap mobile development framework</a>.</p>
 
 <h2>Features</h2>
 
-<p>Major features of Couchbase Lite:</p>
+<p>Couchbase Lite provides native APIs for iOS and Android that offer low-latency and offline access to data.</p>
 
 <ul>
 <li>
-<strong>JSON-based</strong>. Every document is a <a href="http://json.org">JSON</a> object consisting of freeform key-value pairs. The values can contain arrays or even nested objects.This lets you structure your data in a way that's natural to your app, without having to deal with complex data normalization or joins.</li>
+<strong>JSON-based</strong>. Every document is a <a href="http://json.org">JSON</a> object consisting of free-form key-value pairs. The values can contain arrays or even nested objects.This lets you structure your data in a way that's natural to your app, without having to deal with complex data normalization or joins.</li>
 <li>
-<strong>Schemaless</strong>. This means that you don't have to define a rigid data layout beforehand, and later go through complex migrations if you need to update it. Data layout is somewhat freeform, and records, called <em>documents</em>, can have different structures. A sophisticated MapReduce query engine enables you to perform efficient queries, even on large data sets, regardless of how you structure the data in your documents.</li>
-<li>Provides <strong>native, object-oriented APIs for iOS and Android devices</strong> that integrate with your app framework. These APIs can map database documents to your own native object model, let you work directly with JSON structures, or both. Additionally, apps built with web technologies can use the Couchbase Lite REST API (for example, Javascript, C#, or Python applications).</li>
-<li>Supports <strong>replication</strong> with compatible database servers.  This gives your app best-of-breed sync capabilities. Not only can the user's data stay in sync across multiple devices, but multiple users' data can be synced together.</li>
+<strong>Schemaless</strong>. This means that you don't have to define a rigid data layout beforehand, and later go through complex migrations if you need to update it. Data layout is somewhat free-form, and records, called <em>documents</em>, can have different structures. A sophisticated MapReduce query engine enables you to perform efficient queries, even on large data sets, regardless of how you structure the data in your documents.</li>
+<li>Provides <strong>native, object-oriented APIs for iOS and Android devices</strong> that integrate with your app framework. These APIs can map database documents to your own native object model, let you work directly with JSON structures, or both. Additionally, apps built with web technologies can use the Couchbase Lite REST API (for example, JavaScript, C#, or Python applications).</li>
+<li>Supports <strong>replication</strong> with compatible database servers. This gives your app best-of-breed sync capabilities. Not only can the user's data stay in sync across multiple devices, but multiple users' data can be synced together.</li>
 <li>Supports <strong>peer-to-peer replication</strong>. By adding an extra HTTP listener component, your app can accept connections from other devices running Couchbase Lite and exchange data with them.
 
 <ul>
-<li>Supports <strong>low-latency</strong> and even <strong>offline</strong> access to data. In contrast with the frequent network request and response cycle of a traditional networked app, you work primarily with local data. This means your app remains responsive whether it's on WiFi, a slow cell network, or offline. The user can even modify data while offline, and it'll be synced to the server as soon as possible.</li>
+<li>Supports <strong>low-latency</strong> and <strong>offline</strong> access to data. In contrast with the frequent network request and response cycle of a traditional networked app, you work primarily with local data. This means your app remains responsive whether it's on WiFi, a slow cell network, or offline. The user can even modify data while offline, and it'll be synced to the server as soon as possible.</li>
 </ul>
 </li>
 </ul>
@@ -71,19 +71,19 @@
 
 <h3>Easy Sync</h3>
 
-<p>Couchbase Lite provides a sync solution that already works. It's easy to set up, easy to manage, and easy to scale. Data syncing is crucial for mobile apps because it:</p>
+<p>Couchbase Lite provides a sync solution that already works. It's easy to set up, easy to manage, and easy to scale. Data syncing is crucial for mobile apps:</p>
 
 <ul>
-<li><p>Lets users work with their data on multiple devices, from phones to desktop computers.</p></li>
-<li><p>Lets groups of users collaborate on shared data.</p></li>
-<li><p>Lets companies update data sets (whether corporate databases or restaurant directories) in one central place and have the updates delivered efficiently to clients.</p></li>
-<li><p>Makes apps more responsive, and even lets users work offline, by <em>taking network I/O out of the critical path</em>. The app's UI operates on local data, and syncing runs in the background.</p></li>
+<li><p>Customers want to work with their data on multiple devices&#x2014;smartphones, tablets, and desktop computers.</p></li>
+<li><p>Groups of users want to collaborate on shared data.</p></li>
+<li><p>Businesses want to update data sets in one central place and have the updates delivered efficiently to clients..</p></li>
+<li><p>Users want responsive apps that let them work offline.</p></li>
 </ul>
-<p>However, syncing is very difficult to implement properly. It requires special metadata (like vector clocks or revision trees), has to handle network partition and data conflicts, and its algorithms have to work incrementally and be highly failure-tolerant. Some mobile developers have waded into ad-hoc sync implementations and found themselves in over their heads, with delayed or canceled products. Couchbase Lite has sync compatibility with a solution that already works, Couchbase Sync Gateway. </p>
+<p>Syncing is very difficult to implement properly. It requires special metadata (like vector clocks or revision trees), has to handle network partition and data conflicts, and its algorithms have to work incrementally and be highly failure-tolerant. Some mobile developers have waded into ad hoc sync implementations and found themselves in over their heads, with delayed or canceled products. Couchbase Lite provides sync compatibility with a solution that already works, Couchbase Sync Gateway.</p>
 
 <h3>Use Cases</h3>
 
-<p>We've been working with community users and customers on use cases like these:</p>
+<p>Couchbase Lite technology boosts customer satisfaction in industries such as medicine, retail, travel, transportation, and social media. Couchbase has been working with community users and customers on use cases like these:</p>
 
 <ul>
 <li><p>Medical Records&#x2014;medical data is a great fit for schemaless JSON storage. It's also critical that it be available wherever the health care provider goes, regardless of network conditions.</p></li>

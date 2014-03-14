@@ -25,8 +25,7 @@ This adds two command-line arguments when Xcode launches your app. An `NSUserDef
 
 Enabling "channels" works the same way. Add another argument item whose value is, for example, `-LogFoo YES` to turn on channel `Foo`. (Remember that you also need to have the `-Log YES` item enabled or no logs will appear at all.)
 
-![](images/logging.png)
-
+<img src="images/logging.png">
 
 ### Useful Logging Channels ##
 
